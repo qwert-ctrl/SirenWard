@@ -1,16 +1,11 @@
-/* FocusGuard – Popup. Kennt nur den aktiven Tab (activeTab), und nur solange das Popup offen ist. */
+/* FocusGuard – Popup. Kennt nur den aktiven Tab (activeTab) und nur, solange das Popup offen ist. */
 (async () => {
   'use strict';
   const $ = (id) => document.getElementById(id);
-  const say = (msg) => ($('status').textContent = msg);
-  const fmt = (ms) =>
-    new Intl.DateTimeFormat('de-DE', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(ms));
-
-  let s = await FG.load();
-
-  if (FG.isLocked(s)) {
-    $('lockPill').hidden = false;
-    $('lockPill').textContent = '🔒 bis ' + fmt(s.lockUntil);
+  const fmt = (ms) => new Intl.DateTimeFormat('de-DE', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(ms));
+  function say(msg, isError) {
+    $('status').textContent = msg;
+    $('status').classList.toggle('error', !!isError);
   }
 
   $('optionsBtn').addEventListener('click', () => {
@@ -18,11 +13,18 @@
     window.close();
   });
 
+  let s = await FGClient.get();
+  const locked = () => FG.isLocked(s, Date.now());
+  if (locked()) {
+    $('lockPill').hidden = false;
+    $('lockPill').textContent = '🔒 bis ' + fmt(s.lockUntil);
+  }
+
   let tab = null;
   try {
     [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   } catch {
-    /* kein Zugriff */
+    tab = null;
   }
   let url = null;
   try {
@@ -35,19 +37,21 @@
   /* ----- Website sperren ----- */
   const domain = FG.normalizeDomain(url.hostname);
   if (domain) {
+    const btn = $('blockSiteBtn');
+    const covered = () => s.blockedSites.some((d) => domain === d || domain.endsWith('.' + d));
+    const show = () => {
+      btn.disabled = covered();
+      btn.textContent = covered() ? 'Gesperrt' : 'Sperren';
+    };
     $('siteBox').hidden = false;
     $('siteName').textContent = domain;
-    const covered = () => s.blockedSites.some((d) => domain === d || domain.endsWith('.' + d));
-    if (covered()) {
-      $('blockSiteBtn').disabled = true;
-      $('blockSiteBtn').textContent = 'Gesperrt';
-    }
-    $('blockSiteBtn').addEventListener('click', async () => {
-      s = await FG.load();
-      if (!covered()) s.blockedSites.push(domain);
-      await FG.save(s);
-      $('blockSiteBtn').disabled = true;
-      $('blockSiteBtn').textContent = 'Gesperrt';
+    show();
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      const r = await FGClient.op({ op: 'add', list: 'blockedSites', values: [domain] });
+      if (r.settings) s = r.settings;
+      show();
+      if (!r.ok) return say(r.message, true);
       say(domain + ' ist ab jetzt gesperrt.');
       if (tab.id != null) chrome.tabs.reload(tab.id);
     });
@@ -61,42 +65,41 @@
   } catch {
     ctx = null; // Seite noch nicht bereit
   }
-  if (!ctx || !(ctx.id || ctx.name)) return;
+  if (!ctx || typeof ctx !== 'object') return;
+  // Daten stammen aus der Webseite → als nicht vertrauenswürdig behandeln (Typ/Länge, nur textContent).
+  const name = typeof ctx.name === 'string' ? ctx.name.slice(0, 200) : '';
+  const id = typeof ctx.id === 'string' ? ctx.id.slice(0, 200) : '';
+  const entries = FG.uniq([FG.normalizeChannel(id), FG.normalizeChannel(name)].filter(Boolean));
+  if (!entries.length) return;
 
-  const entries = FG.uniq([ctx.id, FG.normalizeChannel(ctx.name)].filter(Boolean));
   $('ytBox').hidden = false;
-  $('channelName').textContent = ctx.name || ctx.id;
+  $('channelName').textContent = name || id;
 
   const isBlocked = () => entries.some((e) => s.filter.blockedChannels.includes(e));
   const isAllowed = () => entries.some((e) => s.filter.allowedChannels.includes(e));
-
   function render() {
     $('blockChannelBtn').disabled = isBlocked();
     $('blockChannelBtn').textContent = isBlocked() ? 'Kanal gesperrt' : 'Kanal sperren';
     const wl = s.filter.mode === 'whitelist';
     $('allowChannelBtn').hidden = !wl;
-    $('allowChannelBtn').disabled = isAllowed() || FG.isLocked(s);
+    $('allowChannelBtn').disabled = isAllowed() || (wl && locked());
     $('allowChannelBtn').textContent = isAllowed() ? 'Erlaubt' : 'Kanal erlauben';
-    if (wl && FG.isLocked(s) && !isAllowed()) $('allowChannelBtn').title = 'Während der Sperre nicht möglich';
+    $('allowChannelBtn').title = wl && locked() && !isAllowed() ? 'Während der Sperre nicht möglich' : '';
   }
   render();
 
   $('blockChannelBtn').addEventListener('click', async () => {
-    s = await FG.load();
-    s.filter.blockedChannels.push(...entries);
-    s.filter.allowedChannels = s.filter.allowedChannels.filter((c) => !entries.includes(c));
-    await FG.save(s);
-    s = await FG.load();
+    let r = await FGClient.op({ op: 'add', list: 'blockedChannels', values: entries });
+    if (r.ok && isAllowed()) r = await FGClient.op({ op: 'remove', list: 'allowedChannels', values: entries });
+    if (r.settings) s = r.settings;
     render();
-    say('Kanal gesperrt.');
+    say(r.ok ? 'Kanal gesperrt.' : r.message, !r.ok);
   });
 
   $('allowChannelBtn').addEventListener('click', async () => {
-    s = await FG.load();
-    s.filter.allowedChannels.push(...entries);
-    await FG.save(s);
-    s = await FG.load();
+    const r = await FGClient.op({ op: 'add', list: 'allowedChannels', values: entries });
+    if (r.settings) s = r.settings;
     render();
-    say('Kanal erlaubt.');
+    say(r.ok ? 'Kanal erlaubt.' : r.message, !r.ok);
   });
 })();

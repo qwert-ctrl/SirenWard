@@ -1,8 +1,8 @@
-/* Unit- und Sicherheitstests für shared.js. Ausführen: node --test tests/ */
+/* Unit- und Sicherheitstests für core.js (reine Logik). Ausführen: node --test tests/ */
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const FG = require('../shared.js');
+const FG = require('../core.js');
 
 test('normalizeDomain: gültige Eingaben', () => {
   assert.equal(FG.normalizeDomain('instagram.com'), 'instagram.com');
@@ -106,55 +106,6 @@ test('Regression: Vergleich ignoriert Schlüssel-Reihenfolge (Chrome sortiert ge
   assert.ok(!FG.sameJSON(['a', 'b'], ['b', 'a'])); // Listen-Reihenfolge zählt weiterhin
 });
 
-test('Hintergrund-Abgleich terminiert bei Chrome-Speicherverhalten (simuliert)', async () => {
-  // Minimaler chrome.*-Ersatz, der wie Chrome Schlüssel sortiert und onChanged feuert.
-  const store = {};
-  const listeners = [];
-  const sortKeys = (v) => (Array.isArray(v) ? v.map(sortKeys) : v && typeof v === 'object'
-    ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, sortKeys(v[k])])) : v);
-  let writes = 0;
-  const rules = [];
-  globalThis.chrome = {
-    storage: {
-      local: {
-        async get(k) { return k == null ? { ...store } : { [k]: store[k] }; },
-        async set(obj) {
-          writes++;
-          const changes = {};
-          for (const [k, v] of Object.entries(obj)) {
-            const nv = sortKeys(JSON.parse(JSON.stringify(v)));
-            changes[k] = { oldValue: store[k], newValue: nv };
-            store[k] = nv;
-          }
-          setImmediate(() => listeners.forEach((l) => l(changes, 'local')));
-        },
-        async remove(k) { delete store[k]; },
-      },
-      onChanged: { addListener: (l) => listeners.push(l) },
-    },
-    declarativeNetRequest: {
-      async getDynamicRules() { return [...rules]; },
-      async updateDynamicRules({ removeRuleIds, addRules }) {
-        for (const id of removeRuleIds) rules.splice(rules.findIndex((r) => r.id === id), 1);
-        rules.push(...addRules);
-      },
-    },
-    runtime: { onInstalled: { addListener() {} }, onStartup: { addListener() {} } },
-  };
-  globalThis.FG = FG;
-  try {
-    require('../background.js');
-    await chrome.storage.local.set({ settings: FG.withDefaults({ blockedSites: ['blocked.test'] }) });
-    await new Promise((r) => setTimeout(r, 200));
-    assert.ok(writes <= 3, 'Endlos-Schreibschleife: ' + writes + ' Schreibvorgänge');
-    assert.equal(rules.length, 1);
-    assert.deepEqual(rules[0].condition.requestDomains, ['blocked.test']);
-  } finally {
-    listeners.length = 0;
-    delete globalThis.chrome;
-  }
-});
-
 test('Sperrmodus: Lockerungen werden zurückgedreht', () => {
   const now = Date.now();
   const snap = FG.withDefaults({
@@ -252,3 +203,141 @@ function mulberry32(a) {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
+
+/* ---------------- Neu in 1.1: Befehle, Uhr-Schutz, Datensparsamkeit ---------------- */
+
+const NOW = 1_800_000_000_000;
+
+test('applyOp: ungültige und bösartige Befehle werden abgelehnt', () => {
+  const s = FG.withDefaults(null);
+  const bad = [
+    null, 'add', 42, [], {}, { op: 'nope' }, { op: 'add' },
+    { op: 'add', list: '__proto__', values: ['x.com'] },
+    { op: 'add', list: 'constructor', values: ['x.com'] },
+    { op: 'add', list: 'blockedSites', values: 'x.com' },
+    { op: 'add', list: 'blockedSites', values: [] },
+    { op: 'add', list: 'blockedSites', values: [42] },
+    { op: 'add', list: 'blockedSites', values: ['x'.repeat(3000)] },
+    { op: 'add', list: 'blockedSites', values: Array.from({ length: 501 }, (_, i) => `s${i}.com`) },
+    { op: 'setYt', key: 'evil', value: true },
+    { op: 'setYt', key: 'hideHome', value: 'yes' },
+    { op: 'setMode', mode: 'admin' },
+    { op: 'lock', durationMs: 10 },
+    { op: 'lock', durationMs: 2 * 365 * 864e5 },
+    { op: 'lock', durationMs: Infinity },
+    { op: 'lock', durationMs: '3600000' },
+    { op: 'import', settings: 'x' },
+    { op: 'import', settings: [1, 2] },
+  ];
+  for (const op of bad) {
+    const r = FG.applyOp(s, op, NOW);
+    assert.equal(r.ok, false, 'sollte abgelehnt werden: ' + JSON.stringify(op).slice(0, 60));
+    assert.equal(r.error, 'invalid');
+  }
+  assert.equal({}.polluted, undefined);
+});
+
+test('applyOp: gültige Befehle, ungültige Einzelwerte werden gemeldet', () => {
+  let s = FG.withDefaults(null);
+  let r = FG.applyOp(s, { op: 'add', list: 'blockedSites', values: ['WWW.Reddit.com/r/x', '<b>', 'reddit.com'] }, NOW);
+  assert.ok(r.ok);
+  assert.deepEqual(r.state.blockedSites, ['reddit.com']);
+  assert.deepEqual(r.invalid, ['<b>']);
+  s = r.state;
+  r = FG.applyOp(s, { op: 'remove', list: 'blockedSites', values: ['https://reddit.com'] }, NOW);
+  assert.deepEqual(r.state.blockedSites, []);
+  r = FG.applyOp(s, { op: 'setYt', key: 'hideComments', value: true }, NOW);
+  assert.equal(r.state.yt.hideComments, true);
+  r = FG.applyOp(s, { op: 'lock', durationMs: 3600e3 }, NOW);
+  assert.equal(r.state.lockUntil, NOW + 3600e3);
+  assert.equal(s.lockUntil, 0, 'Eingabezustand bleibt unverändert (rein funktional)');
+});
+
+test('applyOp: Sperrmodus – Lockern verboten, Verschärfen erlaubt', () => {
+  const s = FG.withDefaults({ blockedSites: ['a.com'], filter: { mode: 'whitelist', allowedChannels: ['@ok'] }, lockUntil: NOW + 3600e3 });
+  const no = (op) => assert.equal(FG.applyOp(s, op, NOW).error, 'locked', JSON.stringify(op));
+  const yes = (op) => assert.ok(FG.applyOp(s, op, NOW).ok, JSON.stringify(op));
+  no({ op: 'remove', list: 'blockedSites', values: ['a.com'] });
+  no({ op: 'remove', list: 'blockedKeywords', values: ['x'] });
+  no({ op: 'setYt', key: 'hideShorts', value: false });
+  no({ op: 'setMode', mode: 'blacklist' });
+  no({ op: 'add', list: 'allowedChannels', values: ['@new'] });
+  yes({ op: 'add', list: 'blockedSites', values: ['b.com'] });
+  yes({ op: 'remove', list: 'allowedChannels', values: ['@ok'] });
+  yes({ op: 'setYt', key: 'hideComments', value: true });
+  const longer = FG.applyOp(s, { op: 'lock', durationMs: 7200e3 }, NOW);
+  assert.equal(longer.state.lockUntil, NOW + 7200e3);
+  const shorter = FG.applyOp(s, { op: 'lock', durationMs: 60e3 }, NOW);
+  assert.equal(shorter.state.lockUntil, NOW + 3600e3, 'Sperre wird nie verkürzt');
+  const imp = FG.applyOp(s, { op: 'import', settings: { blockedSites: [], filter: { mode: 'blacklist' }, lockUntil: 0 } }, NOW);
+  assert.ok(imp.ok && imp.partial);
+  assert.deepEqual(imp.state.blockedSites, ['a.com']);
+  assert.equal(imp.state.filter.mode, 'whitelist');
+  assert.equal(imp.state.lockUntil, s.lockUntil);
+});
+
+test('Uhr-Manipulation: vordrehen → lockern → zurückdrehen schaltet die Sperre wieder scharf', () => {
+  const locked = FG.withDefaults({ blockedSites: ['a.com'], lockUntil: NOW + 3600e3 });
+  // 1) Uhr 2 Tage vor: Sperre wirkt abgelaufen, Lockern geht durch
+  const fake = NOW + 2 * 864e5;
+  let r = FG.resolveState({ next: locked, prev: locked, snap: locked, now: fake, maxSeen: NOW });
+  assert.equal(r.effective.lockUntil, 0);
+  const loosened = FG.withDefaults({ blockedSites: [] });
+  r = FG.resolveState({ next: loosened, prev: r.effective, snap: r.snapshot, now: fake, maxSeen: r.maxSeen });
+  assert.deepEqual(r.effective.blockedSites, []);
+  assert.ok(r.snapshot, 'Snapshot bleibt erhalten');
+  // 2) Uhr zurück auf echt: Sperre greift wieder, gelöschte Seite kommt zurück
+  const back = NOW + 10 * 60e3;
+  r = FG.resolveState({ next: r.effective, prev: r.effective, snap: r.snapshot, now: back, maxSeen: r.maxSeen });
+  assert.deepEqual(r.effective.blockedSites, ['a.com']);
+  assert.equal(r.effective.lockUntil, NOW + 3600e3);
+});
+
+test('Uhr: kleiner NTP-Abgleich nach regulärem Ablauf schaltet NICHT wieder scharf', () => {
+  const until = NOW + 3600e3;
+  const locked = FG.withDefaults({ blockedSites: ['a.com'], lockUntil: until });
+  // regulär abgelaufen und gesehen
+  let r = FG.resolveState({ next: FG.withDefaults({ blockedSites: [] }), prev: locked, snap: locked, now: until + 10e3, maxSeen: until });
+  assert.deepEqual(r.effective.blockedSites, []);
+  // Uhr springt 20 s zurück (vor das Sperrende)
+  r = FG.resolveState({ next: r.effective, prev: r.effective, snap: r.snapshot, now: until - 10e3, maxSeen: r.maxSeen });
+  assert.deepEqual(r.effective.blockedSites, [], 'keine Wiederbelebung durch NTP');
+  assert.equal(r.effective.lockUntil, 0);
+});
+
+test('Uhr: neue kurze Sperre gilt nicht sofort als abgelaufen, wenn die Uhr kurz vorging', () => {
+  const s = FG.withDefaults(null);
+  const maxSeen = NOW + 3 * 60e3; // Uhr lief 3 min vor und wurde korrigiert
+  const r = FG.applyOp(s, { op: 'lock', durationMs: 60e3 }, NOW, maxSeen);
+  const res = FG.resolveState({ next: r.state, prev: s, snap: null, now: NOW, maxSeen });
+  assert.ok(FG.lockActive(res.effective, NOW, res.maxSeen));
+});
+
+test('Zufallstest: resolveState ist ein Fixpunkt und nie lockerer als eine aktive Sperre', () => {
+  const rnd = mulberry32(99);
+  const sub = (a) => a.filter(() => rnd() < 0.5);
+  const mk = () => FG.withDefaults({
+    blockedSites: sub(['a.com', 'b.com', 'c.com']),
+    yt: Object.fromEntries(FG.YT_KEYS.map((k) => [k, rnd() < 0.5])),
+    filter: { mode: rnd() < 0.5 ? 'whitelist' : 'blacklist', blockedChannels: sub(['@a', '@b']), blockedKeywords: sub(['x', 'y']), allowedChannels: sub(['@a', '@c']) },
+    lockUntil: rnd() < 0.5 ? NOW + Math.floor(rnd() * 1e7) : 0,
+  });
+  for (let i = 0; i < 3000; i++) {
+    const snap = rnd() < 0.7 ? mk() : null;
+    const prev = mk();
+    const now = NOW + Math.floor((rnd() - 0.3) * 2e7);
+    const maxSeen = now + Math.floor((rnd() - 0.5) * 2e7);
+    const r1 = FG.resolveState({ next: mk(), prev, snap, now, maxSeen });
+    const r2 = FG.resolveState({ next: r1.effective, prev: r1.effective, snap: r1.snapshot, now, maxSeen: r1.maxSeen });
+    assert.ok(FG.sameJSON(r1.effective, r2.effective), 'kein Fixpunkt bei Lauf ' + i);
+    const base = FG.lockActive(snap, now, r1.maxSeen) ? snap : FG.lockActive(prev, now, r1.maxSeen) ? prev : null;
+    if (base) for (const d of base.blockedSites) assert.ok(r1.effective.blockedSites.includes(d));
+  }
+});
+
+test('publicView gibt dem YouTube-Skript nur das Nötigste', () => {
+  const s = FG.withDefaults({ blockedSites: ['privat.com'], lockUntil: NOW + 1 });
+  const v = FG.publicView(s);
+  assert.deepEqual(Object.keys(v).sort(), ['filter', 'yt']);
+  assert.ok(!JSON.stringify(v).includes('privat.com'));
+});

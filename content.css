@@ -4,6 +4,18 @@
   display: none !important;
 }
 
+/* Bis die Einstellungen da sind (meist < 50 ms), nichts zeigen – kein Aufblitzen gesperrter Inhalte.
+   Sicherheitsnetz ohne JavaScript: nach spätestens 1,2 s wird die Seite in jedem Fall sichtbar. */
+html:not(.fg-ready) ytd-app {
+  visibility: hidden;
+  animation: fg-reveal 0s linear 1.2s forwards;
+}
+@keyframes fg-reveal {
+  to {
+    visibility: visible;
+  }
+}
+
 /* ---------- Startseite ---------- */
 html.fg-hide-home ytd-browse[page-subtype="home"] ytd-rich-grid-renderer,
 html.fg-hide-home ytd-browse[page-subtype="home"] ytd-feed-filter-chip-bar-renderer,

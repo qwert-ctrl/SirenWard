@@ -120,6 +120,19 @@ input[type="text"] { flex: 1; }
   font-weight: 600;
 }
 
+.toast {
+  position: sticky;
+  top: 12px;
+  z-index: 5;
+  background: var(--text);
+  color: var(--bg);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 550;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+}
+.toast.error { background: var(--danger); color: #fff; }
+
 .chips { list-style: none; padding: 0; margin: 12px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .chips li.chip {
   display: inline-flex;
@@ -191,4 +204,5 @@ body.popup { width: 320px; padding: 14px; }
 .block code { font-size: 13px; overflow: hidden; text-overflow: ellipsis; }
 .channel { font-weight: 600; margin-bottom: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .popup .status { font-size: 12.5px; color: var(--ok); min-height: 1.4em; margin: 2px 0 8px; }
+.popup .status.error { color: var(--danger); }
 .popup footer { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
