@@ -1,4 +1,4 @@
-# Sicherheits-, Architektur- und Datenschutz-Audit – FocusGuard 1.1.0
+# Sicherheits-, Architektur- und Datenschutz-Audit – FocusGuard 1.2.0
 
 Stand: 27.10.2026 · Umfang: gesamter Quellcode (keine Fremdbibliotheken zur Laufzeit) und das gebaute Paket
 
@@ -8,15 +8,17 @@ Stand: 27.10.2026 · Umfang: gesamter Quellcode (keine Fremdbibliotheken zur Lau
 |---|---|
 | Netzwerkanfragen der Erweiterung (echter Browser, Mitschnitt aller Hosts) | **0** |
 | Statischer Sicherheits- und Architektur-Scan (Repo und Paket) | **0 kritisch** |
-| Unit- und Hintergrundtests (inkl. Fuzzing, Zufallstests, Uhr-Angriffe, Nebenläufigkeit) | **34/34** |
-| Mutationstests (absichtlich eingebaute Fehler) | **32/32 erkannt** |
-| Browserprüfungen in Chromium, gegen das **gebaute Paket** | **52/52** |
+| Unit- und Hintergrundtests (inkl. Fuzzing, Zufallstests, Uhr-Angriffe, Nebenläufigkeit, Partner-Code) | **66/66** |
+| Mutationstests (absichtlich eingebaute Fehler) | **57/57 erkannt** |
+| Browserprüfungen in Chromium, gegen das **gebaute Paket** | **77/77** |
+| Eigene Sperrseite (Weiterleitung, Freigabe, automatisches Neusperren) | **8/8** |
+| `chrome://extensions`: Manifest-Fehler, Warnungen, Laufzeitfehler | **keine** |
 | CSP-Probe mit echtem Erweiterungscode (eval, Function, innerHTML, fremde Skripte, fetch) | **alles blockiert** |
-| Build | reproduzierbar (bitgleiches ZIP), nur referenzierte Laufzeitdateien |
+| Build | reproduzierbar (bitgleiche ZIPs für Chromium und Firefox), nur referenzierte Laufzeitdateien |
 
 ## 1. Angriffsfläche
 
-**Rechte:** `storage`, `declarativeNetRequest`, `activeTab`, `alarms`. **Keine** `host_permissions`, kein `tabs`, `history`, `webRequest`, `cookies` oder `scripting`. Das Inhaltsskript läuft nur auf `https://www.youtube.com/*`, in der isolierten Welt und nicht in iframes.
+**Rechte:** `storage`, `declarativeNetRequest`, `activeTab`, `alarms`. **Keine** dauerhaften `host_permissions`, kein `tabs`, `history`, `webRequest`, `cookies` oder `scripting`. Optional, nur für die eigene Sperrseite: Zugriff auf einzelne **gesperrte** Domains (`optional_host_permissions` als Obergrenze; wird pro Domain angefragt und automatisch wieder entzogen). Das Inhaltsskript läuft nur auf `https://www.youtube.com/*`, in der isolierten Welt und nicht in iframes.
 
 **Von außen nicht erreichbar:** kein `externally_connectable`, keine `web_accessible_resources` (Webseiten können die Erweiterung nicht erkennen oder ansprechen) und kein `onMessageExternal`. Nachrichten von anderen Erweiterungen werden ignoriert.
 
@@ -24,8 +26,8 @@ Stand: 27.10.2026 · Umfang: gesamter Quellcode (keine Fremdbibliotheken zur Lau
 
 | Kontext | Darf |
 |---|---|
-| Popup, Einstellungen (eigene Seiten) | Einstellungen lesen; Änderungen nur als **Befehl** an den Hintergrund |
-| YouTube-Skript (läuft im Prozess einer fremden Webseite) | nur eine **Leseansicht** (YouTube-Optionen und Filter). Kein Speicherzugriff (`setAccessLevel: TRUSTED_CONTEXTS`), keine Website-Liste, keine Befehle |
+| Popup, Einstellungen, Sperrseite (eigene Seiten) | Einstellungen lesen (ohne Partner-Hash); Änderungen nur als **Befehl** an den Hintergrund. Interne Befehle (z. B. `partnerStore`) sind nicht aufrufbar |
+| YouTube-Skript (läuft im Prozess einer fremden Webseite) | nur eine **Leseansicht** (YouTube-Optionen, Filter, Limit). Kein Speicherzugriff (`setAccessLevel: TRUSTED_CONTEXTS`), keine Website-Liste, keine Befehle. Darf Wiedergabezeit melden – begrenzt auf die tatsächlich vergangene Zeit pro Tab |
 | Hintergrund | einziger Schreiber; prüft Absender, Schema, Größe und Sperrmodus |
 
 **Content-Security-Policy** der Erweiterungsseiten:
@@ -35,6 +37,23 @@ object-src 'none'; form-action 'none'; base-uri 'none';
 require-trusted-types-for 'script'; trusted-types 'none'
 ```
 Keine Verbindungen, keine fremden Ressourcen, kein `eval`. **Neu in 1.1:** Trusted Types sperren zusätzlich alle HTML- und Skript-Injektionssenken (`innerHTML`, String-Timer, Skript-Elemente). Ein künftiger Programmierfehler kann damit keine XSS-Lücke öffnen.
+
+## 1a. Neu in 1.2: Bedrohungsmodell der Zusatzfunktionen
+
+| Angriff | Abwehr | Test |
+|---|---|---|
+| Wartezeit/Abtippen per DevTools umgehen | Wartezeit, Satz, Kontingent und Fokus prüft der **Hintergrund**; Anfrage und Bestätigung sind zwei Schritte | Unit + Browser („Hintergrund erzwingt die Wartezeit“) |
+| Uhr zurückstellen, um eine Freigabe zu verlängern | Restzeit nie länger als die Freigabedauer; Rücksprünge werden erkannt | Unit (inkl. gelöschtem Uhrwert) + Mutation |
+| Uhr umstellen, um neues Tageskontingent zu bekommen | Tag = spätester gesehener Tag | Unit + Mutation |
+| Zähler/Freigaben/Fokus im Speicher zurücksetzen | Externe Änderungen am Zustand werden nur übernommen, soweit sie nicht lockern | Unit + Hintergrund + Mutation |
+| Partner-Code erraten | PBKDF2-SHA-256 mit 600.000 Runden; Ratenbegrenzung ab dem 5. Fehlversuch (5 → 60 min); Vergleich in konstanter Zeit | Hintergrund + Mutation |
+| Partner-Code auslesen | nur Hash im Speicher, nie in der Oberfläche, nie im Export | Hintergrund + Browser |
+| Partner-Schutz per Speicher-Manipulation abschalten | Snapshot ist maßgeblich und wird repariert | Hintergrund + Browser |
+| Gefälschte YouTube-Wiedergabezeit (kompromittierter Webseiten-Prozess) | nur vom YouTube-Skript, gedeckelt auf die vergangene Zeit pro Tab und 30 s pro Meldung; zu viel melden macht nur strenger | Hintergrund + Mutation |
+| Webseite missbraucht die Sperrseite (Clickjacking, Erkennen der Erweiterung) | keine `web_accessible_resources`; Darstellung im Frame verweigert; nur Domains von der Sperrliste | Browser |
+| Zu weite Host-Rechte | nur pro gesperrter Domain, automatisch entzogen; der Scanner verbietet andere optionale Rechte | Hintergrund + Mutation + Scanner |
+
+**Ehrliche Grenze:** Zeitplan und Fokus richten sich nach der Systemuhr. Wer die Uhr dauerhaft vorstellt, beendet Fokus und Zeitfenster früher. Eine verstellte Uhr verlängert aber nie eine Freigabe, bringt kein neues Kontingent und hebt keinen Sperrmodus dauerhaft auf.
 
 ## 2. Prüfmethoden
 
@@ -78,7 +97,7 @@ Damit grüne Tests etwas bedeuten, werden 32 Fehler gezielt eingebaut. Jeder mus
 - **Logik (21):** ausgehebelte Absenderprüfung, entfernter Uhr-Schutz, Lockern während der Sperre auf jedem Weg, entfernte Warteschlange, Datenleck an YouTube, Größengrenzen, verschluckte Benachrichtigung …
 - **Scanner (11):** direkter Speicherzugriff, `importScripts`, Trusted Types entfernt, `connect-src` geöffnet, `innerHTML`, `fetch`, `storage.sync`, `<all_urls>`, Inline-Skript, Rechtschreibprüfung.
 
-**Ergebnis: 32/32 erkannt.**
+**Ergebnis: 57/57 erkannt** (1.2: +25 Mutationen für Zeitfreigabe, Partner-Code, Zustand, Zeitplan, YouTube-Limit, Host-Rechte und das Manifest).
 
 ### 2.4 Browsertest mit Netzwerk-Mitschnitt (`tests/e2e.test.js`)
 **Aufbau:**
@@ -87,7 +106,7 @@ Damit grüne Tests etwas bedeuten, werden 32 Fehler gezielt eingebaut. Jeder mus
 - Ein Kontrolllauf ohne Erweiterung misst Chromiums eigenen Verkehr.
 - YouTube ist nachgebaut, inklusive präparierter XSS-Titel.
 
-**52 Prüfungen, alle bestanden, darunter:**
+**77 Prüfungen, alle bestanden** (1.2 neu: Zeitfreigabe Ende-zu-Ende, Zeitplan, Partner-Code-Dialog, Fokus, Tageslimit, YouTube-Optionen, Statistik, `chrome://extensions` fehlerfrei), **darunter:**
 - Website-Sperre (die gesperrte Domain erreicht nie einen Server)
 - 20 gleichzeitige Änderungen aus zwei Seiten, alle gespeichert
 - Fokus bleibt nach Änderungen erhalten
@@ -121,7 +140,12 @@ Damit grüne Tests etwas bedeuten, werden 32 Fehler gezielt eingebaut. Jeder mus
 | 8 | Ungebremste Neuberechnung bei Player-Ticks und beim Scrollen | Leistung | Benchmark | behoben: −85 % / −70 % |
 | 9 | Sperrregel bei jeder Änderung neu geschrieben | Leistung | Code | behoben |
 
-**Während des Umbaus durch die Tests gefunden** (nie ausgeliefert):
+**In 1.2 gefunden und behoben:**
+- **Manifest (Fehlermeldung in Brave):** `background.scripts` neben `service_worker` erzeugt in Chromium-Browsern einen Manifest-Fehler. Jetzt gibt es getrennte Pakete; der Browsertest liest `chrome://extensions` aus und der Scanner verbietet die Kombination.
+- **Echo-Fehler:** Eine mit Partner-Code autorisierte Lockerung wurde durch das eigene Speicher-Echo zurückgedreht. Jetzt gibt es Echo-Erkennung, und maßgeblich ist allein der Snapshot. Ein Regressionstest ist ergänzt.
+- **Zwei Testlücken**, aufgedeckt durch Mutationstests, sind geschlossen.
+
+**Während des Umbaus auf 1.1 durch die Tests gefunden** (nie ausgeliefert):
 - Trusted Types sperren auch `importScripts` im Service Worker. Gelöst durch die Umstellung auf ein ES-Modul.
 - Eine Änderung, die den schlafenden Service Worker weckt, wäre nicht bei offenen YouTube-Tabs angekommen. Gefunden durch einen Mutationstest.
 

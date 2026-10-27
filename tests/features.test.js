@@ -314,3 +314,19 @@ test('buildRules: Sperre, offene Tabs, eigene Sperrseite', () => {
   assert.equal(new Set(r.map((x) => x.id)).size, r.length, 'eindeutige IDs');
   assert.ok(!r.some((x) => x.condition.requestDomains && x.condition.requestDomains.length === 0), 'keine leeren Listen (wäre ungültig)');
 });
+
+test('Freigabe: Kontingent wird auch bei der Bestätigung geprüft (gesenkt zwischen Anfrage und Bestätigung)', () => {
+  const s = base({ unlock: { perDay: 2, minutes: 15, waitSeconds: 0, phrase: 'los los los' } });
+  const st = FG.applyStateOp(s, {}, { op: 'unlockRequest', domain: 'reddit.com' }, T, T).state;
+  const stricter = FG.withDefaults(Object.assign(FG.clone(s), { unlock: { perDay: 0, minutes: 15, waitSeconds: 0, phrase: 'los los los' } }));
+  assert.equal(FG.applyStateOp(stricter, st, { op: 'unlockConfirm', domain: 'reddit.com', phrase: 'los los los' }, T, T).error, 'quota');
+});
+
+test('Freigabe: Uhr zurück UND gespeicherter Uhrwert gelöscht → Restzeit trotzdem gedeckelt', () => {
+  const s = base({ unlock: { perDay: 3, minutes: 15, waitSeconds: 0, phrase: 'los los los' } });
+  const st = unlockFlow(s, {}, 'reddit.com', T, 'los los los').state;
+  const back = T - 2 * 60 * MIN;
+  // maxSeen unbekannt (manipulativ gelöscht) → Rücksprung nicht erkennbar; der Deckel muss greifen
+  const prepared = FG.prepareState(s, st, back, back);
+  assert.ok(!('reddit.com' in prepared.unlocks), 'Freigabe mit 2h15 Restzeit ist ungültig');
+});

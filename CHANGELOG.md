@@ -1,5 +1,51 @@
 # Changelog
 
+## 1.2.0 – 27.10.2026
+
+### Neu
+- **Zeitfreigabe:** Gesperrte Seiten lassen sich für z. B. 15 min freigeben, danach sperren sie sich von selbst wieder.
+  - Tageslimit pro Seite.
+  - Hürde: erst eine Wartezeit, dann einen Satz abtippen. Es zählen nur die Buchstaben, Groß-/Kleinschreibung ist egal, Einfügen ist gesperrt.
+  - Freigeben geht im Popup und auf der Sperrseite. Vorzeitig wieder sperren ist jederzeit möglich.
+  - Nach Ablauf laden offene Tabs nichts mehr nach.
+- **Optionale Zusatzfunktionen** (standardmäßig aus):
+  - Zeitplan, Fokus-Sitzung, eigene Sperrseite, Partner-Code
+  - YouTube-Tageslimit, lokale Statistik
+  - YouTube: Suchvorschläge und „Erkunden“/Trends ausblenden, Vorschaubilder in Graustufen
+- **Popup:** Status auf einen Blick (Sperre, Fokus, Partner-Code, Zeitplan) und für die aktuelle Seite genau die passende Aktion.
+
+### Behoben
+- **Chrome/Brave:** Die Meldung `'background.scripts' requires manifest version of 2 or lower` ist weg. Es gibt jetzt getrennte Pakete für Chromium und Firefox. Ein Browsertest liest die Fehlerliste von `chrome://extensions` aus und erwartet sie leer.
+
+### Sicherheit
+- Wartezeit, Satz, Kontingent und Fokus prüft der Hintergrund. Ein Umgehen der Oberfläche, z. B. per DevTools, bringt nichts.
+- **Uhr-Manipulation bei Freigaben:**
+  - Uhr zurückstellen verlängert keine Freigabe; die Restzeit ist auf die Freigabedauer gedeckelt.
+  - Das Kontingent folgt dem spätesten gesehenen Tag, nicht der verstellten Uhr.
+- **Partner-Code:**
+  - Gespeichert nur als PBKDF2-SHA-256-Hash mit 600.000 Runden und zufälligem Salz; verglichen in konstanter Zeit.
+  - Ab dem 5. Fehlversuch steigende Wartezeit.
+  - Der Hash erreicht die Oberfläche nie und wird nie exportiert.
+- **Laufzeitzustand** (Zähler, Freigaben, Fokus): Manipulationen werden nur übernommen, soweit sie nicht lockern.
+- **Host-Rechte für die eigene Sperrseite:**
+  - Nur optional und nur pro gesperrter Domain.
+  - Werden automatisch entzogen, sobald die Domain entfernt oder die Funktion abgeschaltet wird.
+  - Die Sperrseite ist nicht für Webseiten zugänglich (keine `web_accessible_resources`) und verweigert die Darstellung in Frames.
+- **YouTube-Wiedergabezeit:** Meldungen des YouTube-Skripts gelten als nicht vertrauenswürdig und werden pro Tab auf die tatsächlich vergangene Zeit begrenzt.
+
+### Während der Entwicklung durch Tests gefunden
+- Eine autorisierte Lockerung (Partner-Code) wurde Millisekunden später durch das eigene Speicher-Echo wieder zurückgedreht. Behoben durch Echo-Erkennung; maßgeblich für den Partner-Schutz ist jetzt allein der Snapshot. Ein Regressionstest ist ergänzt.
+- CSS: Das `hidden`-Attribut wurde durch `display`-Regeln überschrieben. Jetzt hat `hidden` immer Vorrang.
+- Zwei Testlücken, die der Mutationstest aufgedeckt hat: Kontingent bei der Bestätigung und Deckel für die Restzeit einer Freigabe.
+
+### Tests
+- 66 Unit- und Hintergrundtests
+- 57 Mutationen, alle erkannt
+- 77 Browserprüfungen in Chromium
+- 8 Prüfungen der Sperrseite
+- 8 Prüfungen der CSP-Probe
+- Leistung: keine messbare Verschlechterung gegenüber 1.1
+
 ## 1.1.0 – 27.10.2026
 
 ### Behobene Fehler
