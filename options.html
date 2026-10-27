@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FocusGuard – Einstellungen</title>
+  <link rel="stylesheet" href="ui.css">
+</head>
+<body class="page">
+  <main class="wrap">
+    <header class="top">
+      <img src="icons/icon48.png" width="40" height="40" alt="">
+      <div>
+        <h1>FocusGuard</h1>
+        <p class="muted">Alles bleibt auf diesem Gerät. Keine Konten, kein Tracking, keine Netzwerkzugriffe.</p>
+      </div>
+    </header>
+
+    <div id="lockBanner" class="banner" hidden></div>
+
+    <section class="card">
+      <h2>Gesperrte Websites</h2>
+      <p class="muted">Gilt für die Domain und alle Subdomains. Die Sperre sitzt im Browser und greift deshalb auch mit VPN.</p>
+      <form id="siteForm" class="row">
+        <input id="siteInput" type="text" placeholder="z. B. instagram.com, reddit.com" autocomplete="off" spellcheck="false" aria-label="Website hinzufügen">
+        <button type="submit">Hinzufügen</button>
+      </form>
+      <ul id="siteList" class="chips"></ul>
+    </section>
+
+    <section class="card">
+      <h2>YouTube-Ansicht</h2>
+      <p class="muted">Ablenkungen ausblenden, ohne YouTube ganz zu sperren.</p>
+      <div id="ytToggles" class="toggles"></div>
+    </section>
+
+    <section class="card">
+      <h2>YouTube-Filter</h2>
+      <p class="muted">Gesperrte Videos verschwinden aus Feeds und Suche. Wer sie direkt öffnet, sieht eine Sperrseite.</p>
+
+      <fieldset class="mode">
+        <label>
+          <input type="radio" name="mode" value="blacklist">
+          <span><strong>Alles erlauben, außer …</strong><span class="muted">Gesperrte Kanäle und Stichwörter werden ausgeblendet.</span></span>
+        </label>
+        <label>
+          <input type="radio" name="mode" value="whitelist">
+          <span><strong>Nur erlaubte Kanäle (strikt)</strong><span class="muted">Alles andere ist gesperrt – ideal für Lern- und Arbeitskanäle.</span></span>
+        </label>
+      </fieldset>
+
+      <div id="allowedBox" hidden>
+        <h3>Erlaubte Kanäle</h3>
+        <form id="allowedForm" class="row">
+          <input id="allowedInput" type="text" placeholder="@handle, Kanalname oder Link" autocomplete="off" spellcheck="false" aria-label="Erlaubten Kanal hinzufügen">
+          <button id="allowedAdd" type="submit">Erlauben</button>
+        </form>
+        <ul id="allowedList" class="chips"></ul>
+      </div>
+
+      <h3>Gesperrte Kanäle</h3>
+      <form id="channelForm" class="row">
+        <input id="channelInput" type="text" placeholder="@handle, Kanalname oder Link" autocomplete="off" spellcheck="false" aria-label="Kanal sperren">
+        <button type="submit">Sperren</button>
+      </form>
+      <ul id="channelList" class="chips"></ul>
+
+      <h3>Gesperrte Stichwörter im Titel</h3>
+      <form id="keywordForm" class="row">
+        <input id="keywordInput" type="text" placeholder="z. B. reaction, prank, gaming" autocomplete="off" spellcheck="false" aria-label="Stichwort sperren">
+        <button type="submit">Sperren</button>
+      </form>
+      <ul id="keywordList" class="chips"></ul>
+      <p class="muted small tip">Tipp: Mehrere Einträge mit Komma trennen. Stichwörter treffen auch Wortteile („game“ trifft „gaming“).</p>
+    </section>
+
+    <section class="card">
+      <h2>Sperrmodus</h2>
+      <p class="muted">Während der Sperre kannst du Regeln nur verschärfen: Einträge hinzufügen ja, entfernen oder lockern nein. Die Sperre lässt sich verlängern, aber nicht verkürzen.</p>
+      <div class="row">
+        <select id="lockDuration" aria-label="Dauer der Sperre">
+          <option value="3600000">1 Stunde</option>
+          <option value="14400000">4 Stunden</option>
+          <option value="86400000" selected>1 Tag</option>
+          <option value="259200000">3 Tage</option>
+          <option value="604800000">1 Woche</option>
+          <option value="2592000000">30 Tage</option>
+        </select>
+        <button id="lockBtn" type="button">Sperre starten</button>
+      </div>
+      <p id="lockStatus" class="status-line"></p>
+    </section>
+
+    <section class="card">
+      <h2>Datenschutz &amp; Daten</h2>
+      <p class="muted">FocusGuard speichert nur deine Einstellungen – lokal im Browser (<code>storage.local</code>, nicht synchronisiert). Kein Verlauf, keine Statistiken, keine Server. Die Erweiterung hat technisch keine Möglichkeit, Daten zu versenden.</p>
+      <div class="row">
+        <button id="exportBtn" type="button" class="secondary">Einstellungen exportieren</button>
+        <label class="btn secondary">Importieren<input id="importInput" type="file" accept="application/json,.json"></label>
+      </div>
+      <p id="ioStatus" class="status-line"></p>
+    </section>
+  </main>
+
+  <script src="shared.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

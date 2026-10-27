@@ -1,0 +1,116 @@
+/* FocusGuard – YouTube-Styles. Gesteuert über Klassen am <html>-Element. */
+
+.fg-hidden {
+  display: none !important;
+}
+
+/* ---------- Startseite ---------- */
+html.fg-hide-home ytd-browse[page-subtype="home"] ytd-rich-grid-renderer,
+html.fg-hide-home ytd-browse[page-subtype="home"] ytd-feed-filter-chip-bar-renderer,
+html.fg-hide-home ytd-browse[page-subtype="home"] #chips-wrapper {
+  display: none !important;
+}
+html.fg-hide-home ytd-browse[page-subtype="home"] #primary::before {
+  content: "Startseite ausgeblendet – nutze die Suche oder deine Abos.";
+  display: block;
+  padding: 120px 24px;
+  text-align: center;
+  font: 500 16px/1.5 Roboto, system-ui, sans-serif;
+  color: var(--yt-spec-text-secondary, #888);
+}
+
+/* ---------- Empfehlungen neben/unter dem Video ---------- */
+html.fg-hide-recs ytd-watch-flexy #related,
+html.fg-hide-recs ytd-watch-next-secondary-results-renderer {
+  display: none !important;
+}
+
+/* ---------- Shorts ---------- */
+html.fg-hide-shorts ytd-reel-shelf-renderer,
+html.fg-hide-shorts ytd-rich-shelf-renderer[is-shorts],
+html.fg-hide-shorts ytd-rich-section-renderer:has(ytd-rich-shelf-renderer[is-shorts]),
+html.fg-hide-shorts grid-shelf-view-model:has(a[href^="/shorts/"]),
+html.fg-hide-shorts ytd-rich-item-renderer:has(a[href^="/shorts/"]),
+html.fg-hide-shorts ytd-video-renderer:has(a[href^="/shorts/"]),
+html.fg-hide-shorts ytd-grid-video-renderer:has(a[href^="/shorts/"]),
+html.fg-hide-shorts ytm-shorts-lockup-view-model,
+html.fg-hide-shorts ytm-shorts-lockup-view-model-v2,
+html.fg-hide-shorts ytd-guide-entry-renderer:has(a[title="Shorts"]),
+html.fg-hide-shorts ytd-mini-guide-entry-renderer[aria-label="Shorts"],
+html.fg-hide-shorts yt-tab-shape[tab-title="Shorts"] {
+  display: none !important;
+}
+
+/* ---------- Kommentare ---------- */
+html.fg-hide-comments ytd-watch-flexy #comments,
+html.fg-hide-comments ytd-comments#comments {
+  display: none !important;
+}
+
+/* ---------- Endcards & Vorschläge im Player ---------- */
+html.fg-hide-endscreen .ytp-ce-element,
+html.fg-hide-endscreen .ytp-endscreen-content,
+html.fg-hide-endscreen .videowall-endscreen,
+html.fg-hide-endscreen .ytp-pause-overlay,
+html.fg-hide-endscreen .ytp-fullscreen-grid,
+html.fg-hide-endscreen .ytp-suggested-action {
+  display: none !important;
+}
+
+/* ---------- Sperr-Overlay ---------- */
+#fg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(14, 15, 18, 0.97);
+  color: #eceef2;
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+#fg-overlay .fg-box {
+  max-width: 440px;
+  text-align: center;
+}
+#fg-overlay .fg-mark {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  border: 3px solid #8aa2ff;
+  box-shadow: inset 0 0 0 9px rgba(14, 15, 18, 1), inset 0 0 0 30px #8aa2ff;
+}
+#fg-overlay .fg-title {
+  margin: 0 0 6px;
+  font-size: 22px;
+  font-weight: 650;
+}
+#fg-overlay .fg-reason {
+  margin: 0 0 22px;
+  color: #a6acb8;
+}
+#fg-overlay .fg-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+#fg-overlay button {
+  appearance: none;
+  border: 1px solid #3a3f4b;
+  background: #20232a;
+  color: #eceef2;
+  font: inherit;
+  font-size: 14px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+#fg-overlay button.fg-primary {
+  background: #8aa2ff;
+  border-color: #8aa2ff;
+  color: #0e1016;
+  font-weight: 600;
+}

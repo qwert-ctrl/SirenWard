@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>FocusGuard</title>
+  <link rel="stylesheet" href="ui.css">
+</head>
+<body class="popup">
+  <header class="top">
+    <img src="icons/icon32.png" width="24" height="24" alt="">
+    <strong>FocusGuard</strong>
+    <span id="lockPill" class="pill" hidden></span>
+  </header>
+
+  <section id="siteBox" class="block" hidden>
+    <div class="label">Diese Website</div>
+    <div class="row between">
+      <code id="siteName"></code>
+      <button id="blockSiteBtn" type="button">Sperren</button>
+    </div>
+  </section>
+
+  <section id="ytBox" class="block" hidden>
+    <div class="label">YouTube-Kanal</div>
+    <div id="channelName" class="channel"></div>
+    <div class="row">
+      <button id="blockChannelBtn" type="button">Kanal sperren</button>
+      <button id="allowChannelBtn" type="button" class="secondary" hidden>Kanal erlauben</button>
+    </div>
+  </section>
+
+  <p id="status" class="status" role="status"></p>
+
+  <footer>
+    <span class="muted">Alles bleibt lokal.</span>
+    <button id="optionsBtn" type="button" class="link">Alle Einstellungen →</button>
+  </footer>
+
+  <script src="shared.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
