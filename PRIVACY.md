@@ -3,7 +3,7 @@
 **Kurz: FocusGuard erhebt, überträgt und verkauft keine Daten. Punkt.**
 
 ## Was gespeichert wird
-Gespeichert werden nur die Einstellungen, die du selbst eingibst: gesperrte Websites, YouTube-Optionen, gesperrte oder erlaubte Kanäle, Stichwörter und das Ende einer aktiven Sperre. Sie liegen in `chrome.storage.local`, also ausschließlich in deinem Browserprofil auf diesem Gerät. Bewusst **nicht** `storage.sync`, damit nichts über das Google- oder Mozilla-Konto synchronisiert wird.
+Gespeichert werden nur die Einstellungen, die du selbst eingibst: gesperrte Websites, YouTube-Optionen, gesperrte oder erlaubte Kanäle, Stichwörter und das Ende einer aktiven Sperre. Für den Sperrmodus kommen eine Kopie der Regeln bei Sperrbeginn und der späteste bisher gesehene Zeitpunkt hinzu; daran erkennt FocusGuard, ob jemand die Uhr verstellt hat. Alles liegt in `chrome.storage.local`, also ausschließlich in deinem Browserprofil auf diesem Gerät. Bewusst **nicht** `storage.sync`, damit nichts über das Google- oder Mozilla-Konto synchronisiert wird.
 
 ## Was nicht gespeichert wird
 - kein Browserverlauf, keine besuchten Seiten, keine angesehenen Videos
@@ -19,7 +19,8 @@ FocusGuard enthält keinen Code, der Netzwerkanfragen stellt. Zusätzlich verbie
 | `storage` | deine Einstellungen lokal speichern |
 | `declarativeNetRequest` | gesperrte Websites blockieren, ohne den Datenverkehr mitzulesen |
 | `activeTab` | im Popup die Adresse des aktuellen Tabs anzeigen. Nur nach deinem Klick und nur für diesen Tab |
-| Inhaltsskript auf `www.youtube.com` | YouTube-Elemente ausblenden und filtern. Läuft auf keiner anderen Website |
+| `alarms` | den Sperrmodus regelmäßig überprüfen (z. B. nach einer Uhr-Manipulation). Keine Installationswarnung, kein Datenzugriff |
+| Inhaltsskript auf `www.youtube.com` | YouTube-Elemente ausblenden und filtern. Läuft auf keiner anderen Website, hat **keinen** Zugriff auf den Speicher und bekommt nur die YouTube-Einstellungen, nicht deine Website-Liste |
 
 Keine `host_permissions`, kein `tabs`, kein `history`, kein `webRequest`, kein `cookies`.
 

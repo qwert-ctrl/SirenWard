@@ -27,7 +27,7 @@ setTimeout(() => { document.title = JSON.stringify(r); }, 600);
 (async () => {
   const srv = await startServers();
   const dir = path.join(srv.tmp, 'probe-ext');
-  fs.cpSync(SRC, dir, { recursive: true, filter: (s) => !/[\\/](tests|node_modules|\.git|dist)([\\/]|$)/.test(s) });
+  fs.cpSync(SRC, dir, { recursive: true, filter: (s) => !/^(tests|tools|node_modules|\.git|dist)([\\/]|$)/.test(path.relative(SRC, s)) });
   fs.writeFileSync(path.join(dir, 'probe.html'), '<!doctype html><meta charset="utf-8"><title>probe</title><script src="probe.js"></script>');
   fs.writeFileSync(path.join(dir, 'probe.js'), PROBE);
   const ctx = await launch(srv.tmp, 'probe', dir);

@@ -23,39 +23,11 @@ const IS_PACKAGE = !fs.existsSync(path.join(ROOT, 'tests'));
 const findings = [];
 const add = (severity, file, line, rule, detail = '') => findings.push({ severity, file, line, rule, detail });
 
-/* ---------- Laufzeit-Dateigraph aus dem Manifest ---------- */
-const mf = JSON.parse(fs.readFileSync(path.join(ROOT, 'manifest.json'), 'utf8'));
-const runtime = new Set(['manifest.json']);
-const queue = [];
-const ref = (f) => {
-  if (!f || /^[a-z]+:/i.test(f)) return;
-  const n = path.normalize(f).replace(/^\.\//, '');
-  if (!runtime.has(n)) {
-    runtime.add(n);
-    queue.push(n);
-  }
-};
-ref(mf.background && mf.background.service_worker);
-(mf.background && mf.background.scripts || []).forEach(ref);
-for (const cs of mf.content_scripts || []) [...(cs.js || []), ...(cs.css || [])].forEach(ref);
-ref(mf.action && mf.action.default_popup);
-ref(mf.options_ui && mf.options_ui.page);
-Object.values(mf.icons || {}).forEach(ref);
-Object.values((mf.action && mf.action.default_icon) || {}).forEach(ref);
-while (queue.length) {
-  const f = queue.shift();
-  const p = path.join(ROOT, f);
-  if (!fs.existsSync(p)) {
-    add('HOCH', f, 0, 'Referenzierte Datei fehlt');
-    continue;
-  }
-  const dir = path.dirname(f);
-  if (f.endsWith('.html')) {
-    for (const m of fs.readFileSync(p, 'utf8').matchAll(/\s(?:src|href)\s*=\s*"([^"]+)"/g)) ref(path.join(dir, m[1]));
-  } else if (f.endsWith('.js')) {
-    for (const m of fs.readFileSync(p, 'utf8').matchAll(/^\s*import\s+(?:[^'"]+from\s+)?['"]([^'"]+)['"]/gm)) ref(path.join(dir, m[1]));
-  }
-}
+/* ---------- Laufzeitdateien (gemeinsame Quelle mit dem Build: tools/files.js) ---------- */
+const filesLib = fs.existsSync(path.join(ROOT, 'tools', 'files.js')) ? path.join(ROOT, 'tools', 'files.js') : path.join(__dirname, '..', 'tools', 'files.js');
+const { manifest: mf, files: runtimeList, missing } = require(filesLib).runtimeFiles(ROOT);
+const runtime = new Set(runtimeList);
+for (const f of missing) add('HOCH', f, 0, 'Referenzierte Datei fehlt');
 
 /* ---------- JavaScript ---------- */
 const NETWORK = new Set(['fetch', 'XMLHttpRequest', 'WebSocket', 'EventSource', 'RTCPeerConnection', 'WebTransport', 'Worker', 'SharedWorker']);

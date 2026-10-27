@@ -135,7 +135,8 @@
   const hostCache = new WeakMap();
   function hostOf(el) {
     let h = hostCache.get(el);
-    if (h === undefined) {
+    // Selbstheilend: wurde das Element in eine andere Kachel verschoben, neu bestimmen.
+    if (h === undefined || (typeof h === 'object' && !h.contains(el))) {
       h = el.closest(PLAYER_SEL) ? PLAYER : el.closest(ITEM_SEL) || NONE;
       hostCache.set(el, h);
     }
@@ -372,7 +373,8 @@
     urlChangedAt = Date.now();
     autoplayHandled = false;
     hideOverlay();
-    if (filterOn && settings.filter.mode === 'whitelist' && location.pathname === '/watch') {
+    // Auf Videoseiten mit aktiven Filtern bleibt das Tor zu, bis der Kanal geprüft ist (kein kurzes Anspielen).
+    if (filterOn && location.pathname === '/watch') {
       if (gate !== 'pending') pausedByUs = false;
       gate = 'pending';
       if (pauseAll()) pausedByUs = true;
