@@ -126,3 +126,29 @@ html.fg-hide-endscreen .ytp-suggested-action {
   color: #0e1016;
   font-weight: 600;
 }
+
+/* ---------- Suchvorschläge ---------- */
+html.fg-hide-suggest .ytSearchboxComponentSuggestionsContainer,
+html.fg-hide-suggest .sbdd_a,
+html.fg-hide-suggest .gstl_50 {
+  display: none !important;
+}
+
+/* ---------- Erkunden & Trends ---------- */
+html.fg-hide-explore ytd-guide-section-renderer:has(a[href^="/feed/trending"]),
+html.fg-hide-explore ytd-guide-section-renderer:has(a[href^="/feed/explore"]),
+html.fg-hide-explore ytd-guide-entry-renderer:has(a[href^="/feed/trending"]),
+html.fg-hide-explore ytd-guide-entry-renderer:has(a[href^="/feed/explore"]),
+html.fg-hide-explore ytd-mini-guide-entry-renderer:has(a[href^="/feed/trending"]),
+html.fg-hide-explore ytd-mini-guide-entry-renderer:has(a[href^="/feed/explore"]) {
+  display: none !important;
+}
+
+/* ---------- Vorschaubilder in Graustufen ---------- */
+html.fg-gray ytd-thumbnail img,
+html.fg-gray yt-thumbnail-view-model img,
+html.fg-gray ytd-playlist-thumbnail img,
+html.fg-gray yt-image img,
+html.fg-gray .yt-core-image {
+  filter: grayscale(1) !important;
+}

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Gesperrt – FocusGuard</title>
+  <link rel="stylesheet" href="ui.css">
+</head>
+<body class="blockpage">
+  <main class="block-main" id="main" hidden>
+    <div class="block-mark" aria-hidden="true"></div>
+    <h1 id="title">Gesperrt</h1>
+    <p id="reason" class="muted"></p>
+    <section class="block-card">
+      <div id="unlock" class="stack"></div>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+    <div class="row center">
+      <button id="backBtn" type="button" class="secondary">Zurück</button>
+      <button id="optionsBtn" type="button" class="link">Einstellungen</button>
+    </div>
+  </main>
+  <script src="core.js"></script>
+  <script src="client.js"></script>
+  <script src="unlock-ui.js"></script>
+  <script src="blocked.js"></script>
+</body>
+</html>

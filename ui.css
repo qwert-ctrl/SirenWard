@@ -32,6 +32,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; } /* hidden schlägt jede display-Regel */
 
 body {
   margin: 0;
@@ -206,3 +207,69 @@ body.popup { width: 320px; padding: 14px; }
 .popup .status { font-size: 12.5px; color: var(--ok); min-height: 1.4em; margin: 2px 0 8px; }
 .popup .status.error { color: var(--danger); }
 .popup footer { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+
+/* ---------- 1.2: gemeinsame Bausteine ---------- */
+.stack { display: grid; gap: 8px; }
+.row.end { justify-content: flex-end; }
+.row.center { justify-content: center; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+.grid2 label, .feature-body label { display: grid; gap: 4px; font-size: 13px; font-weight: 550; }
+.grid2 .span2 { grid-column: 1 / -1; }
+@media (max-width: 560px) { .grid2 { grid-template-columns: 1fr; } }
+input[type="password"], input[type="time"] {
+  font: inherit; color: var(--text); background: var(--bg);
+  border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; min-width: 0;
+}
+.ok-line { color: var(--ok); font-weight: 600; margin-bottom: 8px; }
+
+.pills { margin-left: auto; display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+.pill {
+  background: var(--warn-bg); color: var(--warn-text);
+  font-size: 11px; font-weight: 650; padding: 2px 8px; border-radius: 999px;
+}
+.pill.focus { background: var(--accent); color: var(--accent-text); }
+.pill.free { background: var(--chip); color: var(--muted); }
+.badge { font-size: 11px; font-weight: 650; padding: 2px 8px; border-radius: 999px; background: var(--chip); color: var(--muted); }
+.badge.blocked { background: var(--warn-bg); color: var(--warn-text); }
+.badge.free { background: var(--chip); color: var(--ok); }
+.site-name { display: block; font-size: 13px; margin: 2px 0 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.unlock-line { font-weight: 600; font-variant-numeric: tabular-nums; }
+.unlock-label { display: grid; gap: 2px; }
+.unlock-phrase { font-weight: 600; }
+input.ok { border-color: var(--ok); outline-color: var(--ok); }
+
+.feature { border-top: 1px solid var(--border); padding: 4px 0 8px; }
+.feature:first-child { border-top: none; }
+.feature .toggle { border-top: none; }
+.feature-body { margin: 0 0 4px 28px; display: grid; gap: 10px; }
+.feature-body.row { display: flex; }
+.days { display: flex; gap: 6px; flex-wrap: wrap; }
+.days .day {
+  display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px;
+  border: 1px solid var(--border); border-radius: 999px; cursor: pointer; font-size: 13px;
+}
+.day input { accent-color: var(--accent); }
+.stats { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+.stats th, .stats td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+.stats th { color: var(--muted); font-weight: 600; }
+
+.fg-dialog {
+  border: 1px solid var(--border); border-radius: 14px; padding: 20px;
+  background: var(--card); color: var(--text); width: min(360px, calc(100vw - 32px));
+}
+.fg-dialog::backdrop { background: rgba(0, 0, 0, 0.45); }
+.fg-dialog form { display: grid; gap: 12px; }
+.fg-dialog input { width: 100%; }
+
+/* ---------- Sperrseite ---------- */
+body.blockpage { min-height: 100vh; display: grid; place-items: center; padding: 24px 16px; }
+.block-main { width: min(460px, 100%); text-align: center; display: grid; gap: 14px; }
+.block-main h1 { font-size: 24px; overflow-wrap: anywhere; }
+.block-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px; text-align: left; }
+.block-card .status { margin-top: 8px; font-size: 13px; color: var(--ok); }
+.block-card .status.error { color: var(--danger); }
+.block-mark {
+  width: 56px; height: 56px; margin: 0 auto; border-radius: 50%;
+  border: 3px solid var(--accent); box-shadow: inset 0 0 0 9px var(--bg), inset 0 0 0 30px var(--accent);
+}
+.pills .pill { margin-left: 0; }

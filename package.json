@@ -1,16 +1,16 @@
 {
   "name": "focusguard",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "description": "Open-Source-Browsererweiterung gegen Ablenkung: Website-Sperre, YouTube-Filter, Sperrmodus – komplett lokal.",
   "license": "MIT",
   "scripts": {
-    "test": "node --test tests/core.test.js tests/background.test.js && node tests/static-scan.js",
+    "test": "node --test tests/core.test.js tests/features.test.js tests/background.test.js tests/background-features.test.js && node tests/static-scan.js",
     "test:mutation": "bash tests/mutation.sh",
-    "test:e2e": "node tests/e2e.test.js && node tests/csp-probe.test.js",
+    "test:e2e": "node tests/e2e.test.js && node tests/blockpage.test.js && node tests/csp-probe.test.js",
     "bench": "node tests/bench.js",
-    "build": "node tools/build.js && node tests/static-scan.js dist/focusguard",
-    "verify": "npm test && npm run test:mutation && npm run build && node tests/e2e.test.js dist/focusguard && node tests/csp-probe.test.js dist/focusguard"
+    "build": "node tools/build.js && node tests/static-scan.js dist/chromium && node tests/static-scan.js dist/firefox",
+    "verify": "npm test && npm run test:mutation && npm run build && node tests/e2e.test.js dist/chromium && node tests/blockpage.test.js dist/chromium && node tests/csp-probe.test.js dist/chromium"
   },
   "devDependencies": {
     "playwright": "^1.63.0",

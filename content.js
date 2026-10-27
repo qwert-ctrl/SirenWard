@@ -24,6 +24,9 @@
     hideShorts: 'fg-hide-shorts',
     hideComments: 'fg-hide-comments',
     hideEndscreen: 'fg-hide-endscreen',
+    hideSearchSuggestions: 'fg-hide-suggest',
+    hideExplore: 'fg-hide-explore',
+    grayThumbnails: 'fg-gray',
   });
 
   const ITEM_TAGS = new Set([
@@ -51,6 +54,7 @@
     channel: 'Dieser Kanal ist gesperrt.',
     notAllowed: 'Dieser Kanal steht nicht auf deiner Erlaubt-Liste.',
     unknown: 'Der Kanal konnte nicht erkannt werden – im strikten Modus wird gesperrt.',
+    limit: 'Dein YouTube-Tageslimit ist für heute aufgebraucht. Morgen geht es weiter.',
   });
 
   let settings = null;
@@ -60,6 +64,7 @@
   let lastUrl = '';
   let urlChangedAt = 0;
   let autoplayHandled = false;
+  let limitBlocked = false; // YouTube-Tageslimit erreicht
 
   const textOf = (el) => (el ? (el.textContent || '').replace(/\s+/g, ' ').trim() : '');
 
@@ -218,6 +223,7 @@
 
   /** @returns string (Sperrgrund) | null (frei) | undefined (noch unklar) */
   function pageBlockReason() {
+    if (limitBlocked && location.pathname === '/watch') return REASONS.limit;
     if (!filterOn) return null;
     let info;
     if (location.pathname === '/watch') {
@@ -249,7 +255,7 @@
   document.addEventListener(
     'play',
     (e) => {
-      if (gate === 'open' || !(e.target instanceof HTMLMediaElement)) return;
+      if ((gate === 'open' && !limitBlocked) || !(e.target instanceof HTMLMediaElement)) return;
       e.target.pause();
       if (gate === 'pending') pausedByUs = true;
     },
@@ -354,6 +360,10 @@
         return true;
       }
     }
+    if (settings.yt.hideExplore && /^\/feed\/(trending|explore)/.test(p)) {
+      location.replace('/feed/subscriptions');
+      return true;
+    }
     if (settings.yt.redirectHomeToSubs && p === '/') {
       location.replace('/feed/subscriptions');
       return true;
@@ -374,7 +384,8 @@
     autoplayHandled = false;
     hideOverlay();
     // Auf Videoseiten mit aktiven Filtern bleibt das Tor zu, bis der Kanal geprüft ist (kein kurzes Anspielen).
-    if (filterOn && location.pathname === '/watch') {
+    if (limitBlocked) refreshLimit();
+    if ((filterOn || limitBlocked) && location.pathname === '/watch') {
       if (gate !== 'pending') pausedByUs = false;
       gate = 'pending';
       if (pauseAll()) pausedByUs = true;
@@ -406,10 +417,79 @@
     }, 100);
   }
 
+  /* ---------- YouTube-Tageslimit: Wiedergabezeit messen (nur während ein Video läuft) ---------- */
+
+  let ytLimit = null; // { minutes } oder null
+  let playingSince = 0;
+  let accMs = 0;
+  let flushTimer = 0;
+  let lastStatusAt = 0;
+
+  function setLimit(exhausted) {
+    if (limitBlocked === exhausted) return;
+    limitBlocked = exhausted;
+    if (exhausted) {
+      pauseAll();
+      if (location.pathname === '/watch') {
+        gate = 'blocked';
+        showOverlay(REASONS.limit);
+      }
+    } else if (settings) {
+      schedulePageCheck();
+    }
+  }
+
+  async function sendYt(msg) {
+    try {
+      const r = await chrome.runtime.sendMessage(Object.assign({ type: 'fg:yt' }, msg));
+      if (r && typeof r === 'object' && r.limited) setLimit(!!r.exhausted);
+      else if (r && r.limited === false) setLimit(false);
+    } catch {
+      /* Erweiterung neu geladen o. Ä. */
+    }
+  }
+
+  function refreshLimit() {
+    if (!ytLimit || Date.now() - lastStatusAt < 30000) return;
+    lastStatusAt = Date.now();
+    sendYt({ kind: 'status' });
+  }
+
+  function flush() {
+    let ms = accMs;
+    accMs = 0;
+    if (playingSince) {
+      const t = performance.now();
+      ms += t - playingSince;
+      playingSince = t;
+    }
+    if (ytLimit && ms >= 1000) sendYt({ kind: 'tick', ms: Math.round(ms) });
+  }
+
+  const anyPlaying = () => [...document.querySelectorAll('video')].some((v) => !v.paused && !v.ended);
+  function onPlayState() {
+    if (!ytLimit) return;
+    if (anyPlaying()) {
+      if (!playingSince) playingSince = performance.now();
+      if (!flushTimer) flushTimer = setInterval(flush, 15000); // Timer nur während der Wiedergabe
+    } else {
+      if (playingSince) accMs += performance.now() - playingSince;
+      playingSince = 0;
+      clearInterval(flushTimer);
+      flushTimer = 0;
+      flush();
+    }
+  }
+  for (const ev of ['playing', 'pause', 'ended', 'emptied']) document.addEventListener(ev, onPlayState, true);
+  document.addEventListener('visibilitychange', () => document.visibilityState === 'hidden' && flush());
+
   /* ---------- Einstellungen (nur lesend, vom Hintergrund) ---------- */
 
   function applySettings(view) {
     settings = FG.withDefaults(view);
+    ytLimit = view && view.ytLimit && typeof view.ytLimit === 'object' ? view.ytLimit : null;
+    if (!ytLimit) setLimit(false);
+    else if (settings) refreshLimit();
     filterOn = FG.hasFilter(settings);
     applyClasses();
     html.classList.add('fg-ready');
@@ -438,6 +518,7 @@
       const r = await chrome.runtime.sendMessage({ type: 'fg:get' });
       if (!r || !r.ok) throw new Error('keine Einstellungen');
       if (!haveBroadcast) applySettings(r.settings);
+      if (r.yt && r.yt.exhausted) setLimit(true);
     } catch {
       if (attempt < 4) setTimeout(() => init(attempt + 1), 250 * 2 ** attempt);
       else {

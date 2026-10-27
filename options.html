@@ -30,6 +30,35 @@
     </section>
 
     <section class="card">
+      <h2>Zeitfreigabe</h2>
+      <p class="muted">Gesperrte Seiten kurz freigeben – mit bewusster Hürde: erst Wartezeit, dann einen Satz abtippen (nur die Buchstaben zählen). Danach sperrt sich die Seite von selbst wieder. Freigeben kannst du im Popup oder auf der Sperrseite.</p>
+      <form id="unlockForm" class="grid2">
+        <label>Freigaben pro Seite und Tag
+          <select id="unlockPerDay">
+            <option value="0">keine</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            <option value="5">5</option><option value="10">10</option>
+          </select>
+        </label>
+        <label>Dauer einer Freigabe
+          <select id="unlockMinutes">
+            <option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option>
+            <option value="30">30 min</option><option value="60">60 min</option>
+          </select>
+        </label>
+        <label>Wartezeit vorher
+          <select id="unlockWait">
+            <option value="10">10 s</option><option value="30">30 s</option><option value="60">1 min</option>
+            <option value="120">2 min</option><option value="300">5 min</option>
+          </select>
+        </label>
+        <label class="span2">Satz zum Abtippen
+          <input id="unlockPhrase" type="text" maxlength="120" autocomplete="off" spellcheck="false">
+        </label>
+        <div class="row span2"><button type="submit">Speichern</button></div>
+      </form>
+    </section>
+
+    <section class="card">
       <h2>YouTube-Ansicht</h2>
       <p class="muted">Ablenkungen ausblenden, ohne YouTube ganz zu sperren.</p>
       <div id="ytToggles" class="toggles"></div>
@@ -93,8 +122,86 @@
     </section>
 
     <section class="card">
+      <h2>Partner-Code</h2>
+      <p class="muted">Die härteste Variante: Eine andere Person legt einen Code fest. Danach lassen sich Regeln nur noch mit diesem Code lockern – verschärfen geht immer. Der Code wird nur als PBKDF2-Hash gespeichert, nie im Klartext.</p>
+      <div id="partnerOff">
+        <form id="partnerForm" class="grid2">
+          <label>Code (mind. 6 Zeichen, besser 10+)
+            <input id="partnerCode" type="password" minlength="6" maxlength="128" autocomplete="new-password" spellcheck="false" required>
+          </label>
+          <label>Code wiederholen
+            <input id="partnerCode2" type="password" minlength="6" maxlength="128" autocomplete="new-password" spellcheck="false" required>
+          </label>
+          <div class="row span2"><button type="submit">Partner-Code aktivieren</button></div>
+        </form>
+      </div>
+      <div id="partnerOn" hidden>
+        <p class="ok-line">✓ Partner-Code ist aktiv.</p>
+        <div class="row">
+          <button id="partnerChange" type="button" class="secondary">Code ändern</button>
+          <button id="partnerDisable" type="button" class="secondary">Deaktivieren</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Zusatzfunktionen</h2>
+      <p class="muted">Alles optional – schalte nur ein, was du brauchst.</p>
+      <div class="toggles">
+        <div class="feature">
+          <label class="toggle"><input type="checkbox" data-feature="schedule"><span class="toggle-text"><span class="toggle-label">Zeitplan</span><span class="muted small">Websites nur zu festen Zeiten sperren, z. B. werktags 9–17 Uhr.</span></span></label>
+          <form id="scheduleForm" class="feature-body" hidden>
+            <div class="days" id="scheduleDays"></div>
+            <div class="row">
+              <label>von <input id="scheduleStart" type="time" required></label>
+              <label>bis <input id="scheduleEnd" type="time" required></label>
+              <button type="submit">Speichern</button>
+            </div>
+            <p class="muted small">Endet die Zeit vor dem Start (z. B. 22–6 Uhr), gilt sie über Mitternacht.</p>
+          </form>
+        </div>
+        <div class="feature">
+          <label class="toggle"><input type="checkbox" data-feature="focus"><span class="toggle-text"><span class="toggle-label">Fokus-Sitzung</span><span class="muted small">Ein Klick im Popup sperrt alles auf deiner Liste – Freigaben und Zeitplan pausieren.</span></span></label>
+          <div class="feature-body row" id="focusBody" hidden>
+            <label>Standarddauer
+              <select id="focusMinutes">
+                <option value="15">15 min</option><option value="25">25 min</option><option value="50">50 min</option><option value="90">90 min</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="feature">
+          <label class="toggle"><input type="checkbox" data-feature="blockPage"><span class="toggle-text"><span class="toggle-label">Eigene Sperrseite</span><span class="muted small">Statt der Browser-Fehlerseite: Restzeit und Freigabe direkt auf der Seite. Braucht Zugriff auf die gesperrten Domains – nur diese, einzeln erteilt.</span></span></label>
+          <p class="feature-body muted small" id="blockPageInfo" hidden></p>
+        </div>
+        <div class="feature">
+          <label class="toggle"><input type="checkbox" data-feature="ytLimit"><span class="toggle-text"><span class="toggle-label">YouTube-Tageslimit</span><span class="muted small">Begrenzt die tägliche Wiedergabezeit auf YouTube.</span></span></label>
+          <div class="feature-body row" id="ytLimitBody" hidden>
+            <label>Pro Tag
+              <select id="ytLimitMinutes">
+                <option value="10">10 min</option><option value="15">15 min</option><option value="30">30 min</option>
+                <option value="45">45 min</option><option value="60">1 Std</option><option value="120">2 Std</option>
+              </select>
+            </label>
+            <span id="ytUsage" class="muted small"></span>
+          </div>
+        </div>
+        <div class="feature">
+          <label class="toggle"><input type="checkbox" data-feature="stats"><span class="toggle-text"><span class="toggle-label">Lokale Statistik</span><span class="muted small">Nur Zähler pro Tag (Freigaben, Fokus, YouTube-Minuten, Sperrseiten-Aufrufe) – keine Adressen, kein Verlauf. 30 Tage.</span></span></label>
+          <div class="feature-body" id="statsBody" hidden>
+            <table class="stats" aria-label="Statistik der letzten 7 Tage">
+              <thead><tr><th>Tag</th><th>Freigaben</th><th>Fokus</th><th>YouTube</th><th>Sperrseite</th></tr></thead>
+              <tbody id="statsRows"></tbody>
+            </table>
+            <button id="statsClear" type="button" class="link">Statistik löschen</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
       <h2>Datenschutz &amp; Daten</h2>
-      <p class="muted">FocusGuard speichert nur deine Einstellungen – lokal im Browser (<code>storage.local</code>, nicht synchronisiert). Kein Verlauf, keine Statistiken, keine Server. Die Erweiterung hat technisch keine Möglichkeit, Daten zu versenden.</p>
+      <p class="muted">FocusGuard speichert nur deine Einstellungen und das Nötigste für Freigaben (heutige Zähler) – lokal im Browser (<code>storage.local</code>, nicht synchronisiert). Kein Verlauf, keine Server; Statistik nur, wenn du sie einschaltest. Die Erweiterung hat technisch keine Möglichkeit, Daten zu versenden.</p>
       <div class="row">
         <button id="exportBtn" type="button" class="secondary">Einstellungen exportieren</button>
         <label class="btn secondary">Importieren<input id="importInput" type="file" accept="application/json,.json"></label>

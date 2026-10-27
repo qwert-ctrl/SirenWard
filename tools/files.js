@@ -38,6 +38,8 @@ function runtimeFiles(root) {
     const src = /\.(html|js)$/.test(f) ? fs.readFileSync(p, 'utf8') : '';
     if (f.endsWith('.html')) for (const m of src.matchAll(/\s(?:src|href)\s*=\s*"([^"]+)"/g)) ref(path.posix.join(dir, m[1]));
     if (f.endsWith('.js')) for (const m of src.matchAll(/^\s*import\s+(?:[^'"]+from\s+)?['"]([^'"]+)['"]/gm)) ref(path.posix.join(dir, m[1]));
+    // Seiten, die nur per Sperrregel (declarativeNetRequest-Weiterleitung) geöffnet werden
+    if (f.endsWith('.js')) for (const m of src.matchAll(/extensionPath:\s*'\/([\w./-]+?)(?:\?|')/g)) ref(m[1]);
   }
   return { manifest: mf, files: [...files].sort(), missing };
 }

@@ -63,7 +63,7 @@ test('Prototype Pollution über Import ist wirkungslos', () => {
   assert.equal({}.polluted, undefined);
   assert.equal(Object.prototype.polluted, undefined);
   assert.equal(Object.getPrototypeOf(s.yt), Object.prototype);
-  assert.equal(Object.keys(s).sort().join(), 'blockedSites,filter,lockUntil,yt');
+  assert.equal(Object.keys(s).sort().join(), Object.keys(FG.DEFAULTS).sort().join());
 });
 
 test('Größenbegrenzung gegen aufgeblähte Importe', () => {
@@ -338,6 +338,6 @@ test('Zufallstest: resolveState ist ein Fixpunkt und nie lockerer als eine aktiv
 test('publicView gibt dem YouTube-Skript nur das Nötigste', () => {
   const s = FG.withDefaults({ blockedSites: ['privat.com'], lockUntil: NOW + 1 });
   const v = FG.publicView(s);
-  assert.deepEqual(Object.keys(v).sort(), ['filter', 'yt']);
+  assert.deepEqual(Object.keys(v).sort(), ['filter', 'yt', 'ytLimit']);
   assert.ok(!JSON.stringify(v).includes('privat.com'));
 });

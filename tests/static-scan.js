@@ -91,7 +91,11 @@ for (const file of jsFiles) {
       if (/(^|\.)location\.(assign|replace)$/.test(callee)) {
         const a = n.arguments[0];
         const relative = a && ((ts.isStringLiteral(a) && a.text.startsWith('/')) || (ts.isBinaryExpression(a) && ts.isStringLiteral(a.left) && a.left.text.startsWith('/') && /encodeURIComponent/.test(text(a.right))));
-        add(relative ? 'INFO' : 'HOCH', file, lineOf(n), 'Navigation', text(n));
+        // fest "https://" + geprüfte Domain: kein javascript:/data:-Ziel möglich
+        let leftmost = a;
+        while (leftmost && ts.isBinaryExpression(leftmost)) leftmost = leftmost.left;
+        const httpsOnly = leftmost && ts.isStringLiteral(leftmost) && leftmost.text === 'https://';
+        add(relative || httpsOnly ? 'INFO' : 'HOCH', file, lineOf(n), 'Navigation', text(n));
       }
     }
     if (ts.isBinaryExpression(n) && n.operatorToken.kind === ts.SyntaxKind.EqualsToken) {
@@ -115,7 +119,7 @@ for (const file of [...runtime].filter((f) => f.endsWith('.html'))) {
     if (/\sstyle\s*=/i.test(l)) add('MITTEL', file, i + 1, 'Inline-Style (verletzt CSP)', l.trim());
     if (/<style[\s>]/i.test(l)) add('MITTEL', file, i + 1, 'Style-Block (verletzt CSP)', l.trim());
     if (/\s(?:src|href|action)\s*=\s*["']?\s*(?:https?:|\/\/|data:|javascript:)/i.test(l)) add('HOCH', file, i + 1, 'Externe Ressource', l.trim());
-    if (/<input\b(?![^>]*type="(?:checkbox|radio|file)")[^>]*>/i.test(l) && !/spellcheck="false"/.test(l)) add('MITTEL', file, i + 1, 'Rechtschreibprüfung lädt Wörterbuch nach', l.trim());
+    if (/<input\b(?![^>]*type="(?:checkbox|radio|file|time|password)")[^>]*>/i.test(l) && !/spellcheck="false"/.test(l)) add('MITTEL', file, i + 1, 'Rechtschreibprüfung lädt Wörterbuch nach', l.trim());
   });
 }
 for (const file of [...runtime].filter((f) => f.endsWith('.css'))) {
@@ -128,11 +132,20 @@ for (const file of [...runtime].filter((f) => f.endsWith('.css'))) {
 const ALLOWED_PERMS = new Set(['storage', 'declarativeNetRequest', 'activeTab', 'alarms']);
 for (const p of mf.permissions || []) if (!ALLOWED_PERMS.has(p)) add('HOCH', 'manifest.json', 0, 'Unerwartete Berechtigung', p);
 if (mf.host_permissions && mf.host_permissions.length) add('HOCH', 'manifest.json', 0, 'host_permissions', mf.host_permissions.join(', '));
-if (mf.optional_permissions || mf.optional_host_permissions) add('PRÜFEN', 'manifest.json', 0, 'optionale Rechte');
+if (mf.optional_permissions) add('HOCH', 'manifest.json', 0, 'optionale API-Rechte', JSON.stringify(mf.optional_permissions));
+if (mf.optional_host_permissions) {
+  const ok = JSON.stringify(mf.optional_host_permissions) === '["*://*/*"]';
+  // Nur als Obergrenze für die pro Domain erteilten Rechte (eigene Sperrseite); nie automatisch gewährt.
+  add(ok ? 'INFO' : 'HOCH', 'manifest.json', 0, 'optional_host_permissions', JSON.stringify(mf.optional_host_permissions));
+}
 if (mf.externally_connectable) add('HOCH', 'manifest.json', 0, 'externally_connectable', JSON.stringify(mf.externally_connectable));
 if (mf.web_accessible_resources) add('MITTEL', 'manifest.json', 0, 'web_accessible_resources (Fingerprinting)', JSON.stringify(mf.web_accessible_resources));
 if (mf.update_url) add('PRÜFEN', 'manifest.json', 0, 'update_url', mf.update_url);
 if (!mf.background || mf.background.type !== 'module') add('MITTEL', 'manifest.json', 0, 'Service Worker nicht als ES-Modul');
+if (mf.background && mf.background.service_worker && mf.background.scripts) {
+  add('HOCH', 'manifest.json', 0, 'background.scripts neben service_worker', 'Chrome/Brave melden: "background.scripts requires manifest version 2 or lower" – Firefox-Variante per tools/manifest.firefox.json bauen');
+}
+if (mf.background && mf.background.scripts && mf.minimum_chrome_version) add('MITTEL', 'manifest.json', 0, 'Firefox-Manifest mit minimum_chrome_version');
 for (const cs of mf.content_scripts || []) {
   for (const m of cs.matches) if (m !== 'https://www.youtube.com/*') add('HOCH', 'manifest.json', 0, 'Content-Script-Match', m);
   if (cs.all_frames) add('PRÜFEN', 'manifest.json', 0, 'all_frames');

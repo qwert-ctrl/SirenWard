@@ -22,9 +22,11 @@ function disposeAll() {
 }
 
 function createFakeChrome({ extId = 'abcdefghijklmnop', store = {} } = {}) {
-  const L = { changed: [], message: [], alarm: [], installed: [], startup: [] };
+  const L = { changed: [], message: [], alarm: [], installed: [], startup: [], permAdded: [], permRemoved: [] };
+  const origins = new Set(['https://www.youtube.com/*']); // Pflichtrecht des Inhaltsskripts
+  const openTabs = [{ id: 1, url: 'https://www.youtube.com/watch?v=x' }, { id: 2, url: 'https://example.org/' }];
   let disposed = false;
-  const stats = { writes: 0, dnrUpdates: 0, sent: [], accessLevel: null };
+  const stats = { writes: 0, dnrUpdates: 0, sent: [], reloaded: [], accessLevel: null };
   let rules = [];
   const alarms = new Map();
 
@@ -98,7 +100,7 @@ function createFakeChrome({ extId = 'abcdefghijklmnop', store = {} } = {}) {
         return clone(alarms.get(n));
       },
       async create(n, o) {
-        alarms.set(n, { name: n, periodInMinutes: o.periodInMinutes });
+        alarms.set(n, { name: n, scheduledTime: o.when != null ? o.when : Date.now() + (o.delayInMinutes || 0) * 60e3, periodInMinutes: o.periodInMinutes });
       },
       async clear(n) {
         return alarms.delete(n);
@@ -106,14 +108,40 @@ function createFakeChrome({ extId = 'abcdefghijklmnop', store = {} } = {}) {
       onAlarm: { addListener: (l) => L.alarm.push(l) },
     },
     tabs: {
-      async query() {
-        return [{ id: 1 }, { id: 2 }];
+      async query(q = {}) {
+        // Ohne "tabs"-Recht liefert Chrome nur IDs; URL-Filter funktionieren nur mit Host-Recht.
+        if (q.url) {
+          const pats = Array.isArray(q.url) ? q.url : [q.url];
+          if (!pats.every((p) => origins.has(p))) throw new Error('kein Host-Recht');
+          return openTabs.filter((t) => pats.some((p) => matchPattern(p, t.url))).map((t) => ({ id: t.id }));
+        }
+        return openTabs.map((t) => ({ id: t.id }));
       },
       async sendMessage(id, msg) {
         stats.sent.push({ id, msg: clone(msg) });
       },
+      async reload(id) {
+        stats.reloaded.push(id);
+      },
+    },
+    permissions: {
+      async getAll() {
+        return { origins: [...origins], permissions: [] };
+      },
+      async remove({ origins: o = [] }) {
+        for (const x of o) origins.delete(x);
+        return true;
+      },
+      onAdded: { addListener: (l) => L.permAdded.push(l) },
+      onRemoved: { addListener: (l) => L.permRemoved.push(l) },
     },
   };
+  function matchPattern(p, url) {
+    const m = p.match(/^\*:\/\/\*\.([^/]+)\/\*$/);
+    if (!m) return false;
+    const host = new URL(url).hostname;
+    return host === m[1] || host.endsWith('.' + m[1]);
+  }
 
   /** Nachricht wie chrome.runtime.sendMessage zustellen (mit frei wählbarem Absender). */
   function send(msg, sender) {
@@ -144,7 +172,16 @@ function createFakeChrome({ extId = 'abcdefghijklmnop', store = {} } = {}) {
     alarms: () => clone([...alarms.values()]),
     send,
     senders,
-    fireAlarm: () => L.alarm.forEach((l) => l({ name: 'fg-lock-watch' })),
+    fireAlarm: () => L.alarm.forEach((l) => l({ name: 'fg-tick' })),
+    /** Host-Recht erteilen (wie nach chrome.permissions.request im Browser) */
+    grant(domains) {
+      for (const d of domains) origins.add(`*://*.${d}/*`);
+      L.permAdded.forEach((l) => l({ origins: domains.map((d) => `*://*.${d}/*`) }));
+    },
+    origins: () => [...origins],
+    openTab(id, url) {
+      openTabs.push({ id, url });
+    },
     settle: (ms = 40) => new Promise((r) => setTimeout(r, ms)),
   };
   live.add(api);

@@ -9,27 +9,34 @@
   <header class="top">
     <img src="icons/icon32.png" width="24" height="24" alt="">
     <strong>FocusGuard</strong>
-    <span id="lockPill" class="pill" hidden></span>
+    <span id="pills" class="pills"></span>
   </header>
 
   <section id="siteBox" class="block" hidden>
-    <div class="label">Diese Website</div>
     <div class="row between">
-      <code id="siteName"></code>
-      <button id="blockSiteBtn" type="button">Sperren</button>
+      <div class="label">Diese Website</div>
+      <span id="siteBadge" class="badge" hidden></span>
     </div>
+    <code id="siteName" class="site-name"></code>
+    <div id="siteBody" class="stack"></div>
+  </section>
+
+  <section id="focusBox" class="block" hidden>
+    <div class="label">Fokus-Sitzung</div>
+    <div id="focusBody" class="stack"></div>
   </section>
 
   <section id="ytBox" class="block" hidden>
-    <div class="label">YouTube-Kanal</div>
-    <div id="channelName" class="channel"></div>
-    <div class="row">
+    <div class="label">YouTube</div>
+    <div id="channelName" class="channel" hidden></div>
+    <div id="channelActions" class="row" hidden>
       <button id="blockChannelBtn" type="button">Kanal sperren</button>
       <button id="allowChannelBtn" type="button" class="secondary" hidden>Kanal erlauben</button>
     </div>
+    <p id="ytLimit" class="muted small" hidden></p>
   </section>
 
-  <p id="status" class="status" role="status"></p>
+  <p id="status" class="status" role="status" aria-live="polite"></p>
 
   <footer>
     <span class="muted">Alles bleibt lokal.</span>
@@ -38,6 +45,7 @@
 
   <script src="core.js"></script>
   <script src="client.js"></script>
+  <script src="unlock-ui.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

@@ -1,0 +1,21 @@
+{
+  "_kommentar": "Firefox-Ergänzungen; tools/build.js führt sie mit manifest.json zusammen (null = Schlüssel entfernen). Firefox nutzt für Erweiterungen (noch) keine Service Worker.",
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "type": "module"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "focusguard@local.invalid",
+      "strict_min_version": "128.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    }
+  },
+  "minimum_chrome_version": null
+}

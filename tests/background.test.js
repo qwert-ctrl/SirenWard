@@ -55,7 +55,7 @@ test('Datensparsamkeit: YouTube-Skript bekommt nur yt + filter', async () => {
   await op(fake, { op: 'add', list: 'blockedSites', values: ['privat.example'] });
   const r = await fake.send({ type: 'fg:get' }, fake.senders.contentScript);
   assert.ok(r.ok);
-  assert.deepEqual(Object.keys(r.settings).sort(), ['filter', 'yt']);
+  assert.deepEqual(Object.keys(r.settings).sort(), ['filter', 'yt', 'ytLimit']);
   assert.ok(!JSON.stringify(r).includes('privat.example'));
   const full = await fake.send({ type: 'fg:get' }, fake.senders.options);
   assert.deepEqual(full.settings.blockedSites, ['privat.example']);
@@ -99,7 +99,7 @@ test('Broadcast: nur bei Änderungen, die YouTube betreffen – auch nach Neusta
   await op(fake, { op: 'add', list: 'blockedChannels', values: ['@x'] });
   await fake.settle();
   assert.equal(fake.stats.sent.length, 2, 'an beide Tabs');
-  assert.deepEqual(Object.keys(fake.stats.sent[0].msg.settings).sort(), ['filter', 'yt']);
+  assert.deepEqual(Object.keys(fake.stats.sent[0].msg.settings).sort(), ['filter', 'yt', 'ytLimit']);
   // Neustart: neue Instanz, gleicher Speicher. Erste echte Änderung muss trotzdem ankommen.
   const restarted = createFakeChrome({ store: fake.store });
   loadBackground(restarted, FG);
@@ -119,7 +119,7 @@ test('Sperrmodus: Befehle zum Lockern werden abgelehnt', async () => {
   assert.equal(rem.ok, false);
   assert.equal(rem.error, 'locked');
   await fake.settle();
-  assert.equal(fake.alarms()[0].periodInMinutes, 1, 'Überwachung läuft');
+  assert.ok(fake.alarms()[0].scheduledTime <= clock + 60e3, 'Überwachung läuft (spätestens in 1 min)');
 });
 
 test('Sperrmodus: Manipulation am Speicher wird repariert (überschreiben, löschen, Snapshot weg)', async () => {
@@ -177,7 +177,8 @@ test('Regulärer Ablauf: danach ist Lockern erlaubt, Überwachung wird langsamer
   assert.equal(settings(fake).lockUntil, 0);
   assert.ok((await op(fake, { op: 'remove', list: 'blockedSites', values: ['a.test'] })).ok);
   await fake.settle();
-  assert.equal(fake.alarms()[0].periodInMinutes, 5);
+  const a = fake.alarms()[0];
+  assert.ok(a && a.scheduledTime > clock + 60e3 && a.scheduledTime <= clock + 5 * 60e3, 'Uhr-Wache alle 5 min');
   clock = t0;
 });
 
