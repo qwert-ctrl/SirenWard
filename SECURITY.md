@@ -5,7 +5,7 @@
 Please **don't open a public issue** for security problems. Report them privately instead:
 
 1. Go to the repository's **Security** tab → **Report a vulnerability**
-   (direct link: https://github.com/qwert-ctrl/sirenward/security/advisories/new).
+   (direct link: https://github.com/qwert-ctrl/SirenWard/security/advisories/new).
 2. Describe what you found, how to reproduce it and which version and browser you used.
 
 You'll get a reply within 7 days. Once a fix is released, the advisory is published and – if you like – credits you.

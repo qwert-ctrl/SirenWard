@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.2 – 29 Oct 2026
+- Links point to the repository at https://github.com/qwert-ctrl/SirenWard; the extension's homepage link (shown on the browser's extension page) does too.
+
 ## 1.3.1 – 29 Oct 2026
 - Name spelled **SirenWard** everywhere (manifest, interface, texts, docs). Package and file names stay lowercase (`sirenward`).
 

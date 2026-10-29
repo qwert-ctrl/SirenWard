@@ -1,9 +1,17 @@
 {
   "name": "sirenward",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "private": true,
   "description": "Open-source browser extension against distraction: site blocking, YouTube filter, lock mode – fully local.",
   "license": "MIT",
+  "homepage": "https://github.com/qwert-ctrl/SirenWard",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qwert-ctrl/SirenWard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/qwert-ctrl/SirenWard/issues"
+  },
   "scripts": {
     "test": "node tools/i18n.js --check && node --test tests/core.test.js tests/features.test.js tests/background.test.js tests/background-features.test.js tests/i18n.test.js && node tests/static-scan.js",
     "test:mutation": "bash tests/mutation.sh",
