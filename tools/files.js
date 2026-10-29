@@ -13,7 +13,7 @@ function runtimeFiles(root) {
   const missing = [];
   const queue = [];
   const ref = (f) => {
-    if (!f || /^[a-z]+:/i.test(f)) return;
+    if (!f || /^[a-z]+:/i.test(f) || f.includes('#')) return; // externe Schemata, Sprungmarken (<use href="#…">)
     const n = path.normalize(f).replace(/^\.\//, '').split(path.sep).join('/');
     if (!files.has(n)) {
       files.add(n);
@@ -27,6 +27,12 @@ function runtimeFiles(root) {
   ref(mf.options_ui && mf.options_ui.page);
   Object.values(mf.icons || {}).forEach(ref);
   Object.values((mf.action && mf.action.default_icon) || {}).forEach(ref);
+  // Übersetzungen (chrome.i18n): alle _locales/<sprache>/messages.json
+  if (mf.default_locale) {
+    const dir = path.join(root, '_locales');
+    for (const lang of fs.existsSync(dir) ? fs.readdirSync(dir).sort() : []) ref(`_locales/${lang}/messages.json`);
+    if (!fs.existsSync(path.join(dir, mf.default_locale, 'messages.json'))) missing.push(`_locales/${mf.default_locale}/messages.json`);
+  }
   while (queue.length) {
     const f = queue.shift();
     const p = path.join(root, f);

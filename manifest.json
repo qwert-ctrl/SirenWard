@@ -2,8 +2,9 @@
   "manifest_version": 3,
   "name": "Sirenward",
   "short_name": "Sirenward",
-  "version": "1.2.1",
-  "description": "Widersteh den Lockrufen: sperrt ablenkende Websites, zähmt YouTube, Freigaben nur mit bewusster Hürde – 100 % lokal, ohne Tracking.",
+  "version": "1.3.0",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
   "minimum_chrome_version": "120",
   "permissions": [
     "storage",

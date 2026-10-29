@@ -23,7 +23,7 @@ html.fg-hide-home ytd-browse[page-subtype="home"] #chips-wrapper {
   display: none !important;
 }
 html.fg-hide-home ytd-browse[page-subtype="home"] #primary::before {
-  content: "Startseite ausgeblendet – nutze die Suche oder deine Abos.";
+  content: var(--fg-home, "");
   display: block;
   padding: 120px 24px;
   text-align: center;
@@ -69,7 +69,7 @@ html.fg-hide-endscreen .ytp-suggested-action {
   display: none !important;
 }
 
-/* ---------- Sperr-Overlay ---------- */
+/* ---------- Sperr-Overlay (Markenstil: nächtliches Meer, Glaskarte) ---------- */
 #fg-overlay {
   position: fixed;
   inset: 0;
@@ -78,54 +78,89 @@ html.fg-hide-endscreen .ytp-suggested-action {
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: rgba(14, 15, 18, 0.97);
-  color: #eceef2;
-  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #fff;
+  font: 14px/1.4 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", system-ui, Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(246, 180, 67, 0.16), transparent 60%),
+    linear-gradient(180deg, rgba(27, 61, 114, 0.97), rgba(8, 26, 51, 0.99));
 }
 #fg-overlay .fg-box {
-  max-width: 440px;
+  width: min(420px, 100%);
   text-align: center;
+  padding: 28px 24px 22px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 0.5px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
 }
+/* Kleines Segel als Markenzeichen – reines CSS, keine Ressourcen */
 #fg-overlay .fg-mark {
+  position: relative;
   width: 56px;
   height: 56px;
-  margin: 0 auto 18px;
-  border-radius: 50%;
-  border: 3px solid #8aa2ff;
-  box-shadow: inset 0 0 0 9px rgba(14, 15, 18, 1), inset 0 0 0 30px #8aa2ff;
+  margin: 0 auto 16px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #2a5ea8, #0e2f5c);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), inset 0 0.5px 0 rgba(255, 255, 255, 0.25);
+}
+#fg-overlay .fg-mark::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 10px;
+  width: 22px;
+  height: 30px;
+  background: #fff;
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+#fg-overlay .fg-mark::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 9px;
+  height: 7px;
+  border-radius: 0 0 8px 8px;
+  background: #f6b443;
 }
 #fg-overlay .fg-title {
   margin: 0 0 6px;
-  font-size: 22px;
-  font-weight: 650;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 #fg-overlay .fg-reason {
-  margin: 0 0 22px;
-  color: #a6acb8;
+  margin: 0 0 20px;
+  color: rgba(255, 255, 255, 0.72);
 }
 #fg-overlay .fg-actions {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   justify-content: center;
   flex-wrap: wrap;
 }
 #fg-overlay button {
   appearance: none;
-  border: 1px solid #3a3f4b;
-  background: #20232a;
-  color: #eceef2;
-  font: inherit;
-  font-size: 14px;
-  padding: 9px 16px;
+  border: 0.5px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 8px 16px;
+  min-height: 30px;
   border-radius: 8px;
   cursor: pointer;
 }
 #fg-overlay button.fg-primary {
-  background: #8aa2ff;
-  border-color: #8aa2ff;
-  color: #0e1016;
+  background: #f6b443;
+  border-color: transparent;
+  color: #1b1300;
   font-weight: 600;
 }
+#fg-overlay button:focus-visible { outline: 3px solid rgba(246, 180, 67, 0.6); outline-offset: 2px; }
 
 /* ---------- Suchvorschläge ---------- */
 html.fg-hide-suggest .ytSearchboxComponentSuggestionsContainer,

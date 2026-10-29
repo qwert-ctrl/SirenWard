@@ -6,6 +6,7 @@
   'use strict';
   const $ = (id) => document.getElementById(id);
   const { h, fmtLeft, fmtTime, fmtDateTime } = FGClient;
+  const { t } = FGi18n;
   const EXT_BASE = chrome.runtime.getURL('');
 
   function say(msg, isError) {
@@ -49,10 +50,10 @@
     $('pills').replaceChildren();
     const s = view.settings;
     const st = view.state;
-    if (FG.isLocked(s, now())) pill('🔒 bis ' + fmtTime(s.lockUntil)).title = 'Sperrmodus bis ' + fmtDateTime(s.lockUntil);
-    if (s.partner.enabled) pill('Partner').title = 'Lockern nur mit Partner-Code';
-    if (st && st.blocking.focus) pill('Fokus', 'focus');
-    else if (st && s.features.schedule && !st.blocking.listActive) pill('Plan: frei', 'free');
+    if (FG.isLocked(s, now())) pill(t('pillLockedUntil', fmtTime(s.lockUntil))).title = t('pillLockedTitle', fmtDateTime(s.lockUntil));
+    if (s.partner.enabled) pill(t('pillPartner')).title = t('pillPartnerTitle');
+    if (st && st.blocking.focus) pill(t('pillFocus'), 'focus');
+    else if (st && s.features.schedule && !st.blocking.listActive) pill(t('pillScheduleFree'), 'free');
   }
 
   /* ----- Diese Website ----- */
@@ -74,7 +75,7 @@
     if (!entry) {
       badge.hidden = true;
       body.replaceChildren();
-      const btn = h('button', null, 'Diese Website sperren');
+      const btn = h('button', 'primary large', t('blockThisSite'));
       btn.type = 'button';
       btn.addEventListener('click', async () => {
         btn.disabled = true;
@@ -87,7 +88,7 @@
           btn.disabled = false;
           return say(r.message, true);
         }
-        say(domain + ' ist ab jetzt gesperrt.');
+        say(t('siteNowBlocked', domain));
         if (tab.id != null) chrome.tabs.reload(tab.id);
         await refresh(r);
       });
@@ -99,13 +100,13 @@
     const unlocked = st && st.blocking.unlocked.includes(entry);
     const blocked = st && st.blocking.blocked.includes(entry);
     badge.hidden = false;
-    badge.textContent = unlocked ? 'freigegeben' : blocked ? 'gesperrt' : 'gerade frei';
+    badge.textContent = unlocked ? t('badgeUnlocked') : blocked ? t('badgeBlocked') : t('badgeFree');
     badge.className = 'badge ' + (unlocked ? 'free' : blocked ? 'blocked' : 'free');
     stopUnlock = FGUnlock.renderUnlock(body, entry, view, {
       say,
       onChange: refresh,
       onUnlocked: () => {
-        say('Freigegeben – viel Erfolg beim bewussten Surfen.');
+        say(t('unlockedToast'));
         if (tab.id == null) return;
         if (onBlockPage) chrome.tabs.update(tab.id, { url: 'https://' + entry + '/' });
         else chrome.tabs.reload(tab.id);
@@ -123,26 +124,26 @@
     body.replaceChildren();
     if (st.blocking.focus) {
       const line = h('p', 'unlock-line');
-      body.append(line, h('p', 'muted small', 'Alle Seiten deiner Liste sind gesperrt, Freigaben pausiert.'));
-      const upd = () => (line.textContent = 'Läuft noch ' + fmtLeft(st.focusUntil - now()));
+      body.append(line, h('p', 'muted small', t('focusAllBlocked')));
+      const upd = () => (line.textContent = t('focusRunning', fmtLeft(st.focusUntil - now())));
       upd();
       timers.push(setInterval(upd, 1000));
       return;
     }
-    const row = h('div', 'row');
-    for (const m of FG.uniq([s.focus.minutes, 25, 50]).slice(0, 3)) {
-      const b = h('button', m === s.focus.minutes ? null : 'secondary', m + ' min');
+    const row = h('div', 'quick');
+    for (const m of s.focus.minutes > 50 ? [25, 50, s.focus.minutes] : [15, 25, 50]) {
+      const b = h('button', m === s.focus.minutes ? 'primary' : null, t('focusMinutes', m));
       b.type = 'button';
       b.addEventListener('click', async () => {
         const r = await FGClient.op({ op: 'focusStart', minutes: m });
         if (!r.ok) return say(r.message, true);
-        say('Fokus läuft bis ' + fmtTime(r.info.focusUntil) + '.');
+        say(t('focusStarted', fmtTime(r.info.focusUntil)));
         await refresh(r);
       });
       row.append(b);
     }
     body.append(row);
-    if (!view.settings.blockedSites.length) body.append(h('p', 'muted small', 'Tipp: Füge zuerst Websites zur Sperrliste hinzu.'));
+    if (!view.settings.blockedSites.length) body.append(h('p', 'muted small', t('focusTipAddSites')));
   }
 
   /* ----- YouTube ----- */
@@ -173,8 +174,8 @@
     $('ytLimit').hidden = !limited;
     if (limited) {
       $('ytLimit').textContent = st.yt.exhausted
-        ? `Tageslimit erreicht (${s.ytLimit.minutes} min).`
-        : `Heute noch ${Math.ceil(st.yt.remainingMs / 60000)} von ${s.ytLimit.minutes} min.`;
+        ? t('ytLimitReached', s.ytLimit.minutes)
+        : t('ytLimitLeft', Math.ceil(st.yt.remainingMs / 60000), s.ytLimit.minutes);
     }
     const show = ytEntries.length > 0;
     $('channelName').hidden = $('channelActions').hidden = !show;
@@ -184,20 +185,20 @@
     const isAllowed = ytEntries.some((e) => s.filter.allowedChannels.includes(e));
     const wl = s.filter.mode === 'whitelist';
     $('blockChannelBtn').disabled = isBlocked;
-    $('blockChannelBtn').textContent = isBlocked ? 'Kanal gesperrt' : 'Kanal sperren';
+    $('blockChannelBtn').textContent = isBlocked ? t('channelBlocked') : t('blockChannel');
     $('allowChannelBtn').hidden = !wl;
     $('allowChannelBtn').disabled = isAllowed;
-    $('allowChannelBtn').textContent = isAllowed ? 'Erlaubt' : 'Kanal erlauben';
+    $('allowChannelBtn').textContent = isAllowed ? t('allowedState') : t('allowChannel');
   }
   $('blockChannelBtn').addEventListener('click', async () => {
     let r = await FGClient.op({ op: 'add', list: 'blockedChannels', values: ytEntries });
     if (r.ok && ytEntries.some((e) => view.settings.filter.allowedChannels.includes(e))) r = await FGClient.op({ op: 'remove', list: 'allowedChannels', values: ytEntries });
-    say(r.ok ? 'Kanal gesperrt.' : r.message, !r.ok);
+    say(r.ok ? t('channelBlockedToast') : r.message, !r.ok);
     await refresh(r);
   });
   $('allowChannelBtn').addEventListener('click', async () => {
     const r = await FGClient.op({ op: 'add', list: 'allowedChannels', values: ytEntries });
-    say(r.ok ? 'Kanal erlaubt.' : r.message, !r.ok);
+    say(r.ok ? t('channelAllowedToast') : r.message, !r.ok);
     await refresh(r);
   });
 

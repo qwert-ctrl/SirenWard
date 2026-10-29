@@ -42,10 +42,10 @@ test('Zeitfreigabe end-to-end: Wartezeit, Abtippen, Ablauf, Neusperre', async ()
   let r = await op(fake, { op: 'unlockRequest', domain: 'reddit.com' });
   assert.ok(r.ok);
   assert.equal(r.info.readyAt, clock + 30e3);
-  r = await op(fake, { op: 'unlockConfirm', domain: 'reddit.com', phrase: 'ich brauche das jetzt wirklich' });
+  r = await op(fake, { op: 'unlockConfirm', domain: 'reddit.com', phrase: FG.DEFAULTS.unlock.phrase });
   assert.equal(r.error, 'wait', 'vor Ablauf der Wartezeit');
   clock += 31e3;
-  r = await op(fake, { op: 'unlockConfirm', domain: 'reddit.com', phrase: 'Ich brauche das JETZT wirklich.' });
+  r = await op(fake, { op: 'unlockConfirm', domain: 'reddit.com', phrase: FG.DEFAULTS.unlock.phrase.toUpperCase() + '!!' });
   assert.ok(r.ok, JSON.stringify(r.error));
   await fake.settle();
   assert.deepEqual(domainsInRules(fake, 1), ['x.com'], 'reddit.com frei');
@@ -230,4 +230,21 @@ test('YouTube-Limit: Ticks nur vom YouTube-Skript, pro Tab zeitlich begrenzt', a
   const view = await fake.send({ type: 'fg:get' }, fake.senders.contentScript);
   assert.deepEqual(view.settings.ytLimit, { minutes: 1 });
   assert.ok(view.yt.exhausted);
+});
+
+test('Neuinstallation: Abtipp-Satz in der Sprache des Browsers (EN/DE)', async () => {
+  for (const [lang, want] of [['de', 'Ich brauche das jetzt wirklich'], ['en', 'I really need this right now']]) {
+    const fake = createFakeChrome({ lang });
+    loadBackground(fake, FG);
+    await fake.settle(60);
+    assert.equal(S(fake).unlock.phrase, want, lang + ': beim Aufwachen angelegt');
+    const view = await fake.send({ type: 'fg:get' }, fake.senders.options);
+    assert.equal(view.settings.unlock.phrase, want);
+    fake.dispose();
+  }
+  // Bestehende Einstellungen werden nie überschrieben
+  const keep = createFakeChrome({ lang: 'de', store: { settings: FG.withDefaults({ unlock: { phrase: 'mein eigener Satz' } }) } });
+  loadBackground(keep, FG);
+  await keep.settle(60);
+  assert.equal(S(keep).unlock.phrase, 'mein eigener Satz');
 });

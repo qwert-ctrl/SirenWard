@@ -1,0 +1,848 @@
+{
+  "add": {
+    "message": "Hinzufügen"
+  },
+  "allSettings": {
+    "message": "Alle Einstellungen →"
+  },
+  "allow": {
+    "message": "Erlauben"
+  },
+  "allowChannel": {
+    "message": "Kanal erlauben"
+  },
+  "allowedAddAria": {
+    "message": "Erlaubten Kanal hinzufügen"
+  },
+  "allowedEmpty": {
+    "message": "Noch keine Kanäle erlaubt – im strikten Modus ist damit alles gesperrt."
+  },
+  "allowedState": {
+    "message": "Erlaubt"
+  },
+  "allowedTitle": {
+    "message": "Erlaubte Kanäle"
+  },
+  "appTagline": {
+    "message": "Alles bleibt auf diesem Gerät. Keine Konten, kein Tracking, keine Netzwerkzugriffe."
+  },
+  "back": {
+    "message": "Zurück"
+  },
+  "badgeBlocked": {
+    "message": "gesperrt"
+  },
+  "badgeFree": {
+    "message": "gerade frei"
+  },
+  "badgeUnlocked": {
+    "message": "freigegeben"
+  },
+  "block": {
+    "message": "Sperren"
+  },
+  "blockChannel": {
+    "message": "Kanal sperren"
+  },
+  "blockChannelAria": {
+    "message": "Kanal sperren"
+  },
+  "blockPageInfo": {
+    "message": "Zugriff wird nur für deine gesperrten Domains angefragt und beim Entfernen einer Domain automatisch wieder entzogen."
+  },
+  "blockPageNoAccess": {
+    "message": "Ohne Zugriff zeigt der Browser für diese Seiten weiter seine Fehlerseite."
+  },
+  "blockThisSite": {
+    "message": "Diese Website sperren"
+  },
+  "blockedChannelsTitle": {
+    "message": "Gesperrte Kanäle"
+  },
+  "blockedHeading": {
+    "message": "Gesperrt"
+  },
+  "blockedPageTitle": {
+    "message": "Gesperrt – Sirenward"
+  },
+  "cancel": {
+    "message": "Abbrechen"
+  },
+  "cancelled": {
+    "message": "Abgebrochen."
+  },
+  "channelAllowedToast": {
+    "message": "Kanal erlaubt."
+  },
+  "channelBlocked": {
+    "message": "Kanal gesperrt"
+  },
+  "channelBlockedToast": {
+    "message": "Kanal gesperrt."
+  },
+  "channelPlaceholder": {
+    "message": "@handle, Kanalname oder Link"
+  },
+  "channelsEmpty": {
+    "message": "Keine Kanäle gesperrt."
+  },
+  "confirm": {
+    "message": "Bestätigen"
+  },
+  "confirmStrict": {
+    "message": "Im strikten Modus ist jedes Video gesperrt, bis du Kanäle erlaubst. Trotzdem umschalten?"
+  },
+  "defaultUnlockPhrase": {
+    "message": "Ich brauche das jetzt wirklich"
+  },
+  "dialogRetry": {
+    "message": "Der Code stimmt nicht. Bitte erneut eingeben."
+  },
+  "dialogText": {
+    "message": "Diese Änderung lockert deine Regeln. Bitte die Person mit dem Code eingeben lassen."
+  },
+  "dialogTitle": {
+    "message": "Partner-Code"
+  },
+  "docTitleBlocked": {
+    "message": "$P1$ gesperrt – Sirenward",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "err_badcode": {
+    "message": "Der Partner-Code stimmt nicht."
+  },
+  "err_clock": {
+    "message": "Die Systemuhr wurde zurückgestellt – Freigabe nicht möglich."
+  },
+  "err_cooldown": {
+    "message": "Zu viele Fehlversuche – bitte später erneut versuchen."
+  },
+  "err_cooldownUntil": {
+    "message": "Zu viele Fehlversuche – wieder möglich ab $P1$.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "err_disabled": {
+    "message": "Diese Funktion ist in den Einstellungen ausgeschaltet."
+  },
+  "err_focus": {
+    "message": "Während einer Fokus-Sitzung gibt es keine Freigaben."
+  },
+  "err_forbidden": {
+    "message": "Nicht erlaubt."
+  },
+  "err_internal": {
+    "message": "Interner Fehler – bitte erneut versuchen."
+  },
+  "err_invalid": {
+    "message": "Ungültige Eingabe."
+  },
+  "err_locked": {
+    "message": "Während der Sperre nicht möglich – Regeln können nur verschärft werden."
+  },
+  "err_noRequest": {
+    "message": "Die Freigabe-Anfrage ist abgelaufen – bitte neu starten."
+  },
+  "err_notBlocked": {
+    "message": "Diese Seite ist gerade nicht gesperrt."
+  },
+  "err_partner": {
+    "message": "Dafür ist der Partner-Code nötig."
+  },
+  "err_phrase": {
+    "message": "Der Satz stimmt nicht – es zählen nur die Buchstaben."
+  },
+  "err_quota": {
+    "message": "Für heute sind keine Freigaben mehr übrig."
+  },
+  "err_unreachable": {
+    "message": "Hintergrunddienst nicht erreichbar – bitte erneut versuchen."
+  },
+  "err_wait": {
+    "message": "Bitte die Wartezeit abwarten."
+  },
+  "exportBtn": {
+    "message": "Einstellungen exportieren"
+  },
+  "exported": {
+    "message": "Exportiert."
+  },
+  "extDescription": {
+    "message": "Widersteh den Lockrufen: sperrt ablenkende Websites, zähmt YouTube, Freigaben nur mit bewusster Hürde – 100 % lokal, ohne Tracking."
+  },
+  "extrasHint": {
+    "message": "Alles optional – schalte nur ein, was du brauchst."
+  },
+  "extrasTitle": {
+    "message": "Zusatzfunktionen"
+  },
+  "feat_blockPage": {
+    "message": "Eigene Sperrseite"
+  },
+  "feat_blockPage_hint": {
+    "message": "Statt der Browser-Fehlerseite: Restzeit und Freigabe direkt auf der Seite. Braucht Zugriff auf die gesperrten Domains – nur diese, einzeln erteilt."
+  },
+  "feat_focus": {
+    "message": "Fokus-Sitzung"
+  },
+  "feat_focus_hint": {
+    "message": "Ein Klick im Popup sperrt alles auf deiner Liste – Freigaben und Zeitplan pausieren."
+  },
+  "feat_schedule": {
+    "message": "Zeitplan"
+  },
+  "feat_schedule_hint": {
+    "message": "Websites nur zu festen Zeiten sperren, z. B. werktags 9–17 Uhr."
+  },
+  "feat_stats": {
+    "message": "Lokale Statistik"
+  },
+  "feat_stats_hint": {
+    "message": "Nur Zähler pro Tag (Freigaben, Fokus, YouTube-Minuten, Sperrseiten-Aufrufe) – keine Adressen, kein Verlauf. 30 Tage."
+  },
+  "feat_ytLimit": {
+    "message": "YouTube-Tageslimit"
+  },
+  "feat_ytLimit_hint": {
+    "message": "Begrenzt die tägliche Wiedergabezeit auf YouTube."
+  },
+  "fileTooBig": {
+    "message": "Datei ist zu groß."
+  },
+  "fileUnreadable": {
+    "message": "Die Datei konnte nicht gelesen werden."
+  },
+  "filterMode": {
+    "message": "Filtermodus"
+  },
+  "filterTip": {
+    "message": "Tipp: Mehrere Einträge mit Komma trennen. Stichwörter treffen auch Wortteile („game“ trifft „gaming“)."
+  },
+  "focusAllBlocked": {
+    "message": "Alle Seiten deiner Liste sind gesperrt, Freigaben pausiert."
+  },
+  "focusDefault": {
+    "message": "Standarddauer"
+  },
+  "focusMinutes": {
+    "message": "$P1$ min",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "focusNoUnlocks": {
+    "message": "Fokus-Sitzung – noch $P1$. Keine Freigaben.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "focusRunning": {
+    "message": "Läuft noch $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "focusStarted": {
+    "message": "Fokus läuft bis $P1$.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "focusTipAddSites": {
+    "message": "Tipp: Füge zuerst Websites zur Sperrliste hinzu."
+  },
+  "hour1Short": {
+    "message": "1 Std."
+  },
+  "hour2Short": {
+    "message": "2 Std."
+  },
+  "importBtn": {
+    "message": "Importieren"
+  },
+  "imported": {
+    "message": "Importiert."
+  },
+  "invalidChannel": {
+    "message": "Ungültiger Kanal"
+  },
+  "invalidDomain": {
+    "message": "Keine gültige Domain"
+  },
+  "invalidKeyword": {
+    "message": "Ungültiges Stichwort"
+  },
+  "keywordAria": {
+    "message": "Stichwort sperren"
+  },
+  "keywordsEmpty": {
+    "message": "Keine Stichwörter gesperrt."
+  },
+  "keywordsPlaceholder": {
+    "message": "z. B. reaction, prank, gaming"
+  },
+  "keywordsTitle": {
+    "message": "Gesperrte Stichwörter im Titel"
+  },
+  "localeCode": {
+    "message": "de"
+  },
+  "lock1d": {
+    "message": "1 Tag"
+  },
+  "lock1h": {
+    "message": "1 Stunde"
+  },
+  "lock1w": {
+    "message": "1 Woche"
+  },
+  "lock30d": {
+    "message": "30 Tage"
+  },
+  "lock3d": {
+    "message": "3 Tage"
+  },
+  "lock4h": {
+    "message": "4 Stunden"
+  },
+  "lockActiveToast": {
+    "message": "Sperrmodus aktiv."
+  },
+  "lockBanner": {
+    "message": "🔒 Sperrmodus aktiv bis $P1$ – Regeln können nur verschärft werden.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "lockConfirm": {
+    "message": "Sperrmodus bis $P1$ aktivieren?\n\nBis dahin kannst du Regeln nur verschärfen, nicht lockern.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "lockDurationAria": {
+    "message": "Dauer der Sperre"
+  },
+  "lockExtend": {
+    "message": "Sperre verlängern"
+  },
+  "lockHint": {
+    "message": "Während der Sperre kannst du Regeln nur verschärfen: Einträge hinzufügen ja, entfernen oder lockern nein. Die Sperre lässt sich verlängern, aber nicht verkürzen."
+  },
+  "lockStart": {
+    "message": "Sperre starten"
+  },
+  "lockStatusOff": {
+    "message": "Nicht aktiv."
+  },
+  "lockStatusOn": {
+    "message": "Aktiv bis $P1$.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "lockTitle": {
+    "message": "Sperrmodus"
+  },
+  "lockedNoRemove": {
+    "message": "Während der Sperre nicht möglich"
+  },
+  "lockedNoToggle": {
+    "message": "Während der Sperre nicht abschaltbar"
+  },
+  "modeBlacklistHint": {
+    "message": "Gesperrte Kanäle und Stichwörter werden ausgeblendet."
+  },
+  "modeBlacklistShort": {
+    "message": "Sperrliste"
+  },
+  "modeWhitelistHint": {
+    "message": "Alles andere ist gesperrt – ideal für Lern- und Arbeitskanäle."
+  },
+  "modeWhitelistShort": {
+    "message": "Nur erlaubte"
+  },
+  "nav_sites": {
+    "message": "Websites"
+  },
+  "nav_youtube": {
+    "message": "YouTube"
+  },
+  "noUnlocksLeft": {
+    "message": "Heute keine Freigaben mehr ($P1$ von $P2$ genutzt).",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "noneOption": {
+    "message": "keine"
+  },
+  "notApplied": {
+    "message": "Nicht übernommen (ungültig): $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "notBlockedSchedule": {
+    "message": "Gerade nicht gesperrt (außerhalb deines Zeitplans)."
+  },
+  "notBlockedText": {
+    "message": "Diese Adresse steht nicht (mehr) auf deiner Sperrliste."
+  },
+  "notBlockedTitle": {
+    "message": "Seite nicht gesperrt"
+  },
+  "optionsTitle": {
+    "message": "Sirenward – Einstellungen"
+  },
+  "partialApplied": {
+    "message": "Wegen aktiver Sperre bzw. Partner-Code wurden nur verschärfende Änderungen übernommen."
+  },
+  "partnerActivate": {
+    "message": "Partner-Code aktivieren"
+  },
+  "partnerActivated": {
+    "message": "Partner-Code aktiv."
+  },
+  "partnerActive": {
+    "message": "✓ Partner-Code ist aktiv."
+  },
+  "partnerChange": {
+    "message": "Code ändern"
+  },
+  "partnerChanged": {
+    "message": "Partner-Code geändert."
+  },
+  "partnerCodeLabel": {
+    "message": "Code (mind. 6 Zeichen, besser 10+)"
+  },
+  "partnerCodeRepeat": {
+    "message": "Code wiederholen"
+  },
+  "partnerDisableBtn": {
+    "message": "Deaktivieren"
+  },
+  "partnerDisabled": {
+    "message": "Partner-Code deaktiviert."
+  },
+  "partnerHint": {
+    "message": "Die härteste Variante: Eine andere Person legt einen Code fest. Danach lassen sich Regeln nur noch mit diesem Code lockern – verschärfen geht immer. Der Code wird nur als PBKDF2-Hash gespeichert, nie im Klartext."
+  },
+  "partnerMismatch": {
+    "message": "Die Codes stimmen nicht überein."
+  },
+  "partnerNewPrompt": {
+    "message": "Neuen Code eingeben (mind. 6 Zeichen). Danach wird der bisherige Code abgefragt."
+  },
+  "partnerTitle": {
+    "message": "Partner-Code"
+  },
+  "perDay": {
+    "message": "Pro Tag"
+  },
+  "pillFocus": {
+    "message": "Fokus"
+  },
+  "pillLockedTitle": {
+    "message": "Sperrmodus bis $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "pillLockedUntil": {
+    "message": "🔒 bis $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "pillPartner": {
+    "message": "Partner"
+  },
+  "pillPartnerTitle": {
+    "message": "Lockern nur mit Partner-Code"
+  },
+  "pillScheduleFree": {
+    "message": "Plan: frei"
+  },
+  "popupFocus": {
+    "message": "Fokus-Sitzung"
+  },
+  "popupThisSite": {
+    "message": "Diese Website"
+  },
+  "popupYoutube": {
+    "message": "YouTube"
+  },
+  "privacyText": {
+    "message": "Sirenward speichert nur deine Einstellungen und das Nötigste für Freigaben (heutige Zähler) – lokal im Browser (storage.local, nicht synchronisiert). Kein Verlauf, keine Server; Statistik nur, wenn du sie einschaltest. Die Erweiterung hat technisch keine Möglichkeit, Daten zu versenden."
+  },
+  "privacyTitle": {
+    "message": "Datenschutz & Daten"
+  },
+  "reasonFocus": {
+    "message": "Fokus-Sitzung läuft noch $P1$.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "reasonList": {
+    "message": "Du hast diese Seite auf deine Sperrliste gesetzt."
+  },
+  "reasonLock": {
+    "message": "Sperrmodus aktiv bis $P1$. Du hast dir das selbst vorgenommen.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "relockNow": {
+    "message": "Jetzt wieder sperren"
+  },
+  "remove": {
+    "message": "Entfernen"
+  },
+  "removeItemAria": {
+    "message": "$P1$ entfernen",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "removeNeedsCode": {
+    "message": "Entfernen (Partner-Code nötig)"
+  },
+  "save": {
+    "message": "Speichern"
+  },
+  "scheduleFrom": {
+    "message": "von"
+  },
+  "scheduleNoDay": {
+    "message": "Bitte mindestens einen Tag wählen."
+  },
+  "scheduleOvernight": {
+    "message": "Endet die Zeit vor dem Start (z. B. 22–6 Uhr), gilt sie über Mitternacht."
+  },
+  "scheduleSame": {
+    "message": "Start und Ende dürfen nicht gleich sein."
+  },
+  "scheduleSaved": {
+    "message": "Zeitplan gespeichert."
+  },
+  "scheduleTo": {
+    "message": "bis"
+  },
+  "settingsLink": {
+    "message": "Einstellungen"
+  },
+  "siteIsBlocked": {
+    "message": "$P1$ ist gesperrt",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "siteNowBlocked": {
+    "message": "$P1$ ist ab jetzt gesperrt.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "sitesAddAria": {
+    "message": "Website hinzufügen"
+  },
+  "sitesEmpty": {
+    "message": "Noch keine Websites gesperrt."
+  },
+  "sitesHint": {
+    "message": "Gilt für die Domain und alle Subdomains. Die Sperre sitzt im Browser und greift deshalb auch mit VPN."
+  },
+  "sitesPlaceholder": {
+    "message": "z. B. instagram.com, reddit.com"
+  },
+  "sitesTitle": {
+    "message": "Gesperrte Websites"
+  },
+  "statsAria": {
+    "message": "Statistik der letzten 7 Tage"
+  },
+  "statsBlockPage": {
+    "message": "Sperrseite"
+  },
+  "statsClear": {
+    "message": "Statistik löschen"
+  },
+  "statsClearConfirm": {
+    "message": "Statistik wirklich löschen?"
+  },
+  "statsCleared": {
+    "message": "Statistik gelöscht."
+  },
+  "statsDay": {
+    "message": "Tag"
+  },
+  "statsEmpty": {
+    "message": "Noch keine Daten."
+  },
+  "statsFocus": {
+    "message": "Fokus"
+  },
+  "statsUnlocks": {
+    "message": "Freigaben"
+  },
+  "statsYoutube": {
+    "message": "YouTube"
+  },
+  "staysLocal": {
+    "message": "Alles bleibt lokal."
+  },
+  "typeAria": {
+    "message": "Satz abtippen: $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "typeThis": {
+    "message": "Tippe ab:"
+  },
+  "unlockBtn": {
+    "message": "Freigeben"
+  },
+  "unlockDuration": {
+    "message": "Dauer einer Freigabe"
+  },
+  "unlockExpired": {
+    "message": "Freigabe abgelaufen."
+  },
+  "unlockFor": {
+    "message": "$P1$ min freigeben",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "unlockHint": {
+    "message": "Gesperrte Seiten kurz freigeben – mit bewusster Hürde: erst Wartezeit, dann einen Satz abtippen (nur die Buchstaben zählen). Danach sperrt sich die Seite von selbst wieder. Freigeben kannst du im Popup oder auf der Sperrseite."
+  },
+  "unlockPerDay": {
+    "message": "Freigaben pro Seite und Tag"
+  },
+  "unlockPhrase": {
+    "message": "Satz zum Abtippen"
+  },
+  "unlockSaved": {
+    "message": "Zeitfreigabe gespeichert."
+  },
+  "unlockTitle": {
+    "message": "Zeitfreigabe"
+  },
+  "unlockWait": {
+    "message": "Wartezeit vorher"
+  },
+  "unlockedToast": {
+    "message": "Freigegeben – viel Erfolg beim bewussten Surfen."
+  },
+  "unlockedUntil": {
+    "message": "Frei bis $P1$ – noch $P2$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "unlocksLeft": {
+    "message": "Noch $P1$ von $P2$ Freigaben heute.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "unlocksOff": {
+    "message": "Freigaben sind ausgeschaltet."
+  },
+  "versionLabel": {
+    "message": "Version $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "waitLeft": {
+    "message": "Wartezeit: noch $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "waitOver": {
+    "message": "Wartezeit vorbei."
+  },
+  "ytBlockedBy": {
+    "message": "Gesperrt von Sirenward"
+  },
+  "ytFilterHint": {
+    "message": "Gesperrte Videos verschwinden aus Feeds und Suche. Wer sie direkt öffnet, sieht eine Sperrseite."
+  },
+  "ytFilterTitle": {
+    "message": "YouTube-Filter"
+  },
+  "ytHomeHidden": {
+    "message": "Startseite ausgeblendet – nutze die Suche oder deine Abos."
+  },
+  "ytLeftMin": {
+    "message": "Heute noch $P1$ min.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "ytLimitLeft": {
+    "message": "Heute noch $P1$ von $P2$ min.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "ytLimitReached": {
+    "message": "Tageslimit erreicht ($P1$ min).",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "ytPaneHint": {
+    "message": "YouTube beruhigen: Ablenkungen ausblenden und filtern, was du siehst."
+  },
+  "ytToSubs": {
+    "message": "Zu meinen Abos"
+  },
+  "ytUsedUp": {
+    "message": "Heute aufgebraucht."
+  },
+  "ytViewTitle": {
+    "message": "YouTube-Ansicht"
+  },
+  "yt_disableAutoplay": {
+    "message": "Autoplay ausschalten"
+  },
+  "yt_disableAutoplay_hint": {
+    "message": "Nach dem Video läuft nicht automatisch das nächste."
+  },
+  "yt_grayThumbnails": {
+    "message": "Vorschaubilder in Graustufen"
+  },
+  "yt_grayThumbnails_hint": {
+    "message": "Weniger visueller Reiz – Titel lesen statt Bilder klicken."
+  },
+  "yt_hideComments": {
+    "message": "Kommentare ausblenden"
+  },
+  "yt_hideEndscreen": {
+    "message": "Endcards & Vorschläge im Player ausblenden"
+  },
+  "yt_hideExplore": {
+    "message": "„Erkunden“ & Trends ausblenden"
+  },
+  "yt_hideExplore_hint": {
+    "message": "Trends, Erkunden und Themenkanäle verschwinden aus dem Menü."
+  },
+  "yt_hideHome": {
+    "message": "Startseiten-Feed ausblenden"
+  },
+  "yt_hideHome_hint": {
+    "message": "Keine Vorschläge, sobald du YouTube öffnest."
+  },
+  "yt_hideRecommendations": {
+    "message": "Empfehlungen neben/unter Videos ausblenden"
+  },
+  "yt_hideSearchSuggestions": {
+    "message": "Suchvorschläge ausblenden"
+  },
+  "yt_hideSearchSuggestions_hint": {
+    "message": "Kein Vorschlags-Sog beim Tippen in die Suche."
+  },
+  "yt_hideShorts": {
+    "message": "Shorts ausblenden"
+  },
+  "yt_hideShorts_hint": {
+    "message": "Shorts-Links öffnen als normales Video mit Spulleiste."
+  },
+  "yt_reason_channel": {
+    "message": "Dieser Kanal ist gesperrt."
+  },
+  "yt_reason_keyword": {
+    "message": "Der Titel enthält ein gesperrtes Stichwort."
+  },
+  "yt_reason_limit": {
+    "message": "Dein YouTube-Tageslimit ist für heute aufgebraucht. Morgen geht es weiter."
+  },
+  "yt_reason_notAllowed": {
+    "message": "Dieser Kanal steht nicht auf deiner Erlaubt-Liste."
+  },
+  "yt_reason_unknown": {
+    "message": "Der Kanal konnte nicht erkannt werden – im strikten Modus wird gesperrt."
+  },
+  "yt_redirectHomeToSubs": {
+    "message": "Startseite → Abos weiterleiten"
+  },
+  "yt_redirectHomeToSubs_hint": {
+    "message": "Statt der Startseite direkt deine Abos."
+  }
+}

@@ -10,6 +10,7 @@
 
   const $ = (id) => document.getElementById(id);
   const { fmtTime, fmtLeft } = FGClient;
+  const { t } = FGi18n;
   const domain = FG.normalizeDomain(new URLSearchParams(location.search).get('d') || '');
 
   function say(msg, isError) {
@@ -21,13 +22,13 @@
 
   let view = await FGClient.status();
   if (!domain || !view.settings.blockedSites.includes(domain)) {
-    $('title').textContent = 'Seite nicht gesperrt';
-    $('reason').textContent = 'Diese Adresse steht nicht (mehr) auf deiner Sperrliste.';
+    $('title').textContent = t('notBlockedTitle');
+    $('reason').textContent = t('notBlockedText');
     $('main').hidden = false;
     return;
   }
-  document.title = domain + ' gesperrt – Sirenward';
-  $('title').textContent = domain + ' ist gesperrt';
+  document.title = t('docTitleBlocked', domain);
+  $('title').textContent = t('siteIsBlocked', domain);
   $('main').hidden = false;
   if (view.settings.features.stats) FGClient.op({ op: 'blockHit', domain }, { interactive: false });
 
@@ -40,13 +41,13 @@
     const s = view.settings;
     const reason = $('reason');
     if (st && st.blocking.focus) {
-      const upd = () => (reason.textContent = 'Fokus-Sitzung läuft noch ' + fmtLeft(st.focusUntil - Date.now()) + '.');
+      const upd = () => (reason.textContent = t('reasonFocus', fmtLeft(st.focusUntil - Date.now())));
       upd();
       timer = setInterval(upd, 1000);
     } else if (FG.isLocked(s, Date.now())) {
-      reason.textContent = 'Sperrmodus aktiv bis ' + fmtTime(s.lockUntil) + '. Du hast dir das selbst vorgenommen.';
+      reason.textContent = t('reasonLock', fmtTime(s.lockUntil));
     } else {
-      reason.textContent = 'Du hast diese Seite auf deine Sperrliste gesetzt.';
+      reason.textContent = t('reasonList');
     }
     stop = FGUnlock.renderUnlock($('unlock'), domain, view, {
       say,

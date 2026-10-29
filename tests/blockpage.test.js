@@ -50,7 +50,7 @@ const check = (name, cond, detail = '') => {
 
   await p.click('#unlock button');
   await p.waitForSelector('#unlock input');
-  await p.type('#unlock input', 'ich brauche das jetzt wirklich');
+  await p.type('#unlock input', (await p.textContent('#unlock .unlock-phrase')).toLowerCase());
   await p.waitForFunction(() => !document.querySelector('#unlock .row button').disabled, null, { timeout: 15000 });
   await Promise.all([p.waitForURL(/^https:\/\/blocked\.test\//, { timeout: 8000 }).catch(() => {}), p.click('#unlock .row button')]);
   check('Freigabe auf der Sperrseite öffnet die Seite', /^https:\/\/blocked\.test\//.test(p.url()), p.url());

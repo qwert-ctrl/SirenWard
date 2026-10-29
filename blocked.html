@@ -1,26 +1,27 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
-  <title>Gesperrt – Sirenward</title>
+  <title data-i18n="blockedPageTitle">Blocked – Sirenward</title>
   <link rel="stylesheet" href="ui.css">
 </head>
 <body class="blockpage">
   <main class="block-main" id="main" hidden>
-    <div class="block-mark" aria-hidden="true"></div>
-    <h1 id="title">Gesperrt</h1>
-    <p id="reason" class="muted"></p>
+    <img class="block-logo" src="icons/icon128.png" width="84" height="84" alt="">
+    <h1 id="title" data-i18n="blockedHeading"></h1>
+    <p id="reason"></p>
     <section class="block-card">
       <div id="unlock" class="stack"></div>
       <p id="status" class="status" role="status" aria-live="polite"></p>
     </section>
     <div class="row center">
-      <button id="backBtn" type="button" class="secondary">Zurück</button>
-      <button id="optionsBtn" type="button" class="link">Einstellungen</button>
+      <button id="backBtn" type="button" data-i18n="back"></button>
+      <button id="optionsBtn" type="button" class="link" data-i18n="settingsLink"></button>
     </div>
   </main>
+  <script src="i18n.js"></script>
   <script src="core.js"></script>
   <script src="client.js"></script>
   <script src="unlock-ui.js"></script>

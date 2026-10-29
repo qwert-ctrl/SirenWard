@@ -1,37 +1,52 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>Sirenward</title>
   <link rel="stylesheet" href="ui.css">
 </head>
 <body class="popup">
-  <header class="top">
-    <img src="icons/icon32.png" width="24" height="24" alt="">
+  <svg width="0" height="0" class="sprite" aria-hidden="true">
+    <symbol id="i-globe" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.9 9h-3a15.6 15.6 0 0 0-1.4-6.2A8 8 0 0 1 18.9 11ZM12 4.1c.9 1.2 1.8 3.4 1.9 6.9h-3.8c.1-3.5 1-5.7 1.9-6.9ZM9.5 4.8A15.6 15.6 0 0 0 8.1 11h-3a8 8 0 0 1 4.4-6.2ZM5.1 13h3a15.6 15.6 0 0 0 1.4 6.2A8 8 0 0 1 5.1 13Zm6.9 6.9c-.9-1.2-1.8-3.4-1.9-6.9h3.8c-.1 3.5-1 5.7-1.9 6.9Zm2.5-.7a15.6 15.6 0 0 0 1.4-6.2h3a8 8 0 0 1-4.4 6.2Z"/></symbol>
+    <symbol id="i-hourglass" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6 2h12v2h-1v2.6a5 5 0 0 1-2.2 4.1L13.4 12l1.4 1.3a5 5 0 0 1 2.2 4.1V20h1v2H6v-2h1v-2.6a5 5 0 0 1 2.2-4.1l1.4-1.3-1.4-1.3A5 5 0 0 1 7 6.6V4H6V2Zm3 2v2.6c0 .9.4 1.7 1.1 2.3L12 10.6l1.9-1.7c.7-.6 1.1-1.4 1.1-2.3V4H9Z"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M5 4h14a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3Zm5 4.5v7l6-3.5-6-3.5Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5Zm3 8V7a3 3 0 1 0-6 0v3h6Z"/></symbol>
+    <symbol id="i-people" viewBox="0 0 24 24"><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7.5 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM1 20c0-3.3 3.6-6 8-6s8 2.7 8 6v1H1v-1Zm15.5-6c-.8 0-1.6.1-2.3.3 1.7 1.3 2.8 3 2.8 4.7v2H23v-2c0-2.8-2.9-5-6.5-5Z"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h9.2a3 3 0 0 1 5.6 0H20v2h-1.2a3 3 0 0 1-5.6 0H4V6Zm0 10h1.2a3 3 0 0 1 5.6 0H20v2h-9.2a3 3 0 0 1-5.6 0H4v-2Z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2 4 5v6c0 5 3.4 9.5 8 11 4.6-1.5 8-6 8-11V5l-8-3Zm-1.2 13.6-3.5-3.5 1.4-1.4 2.1 2.1 4.6-4.6 1.4 1.4-6 6Z"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M14.5 2.5A9.5 9.5 0 1 0 21.5 17 8 8 0 0 1 14.5 2.5Z"/></symbol>
+  </svg>
+  <header>
+    <img src="icons/icon32.png" width="22" height="22" alt="">
     <strong>Sirenward</strong>
     <span id="pills" class="pills"></span>
   </header>
 
-  <section id="siteBox" class="block" hidden>
-    <div class="row between">
-      <div class="label">Diese Website</div>
+  <section id="siteBox" class="module" hidden>
+    <div class="module-head">
+      <span class="tile red"><svg><use href="#i-globe"/></svg></span>
+      <span class="text"><span class="title" data-i18n="popupThisSite"></span><code id="siteName" class="sub"></code></span>
       <span id="siteBadge" class="badge" hidden></span>
     </div>
-    <code id="siteName" class="site-name"></code>
     <div id="siteBody" class="stack"></div>
   </section>
 
-  <section id="focusBox" class="block" hidden>
-    <div class="label">Fokus-Sitzung</div>
+  <section id="focusBox" class="module" hidden>
+    <div class="module-head">
+      <span class="tile indigo"><svg><use href="#i-moon"/></svg></span>
+      <span class="text"><span class="title" data-i18n="popupFocus"></span></span>
+    </div>
     <div id="focusBody" class="stack"></div>
   </section>
 
-  <section id="ytBox" class="block" hidden>
-    <div class="label">YouTube</div>
-    <div id="channelName" class="channel" hidden></div>
+  <section id="ytBox" class="module" hidden>
+    <div class="module-head">
+      <span class="tile red"><svg><use href="#i-play"/></svg></span>
+      <span class="text"><span class="title" data-i18n="popupYoutube"></span><span id="channelName" class="sub" hidden></span></span>
+    </div>
     <div id="channelActions" class="row" hidden>
-      <button id="blockChannelBtn" type="button">Kanal sperren</button>
-      <button id="allowChannelBtn" type="button" class="secondary" hidden>Kanal erlauben</button>
+      <button id="blockChannelBtn" type="button" data-i18n="blockChannel"></button>
+      <button id="allowChannelBtn" type="button" data-i18n="allowChannel" hidden></button>
     </div>
     <p id="ytLimit" class="muted small" hidden></p>
   </section>
@@ -39,10 +54,11 @@
   <p id="status" class="status" role="status" aria-live="polite"></p>
 
   <footer>
-    <span class="muted">Alles bleibt lokal.</span>
-    <button id="optionsBtn" type="button" class="link">Alle Einstellungen →</button>
+    <span class="muted" data-i18n="staysLocal"></span>
+    <button id="optionsBtn" type="button" class="link" data-i18n="allSettings"></button>
   </footer>
 
+  <script src="i18n.js"></script>
   <script src="core.js"></script>
   <script src="client.js"></script>
   <script src="unlock-ui.js"></script>

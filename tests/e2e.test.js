@@ -70,7 +70,7 @@ function check(name, cond, detail = '') {
   const opt = await ctx.newPage();
   watchPage(opt, 'options');
   await opt.goto(`chrome-extension://${extId}/options.html`);
-  await opt.waitForSelector('#ytToggles .toggle');
+  await opt.waitForSelector('#ytToggles .toggle', { state: 'attached' });
   check('Einstellungsseite rendert', (await opt.locator('#ytToggles .toggle').count()) === 10);
 
   const store = () => opt.evaluate(() => chrome.storage.local.get(null));
@@ -121,6 +121,12 @@ function check(name, cond, detail = '') {
   await op({ op: 'remove', list: 'blockedSites', values: raced });
 
   /* ----- Fokus bleibt erhalten ----- */
+  const pane = async (name) => {
+    await opt.evaluate((n) => (location.hash = n), name);
+    await opt.waitForSelector(`[data-pane="${name}"]:not([hidden])`);
+  };
+  await pane('youtube');
+  check('Navigation: Seitenleiste zeigt genau einen Bereich', (await opt.$$eval('[data-pane]:not([hidden])', (e) => e.length)) === 1 && (await opt.$eval('#nav a[aria-current="page"]', (a) => a.getAttribute('href'))) === '#youtube');
   const cb = opt.locator('#ytToggles input').nth(4);
   await cb.focus();
   await cb.press('Space');
@@ -156,7 +162,7 @@ function check(name, cond, detail = '') {
   await sleep(700);
   check('Startseiten-Feed ausgeblendet', (await hidden('#grid')) === true);
   check('Shorts-Regal ausgeblendet', (await hidden('#shorts-section')) === true);
-  check('Hinweis statt Feed', (await yt.$eval('#primary', (e) => getComputedStyle(e, '::before').content)).includes('Startseite ausgeblendet'));
+  check('Hinweis statt Feed', (await yt.$eval('#primary', (e) => getComputedStyle(e, '::before').content)).includes('Home feed hidden'));
   check('Seite sichtbar (fg-ready gesetzt)', await yt.evaluate(() => document.documentElement.classList.contains('fg-ready')));
 
   /* ----- YouTube: Filter, Aufblitzen, XSS ----- */
@@ -208,7 +214,7 @@ function check(name, cond, detail = '') {
   await yt.goto('https://www.youtube.com/watch?v=OTHER&autoplay=1');
   await sleep(1000);
   const ov2 = await yt.$('#fg-overlay');
-  check('Strikt: fremder Kanal gesperrt, Video pausiert', !!ov2 && /Erlaubt-Liste/.test(await ov2.innerText()) && (await yt.$eval('#player', (v) => v.paused)));
+  check('Strikt: fremder Kanal gesperrt, Video pausiert', !!ov2 && /allowed list/.test(await ov2.innerText()) && (await yt.$eval('#player', (v) => v.paused)));
   await yt.goto('https://www.youtube.com/watch?v=GOOD&autoplay=1');
   await sleep(1000);
   check('Strikt: erlaubter Kanal – geprüft, dann läuft das Video weiter', !(await yt.$('#fg-overlay')) && !(await yt.$eval('#player', (v) => v.paused)));
@@ -229,7 +235,7 @@ function check(name, cond, detail = '') {
   watchPage(bp, 'sperrseite');
   await bp.goto(`chrome-extension://${extId}/blocked.html?d=blocked.test`);
   await bp.waitForSelector('#unlock button');
-  check('Sperrseite zeigt Freigabe mit Kontingent', /3 von 3/.test(await bp.textContent('#unlock')));
+  check('Sperrseite zeigt Freigabe mit Kontingent', /3 of 3/.test(await bp.textContent('#unlock')));
   await bp.click('#unlock button');
   await bp.waitForSelector('#unlock input');
   const pastePrevented = await bp.$eval('#unlock input', (el) => {
@@ -238,9 +244,10 @@ function check(name, cond, detail = '') {
     return ev.defaultPrevented;
   });
   check('Einfügen ist gesperrt (bewusst tippen)', pastePrevented);
-  await bp.type('#unlock input', 'ICH brauche, das jetzt WIRKLICH!');
+  const shown = await bp.textContent('#unlock .unlock-phrase');
+  await bp.type('#unlock input', shown.toUpperCase().replace(/ /, ', ') + '!');
   check('Satz stimmt (nur Buchstaben), Knopf trotzdem gesperrt bis Wartezeit vorbei', await bp.$eval('#unlock input', (e) => e.classList.contains('ok')) && (await bp.$eval('#unlock .row button', (b) => b.disabled)));
-  const early = await op({ op: 'unlockConfirm', domain: 'blocked.test', phrase: 'ich brauche das jetzt wirklich' });
+  const early = await op({ op: 'unlockConfirm', domain: 'blocked.test', phrase: shown });
   check('Hintergrund erzwingt die Wartezeit (auch am UI vorbei)', early.error === 'wait');
   await bp.waitForFunction(() => !document.querySelector('#unlock .row button').disabled, null, { timeout: 15000 });
   await Promise.all([bp.waitForURL(/blocked\.test/, { timeout: 8000 }).catch(() => {}), bp.click('#unlock .row button')]);
@@ -269,17 +276,19 @@ function check(name, cond, detail = '') {
   check('Zeitplan aus: wieder dauerhaft gesperrt', (await tryGo('https://blocked.test/')) === 'net::ERR_BLOCKED_BY_CLIENT');
 
   /* ----- Partner-Code über die Oberfläche ----- */
+  await pane('partner');
   await opt.fill('#partnerCode', 'Partner-Test-1');
   await opt.fill('#partnerCode2', 'Partner-Test-1');
   await opt.click('#partnerForm button');
   await opt.waitForSelector('#partnerOn:not([hidden])', { timeout: 10000 });
   st = await store();
   check('Partner-Code aktiv, nur als Hash gespeichert', st.settings.partner.enabled && st.settings.partner.iter === 600000 && !JSON.stringify(st).includes('Partner-Test'));
+  await pane('sites');
   await opt.click('#siteList button[data-value="sub2.example.test"]');
   await opt.waitForSelector('dialog.fg-dialog[open]');
   await opt.fill('dialog.fg-dialog input', 'falscher-code');
   await opt.click('dialog.fg-dialog button[type="submit"]');
-  await opt.waitForFunction(() => /stimmt nicht/.test((document.querySelector('dialog.fg-dialog[open] p') || {}).textContent || ''), null, { timeout: 15000 });
+  await opt.waitForFunction(() => /is wrong/.test((document.querySelector('dialog.fg-dialog[open] p') || {}).textContent || ''), null, { timeout: 15000 });
   check('Falscher Code wird abgelehnt, Dialog fragt erneut', true);
   await opt.fill('dialog.fg-dialog input', 'Partner-Test-1');
   await opt.click('dialog.fg-dialog button[type="submit"]');
@@ -290,6 +299,7 @@ function check(name, cond, detail = '') {
   await sleep(1000);
   st = await store();
   check('Partner-Schutz repariert Speicher-Manipulation', st.settings.partner.enabled && st.settings.blockedSites.includes('blocked.test'));
+  await pane('partner');
   await opt.click('#partnerDisable');
   await opt.waitForSelector('dialog.fg-dialog[open]');
   await opt.fill('dialog.fg-dialog input', 'Partner-Test-1');
@@ -325,7 +335,7 @@ function check(name, cond, detail = '') {
   await yt.goto('https://www.youtube.com/watch?v=GOOD&autoplay=1');
   await sleep(1200);
   const lim = await yt.$('#fg-overlay');
-  check('Tageslimit erreicht: Sperrseite, Video pausiert', !!lim && /Tageslimit/.test(await lim.innerText()) && (await yt.$eval('#player', (v) => v.paused)));
+  check('Tageslimit erreicht: Sperrseite, Video pausiert', !!lim && /daily limit/.test(await lim.innerText()) && (await yt.$eval('#player', (v) => v.paused)));
   await op({ op: 'setFeature', key: 'ytLimit', value: false });
   await yt.goto('https://www.youtube.com/watch?v=GOOD&autoplay=1');
   await sleep(1200);
@@ -339,6 +349,7 @@ function check(name, cond, detail = '') {
 
   /* ----- Sperrmodus ----- */
   opt.once('dialog', (d) => d.accept());
+  await pane('lock');
   await opt.selectOption('#lockDuration', '3600000');
   await opt.click('#lockBtn');
   await sleep(700);
@@ -346,7 +357,7 @@ function check(name, cond, detail = '') {
   check('Sperrmodus aktiviert', st.settings.lockUntil > Date.now() && !!st._lockSnapshot);
   check('UI: Entfernen während der Sperre deaktiviert', await opt.$$eval('#siteList button', (b) => b.length > 0 && b.every((x) => x.disabled)));
   const denied = await op({ op: 'remove', list: 'blockedSites', values: ['blocked.test'] });
-  check('Befehl zum Lockern wird mit Begründung abgelehnt', denied.ok === false && denied.error === 'locked' && /Sperre/.test(denied.message));
+  check('Befehl zum Lockern wird mit Begründung abgelehnt', denied.ok === false && denied.error === 'locked' && /locked/.test(denied.message));
 
   await opt.evaluate(() => chrome.storage.local.set({ settings: { blockedSites: [], yt: {}, filter: { mode: 'blacklist' }, lockUntil: 0 } }));
   await sleep(1000);
@@ -368,13 +379,14 @@ function check(name, cond, detail = '') {
       }) +
       '}'
   );
+  await pane('privacy');
   await opt.setInputFiles('#importInput', evil);
   await sleep(1200);
   st = await store();
   check('Bösartiger Import: keine Prototype Pollution', (await opt.evaluate(() => ({}).polluted)) === undefined);
   check('Bösartiger Import: begrenzt & bereinigt', st.settings.blockedSites.length <= 2000 && !st.settings.blockedSites.some((d) => /</.test(d)));
   check('Bösartiger Import: Sperre bleibt (strikt, kein @evil, hideHome an)', st.settings.filter.mode === 'whitelist' && !st.settings.filter.allowedChannels.includes('@evil') && st.settings.yt.hideHome === true);
-  check('Bösartiger Import: Hinweis in der Oberfläche', /verschärfende/.test(await opt.$eval('#toast', (e) => e.textContent)));
+  check('Bösartiger Import: Hinweis in der Oberfläche', /only tightening/.test(await opt.$eval('#toast', (e) => e.textContent)));
   r = await rules();
   check('Sperrregel nach allen Angriffen aktiv', !!rule1() && rule1().condition.requestDomains.includes('blocked.test'));
   check('blocked.test weiterhin blockiert', (await tryGo('http://blocked.test/')) === 'net::ERR_BLOCKED_BY_CLIENT');

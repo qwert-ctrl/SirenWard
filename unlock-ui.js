@@ -7,6 +7,7 @@
   'use strict';
   const FG = root.FG;
   const { h, fmtLeft, fmtTime } = root.FGClient;
+  const { t } = root.FGi18n;
 
   /**
    * @param el       Container
@@ -41,13 +42,13 @@
     // 1) Gerade freigegeben
     if (unlockedUntil && state.blocking.unlocked.includes(domain)) {
       const line = h('p', 'unlock-line');
-      const again = h('button', 'secondary', 'Jetzt wieder sperren');
+      const again = h('button', null, t('relockNow'));
       again.type = 'button';
       again.addEventListener('click', () => run({ op: 'unlockEnd', domain }));
       el.append(line, again);
       tick(() => {
         const rest = unlockedUntil - Date.now();
-        line.textContent = rest > 0 ? `Frei bis ${fmtTime(unlockedUntil)} – noch ${fmtLeft(rest)}` : 'Freigabe abgelaufen.';
+        line.textContent = rest > 0 ? t('unlockedUntil', fmtTime(unlockedUntil), fmtLeft(rest)) : t('unlockExpired');
       });
       return () => clearInterval(timer);
     }
@@ -56,20 +57,20 @@
     if (state.blocking.focus) {
       const line = h('p', 'unlock-line');
       el.append(line);
-      tick(() => (line.textContent = `Fokus-Sitzung – noch ${fmtLeft(state.focusUntil - Date.now())}. Keine Freigaben.`));
+      tick(() => (line.textContent = t('focusNoUnlocks', fmtLeft(state.focusUntil - Date.now()))));
       return () => clearInterval(timer);
     }
 
     // 3) Gerade nicht gesperrt (z. B. außerhalb des Zeitplans)
     if (!blocked) {
-      el.append(h('p', 'unlock-line', 'Gerade nicht gesperrt (außerhalb deines Zeitplans).'));
+      el.append(h('p', 'unlock-line', t('notBlockedSchedule')));
       return () => {};
     }
 
     // 4) Kein Kontingent mehr
     if (left <= 0) {
       el.append(
-        h('p', 'unlock-line', settings.unlock.perDay === 0 ? 'Freigaben sind ausgeschaltet.' : `Heute keine Freigaben mehr (${used} von ${settings.unlock.perDay} genutzt).`)
+        h('p', 'unlock-line', settings.unlock.perDay === 0 ? t('unlocksOff') : t('noUnlocksLeft', used, settings.unlock.perDay))
       );
       return () => {};
     }
@@ -78,9 +79,9 @@
 
     // 5) Noch nicht angefragt
     if (!readyAt) {
-      const btn = h('button', null, `${settings.unlock.minutes} min freigeben`);
+      const btn = h('button', 'primary large unlock-go', t('unlockFor', settings.unlock.minutes));
       btn.type = 'button';
-      const note = h('p', 'muted small', `Noch ${left} von ${settings.unlock.perDay} Freigaben heute.`);
+      const note = h('p', 'muted small', t('unlocksLeft', left, settings.unlock.perDay));
       btn.addEventListener('click', async () => {
         btn.disabled = true;
         await run({ op: 'unlockRequest', domain });
@@ -93,19 +94,19 @@
     const phrase = settings.unlock.phrase;
     const wait = h('p', 'unlock-line');
     const label = h('label', 'unlock-label');
-    label.append(h('span', 'muted small', 'Tippe ab:'), h('q', 'unlock-phrase', phrase));
+    label.append(h('span', 'muted small', t('typeThis')), h('span', 'unlock-phrase', phrase));
     const input = h('input');
     input.type = 'text';
     input.autocomplete = 'off';
     input.spellcheck = false;
     input.setAttribute('autocapitalize', 'off');
-    input.setAttribute('aria-label', 'Satz abtippen: ' + phrase);
+    input.setAttribute('aria-label', t('typeAria', phrase));
     // Bewusst tippen statt einfügen
     for (const ev of ['paste', 'drop']) input.addEventListener(ev, (e) => e.preventDefault());
     const actions = h('div', 'row');
-    const ok = h('button', null, 'Freigeben');
+    const ok = h('button', 'primary unlock-go', t('unlockBtn'));
     ok.type = 'button';
-    const cancel = h('button', 'secondary', 'Abbrechen');
+    const cancel = h('button', null, t('cancel'));
     cancel.type = 'button';
     actions.append(ok, cancel);
     el.append(wait, label, input, actions);
@@ -113,7 +114,7 @@
     const refresh = () => {
       const rest = readyAt - Date.now();
       const matches = FG.phraseMatches(input.value, phrase);
-      wait.textContent = rest > 0 ? `Wartezeit: noch ${fmtLeft(rest)}` : 'Wartezeit vorbei.';
+      wait.textContent = rest > 0 ? t('waitLeft', fmtLeft(rest)) : t('waitOver');
       input.classList.toggle('ok', matches);
       ok.disabled = rest > 0 || !matches;
     };

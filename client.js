@@ -7,27 +7,12 @@
   'use strict';
   const FG = root.FG;
 
-  const ERRORS = {
-    locked: 'Während der Sperre nicht möglich – Regeln können nur verschärft werden.',
-    partner: 'Dafür ist der Partner-Code nötig.',
-    badcode: 'Der Partner-Code stimmt nicht.',
-    cooldown: 'Zu viele Fehlversuche – bitte später erneut versuchen.',
-    invalid: 'Ungültige Eingabe.',
-    forbidden: 'Nicht erlaubt.',
-    quota: 'Für heute sind keine Freigaben mehr übrig.',
-    wait: 'Bitte die Wartezeit abwarten.',
-    phrase: 'Der Satz stimmt nicht – es zählen nur die Buchstaben.',
-    focus: 'Während einer Fokus-Sitzung gibt es keine Freigaben.',
-    notBlocked: 'Diese Seite ist gerade nicht gesperrt.',
-    noRequest: 'Die Freigabe-Anfrage ist abgelaufen – bitte neu starten.',
-    clock: 'Die Systemuhr wurde zurückgestellt – Freigabe nicht möglich.',
-    disabled: 'Diese Funktion ist in den Einstellungen ausgeschaltet.',
-    internal: 'Interner Fehler – bitte erneut versuchen.',
-    unreachable: 'Hintergrunddienst nicht erreichbar – bitte erneut versuchen.',
-  };
+  const { t, locale } = root.FGi18n;
+  // Fehlercodes des Hintergrunds → Texte in _locales (err_<code>)
+  const ERROR_CODES = Object.freeze(['locked', 'partner', 'badcode', 'cooldown', 'invalid', 'forbidden', 'quota', 'wait', 'phrase', 'focus', 'notBlocked', 'noRequest', 'clock', 'disabled', 'internal', 'unreachable']);
 
-  const fmtTime = (ms) => new Intl.DateTimeFormat('de-DE', { timeStyle: 'short' }).format(new Date(ms));
-  const fmtDateTime = (ms) => new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(ms));
+  const fmtTime = (ms) => new Intl.DateTimeFormat(locale, { timeStyle: 'short' }).format(new Date(ms));
+  const fmtDateTime = (ms) => new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(ms));
   function fmtLeft(ms) {
     const s = Math.max(0, Math.ceil(ms / 1000));
     const h = Math.floor(s / 3600);
@@ -53,9 +38,8 @@
   }
 
   function message(r) {
-    let m = ERRORS[r.error] || ERRORS.internal;
-    if (r.error === 'cooldown' && r.retryAt) m = `Zu viele Fehlversuche – wieder möglich ab ${fmtTime(r.retryAt)}.`;
-    return m;
+    if (r.error === 'cooldown' && r.retryAt) return t('err_cooldownUntil', fmtTime(r.retryAt));
+    return t('err_' + (ERROR_CODES.includes(r.error) ? r.error : 'internal'));
   }
 
   /** Modaler Dialog für den Partner-Code. @returns Promise<string|null> */
@@ -64,8 +48,8 @@
       const dlg = h('dialog', 'fg-dialog');
       const form = h('form');
       form.method = 'dialog';
-      const title = h('h2', null, 'Partner-Code');
-      const p = h('p', 'muted', text || 'Diese Änderung lockert deine Regeln. Bitte die Person mit dem Code eingeben lassen.');
+      const title = h('h2', null, t('dialogTitle'));
+      const p = h('p', 'muted', text || t('dialogText'));
       const input = h('input');
       input.type = 'password';
       input.autocomplete = 'off';
@@ -73,11 +57,11 @@
       input.required = true;
       input.minLength = FG.LIMITS.CODE_MIN;
       input.maxLength = FG.LIMITS.CODE_MAX;
-      input.setAttribute('aria-label', 'Partner-Code');
+      input.setAttribute('aria-label', t('dialogTitle'));
       const row = h('div', 'row end');
-      const cancel = h('button', 'secondary', 'Abbrechen');
+      const cancel = h('button', null, t('cancel'));
       cancel.type = 'button';
-      const ok = h('button', null, 'Bestätigen');
+      const ok = h('button', 'primary', t('confirm'));
       ok.type = 'submit';
       row.append(cancel, ok);
       form.append(title, p, input, row);
@@ -114,7 +98,7 @@
   }
 
   const FGClient = Object.freeze({
-    ERRORS,
+    ERROR_CODES,
     h,
     fmtTime,
     fmtDateTime,
@@ -135,9 +119,9 @@
     async op(op, { interactive = true } = {}) {
       let r = normalizeResult(await send({ type: 'fg:op', op }));
       while (interactive && !r.ok && (r.error === 'partner' || r.error === 'badcode') && typeof document !== 'undefined') {
-        const code = await askCode(r.error === 'badcode' ? 'Der Code stimmt nicht. Bitte erneut eingeben.' : undefined);
+        const code = await askCode(r.error === 'badcode' ? t('dialogRetry') : undefined);
         if (code === null) {
-          r.message = 'Abgebrochen.';
+          r.message = t('cancelled');
           break;
         }
         r = normalizeResult(await send({ type: 'fg:op', op, code }));

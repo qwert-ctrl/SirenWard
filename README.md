@@ -1,112 +1,102 @@
-# Sirenward
+<p align="center"><img src="assets/icon-512.png" width="112" alt="Sirenward icon: a sailing boat on a night sea, the sirens' song breaking off before the sail"></p>
 
-*Wie Odysseus am Mast: Du legst dich im Voraus fest – und segelst an den Lockrufen vorbei.* (Vormals FocusGuard.)
+<h1 align="center">Sirenward</h1>
 
-Open-Source-Browsererweiterung gegen digitale Ablenkung. Sie kombiniert **Website-Sperre**, die Ansichtsfunktionen von **Unhook** und die Filter von **BlockTube** und hat einen **Sperrmodus**, den du dir selbst nicht einfach wieder abschalten kannst.
+<p align="center"><em>Like Odysseus at the mast: commit in advance and sail past the sirens.</em></p>
 
-**Datenschutz zuerst:** keine Server, keine Konten, kein Tracking, keine Statistiken, kein Verlauf. Die Erweiterung kann technisch keine Daten versenden (siehe [SECURITY.md](SECURITY.md)).
+<p align="center"><a href="README.de.md">Deutsch</a> · <a href="PRIVACY.md">Privacy</a> · <a href="AUDIT.md">Security audit</a> · <a href="SECURITY.md">Report a vulnerability</a></p>
 
-Läuft in Chrome, Brave, Edge, Vivaldi, Opera (ab Version 120) und Firefox (ab 128) – mit je einem eigenen, fehlerfreien Paket.
+Sirenward is an open-source browser extension against digital distraction. It combines **site blocking**, a calmer **YouTube** (like Unhook), **channel and keyword filters** (like BlockTube) and a **lock mode** you can't simply switch off on a whim.
 
-## Funktionen
+**Privacy first:** no servers, no accounts, no tracking, no history. The extension has no technical way to send data – its content security policy forbids every network connection.
 
-**Websites sperren**
-- Domains inklusive aller Subdomains sperren
-- Die Sperre sitzt im Browser selbst. Deshalb greift sie **auch mit VPN, anderem DNS oder DNS-over-HTTPS**, anders als eine Router-Sperre.
-- Über das Popup sperrst du die aktuelle Seite mit einem Klick.
+Works in Chrome, Brave, Edge, Vivaldi and Opera (version 120+) and Firefox (128+). The interface is available in **English and German** and follows your browser's language.
 
-**YouTube-Ansicht (wie Unhook)**
-- Startseiten-Feed ausblenden oder direkt zu den Abos weiterleiten
-- Empfehlungen, Shorts, Kommentare, Endcards und Autoplay abschalten
-- Shorts-Links öffnen als normales Video
+## Features
 
-**YouTube-Filter (wie BlockTube)**
-- Kanäle (per @Handle, Name oder Link) und Stichwörter im Titel sperren
-- **Strikter Modus:** Nur Kanäle, die du erlaubst, sind sichtbar und abspielbar.
-- Gesperrte Videos sind schon im ersten Bild unsichtbar. Wer sie direkt aufruft, sieht eine Sperrseite, und das Video bleibt angehalten.
+**Block websites**
+- Block domains including all subdomains – one click in the popup blocks the current site.
+- The block lives inside the browser, so it **also works with a VPN, a different DNS or DNS over HTTPS** – unlike a router block.
 
-**Zeitfreigabe**
-- Gesperrte Seiten kurz freigeben, z. B. **15 min**, danach sperren sie sich von selbst wieder.
-- **Tageslimit pro Seite** (Standard: 3 Freigaben).
-- **Bewusste Hürde:** erst eine Wartezeit, dann einen Satz abtippen. Es zählen nur die Buchstaben, Groß-/Kleinschreibung ist egal, Einfügen ist gesperrt.
-- Nach Ablauf laden offene Tabs der Seite nichts mehr nach. Mit eigener Sperrseite werden sie automatisch neu geladen.
+**Timed unlock**
+- Unlock a blocked site for, say, **15 minutes**; afterwards it locks itself again.
+- **Daily limit per site** (default: 3 unlocks).
+- **Deliberate friction:** first a waiting time, then type a sentence. Only the letters count, case doesn't matter, pasting is blocked.
+- When an unlock ends, open tabs of that site stop loading anything.
 
-**Sperrmodus**
-- Gilt für 1 Stunde bis 30 Tage. In dieser Zeit lassen sich Regeln nur **verschärfen**, nicht lockern.
-- Versuche, die Sperre zu umgehen, werden automatisch zurückgedreht: Speicher bearbeiten oder löschen, Import, Systemuhr vor- oder zurückstellen.
+**Calmer YouTube**
+- Hide the home feed (or go straight to your subscriptions), recommendations, Shorts, comments, end cards, autoplay, search suggestions and trending; grayscale thumbnails.
+- Block channels (by @handle, name or link) and keywords in titles – or **strict mode**: only channels you allow are visible and playable.
+- Blocked videos are hidden before the first frame is drawn. Opening one directly shows a block screen and the video stays paused.
 
-**Optionale Zusatzfunktionen** (standardmäßig aus)
-- **Zeitplan:** sperren nur zu festen Zeiten, auch über Mitternacht.
-- **Fokus-Sitzung:** Ein Klick sperrt alles auf der Liste und pausiert Freigaben.
-- **Eigene Sperrseite** mit Restzeit und Freigabe-Knopf. Dafür wird der Zugriff nur auf die gesperrten Domains angefragt und beim Entfernen einer Domain wieder entzogen.
-- **Partner-Code:** Eine andere Person legt einen Code fest, ohne den sich nichts lockern lässt.
-- **YouTube-Tageslimit:** begrenzt die echte Wiedergabezeit pro Tag.
-- **Lokale Statistik:** nur Zähler pro Tag, keine Adressen, maximal 30 Tage.
-- **Mehr YouTube-Optionen:** Suchvorschläge und „Erkunden“/Trends ausblenden, Vorschaubilder in Graustufen.
+**Lock mode**
+- From 1 hour to 30 days, rules can only be **tightened**, never loosened.
+- Attempts to get around it are reverted automatically: editing or clearing storage, importing settings, moving the system clock forward or back.
 
-## Installation
+**Optional extras** (off by default)
+- **Schedule:** block only at set times, including overnight.
+- **Focus session:** one click blocks your whole list and pauses unlocks.
+- **Custom block page** with time left and an unlock button. Access is requested only for the blocked domains and revoked automatically.
+- **Partner code:** someone else sets a code; without it nothing can be loosened.
+- **YouTube daily limit** on actual watch time.
+- **Local statistics:** daily counters only, no addresses, kept for 30 days.
 
-Es gibt zwei Pakete mit identischem Code, die sich nur im Manifest unterscheiden:
-- `sirenward-1.2.1-chromium.zip` für Chrome, Brave, Edge, Vivaldi und Opera
-- `sirenward-1.2.1-firefox.zip` für Firefox
+## Install
 
-Entpacke das passende ZIP in einen Ordner deiner Wahl.
+Each release contains two packages with identical code – they differ only in the manifest:
+- `sirenward-<version>-chromium.zip` – Chrome, Brave, Edge, Vivaldi, Opera
+- `sirenward-<version>-firefox.zip` – Firefox
 
-### Chrome, Edge, Brave
-1. `chrome://extensions` öffnen (Edge: `edge://extensions`).
-2. **Entwicklermodus** einschalten.
-3. **Entpackte Erweiterung laden** wählen und den entpackten Chromium-Ordner auswählen.
-   Beim Aktualisieren: alte Version entfernen oder in `chrome://extensions` auf „Neu laden“ klicken.
-4. Empfohlen: In den Details der Erweiterung **„Im Inkognito-Modus zulassen“** einschalten.
+**Chrome, Brave, Edge:** unzip, open `chrome://extensions`, turn on **Developer mode**, choose **Load unpacked** and select the folder. Recommended: allow the extension in incognito windows (extension details).
 
-### Firefox
-- Zum Testen: `about:debugging#/runtime/this-firefox` → **Temporäres Add-on laden** → `manifest.json` auswählen. Das bleibt bis zum Neustart aktiv.
-- Dauerhaft: Das ZIP kostenlos und privat („unlisted“) über [addons.mozilla.org](https://addons.mozilla.org/developers/) signieren lassen und die `.xpi` installieren.
-- Danach unter *Add-ons → Sirenward → Berechtigungen* den Zugriff auf `www.youtube.com` erlauben und *„In privaten Fenstern ausführen“* aktivieren.
+**Firefox:** install from [addons.mozilla.org](https://addons.mozilla.org/) once it's listed. For testing: `about:debugging#/runtime/this-firefox` → **Load Temporary Add-on** → `manifest.json`. Afterwards allow access to `www.youtube.com` under *Add-ons → Sirenward → Permissions* and enable *Run in private windows*.
 
-### Echtheit prüfen
+**Verify a download:** the build is reproducible. Rebuilding from the tagged source gives bit-identical ZIPs:
 ```bash
-sha256sum sirenward-1.2.1-*.zip          # muss mit SHA256SUMS übereinstimmen
-node tools/build.js                        # aus dem Quellcode neu bauen → bitgleiches ZIP
+node tools/build.js          # writes dist/ and dist/SHA256SUMS
+sha256sum -c dist/SHA256SUMS
 ```
 
-## Ehrliche Grenzen
-Eine Browsererweiterung lässt sich immer deaktivieren oder deinstallieren, und andere Browser sind nicht geschützt. Der Sperrmodus macht spontanes Abschalten deutlich unbequemer, verhindert es aber nicht vollständig. Für mehr Härte kombinierst du Sirenward mit der Router-Sperre. Gegen das Deinstallieren hilft eine Browser-Richtlinie, die jemand anderes für dich einrichtet. YouTube ändert gelegentlich seinen Seitenaufbau; die Selektoren stehen gesammelt in `content.js` und `content.css`.
+## Honest limits
 
-## Architektur
+A browser extension can always be disabled or removed, and other browsers aren't covered. Lock mode makes switching it off on impulse much harder, not impossible. For more strength, combine Sirenward with a router block, or let someone else install it through a browser policy. YouTube changes its markup from time to time; the selectors live in `content.js` and `content.css`, and strict mode blocks when in doubt.
+
+## Architecture
 
 ```
- Popup / Einstellungen ──Befehl──▶ background.js ──schreibt──▶ storage.local
-   (client.js)          ◀─Antwort─  (einziger Schreiber,        │
-                                     serielle Warteschlange)    ├─▶ declarativeNetRequest (Website-Sperre)
-                                          │                    └─▶ Sperr-Snapshot + Uhr-Überwachung
-                                          │ Leseansicht (nur yt + filter)
-                                          ▼
-                                     content.js  (YouTube, isolierte Welt, KEIN Speicherzugriff)
-                     alle Entscheidungen: core.js (reine Funktionen, ohne Ein-/Ausgabe)
+ Popup / settings / block page ──command──▶ background.js ──writes──▶ storage.local
+         (client.js, i18n.js)    ◀─reply──   (single writer,           │
+                                              serial queue)            ├─▶ declarativeNetRequest (site block)
+                                                  │                    └─▶ lock snapshot + clock watch
+                                                  │ read-only view (YouTube options only)
+                                                  ▼
+                                             content.js (YouTube, isolated world, NO storage access)
+                       every decision: core.js (pure functions, no I/O, fully testable in Node)
 ```
 
-| Datei | Aufgabe |
+| File | Purpose |
 |---|---|
-| `core.js` | **Functional Core:** Normalisierung, Bereinigung, Filter, Befehle (`applyOp`, `applyStateOp`), Sperr-Richtlinie (`resolveState`), Zeitplan, Freigaben, Sperrregeln (`buildRules`). Ohne Browser-APIs, komplett in Node testbar |
-| `background.js` | **Imperative Shell** (ES-Modul): einziger Schreiber, Absenderprüfung, Website-Sperre, Manipulationsschutz |
-| `client.js` | schmale Befehls-API für die Seiten, inkl. Dialog für den Partner-Code |
-| `unlock-ui.js` | Freigabe-Baustein (Wartezeit + Abtippen) für Popup und Sperrseite |
-| `blocked.*` | optionale eigene Sperrseite |
-| `content.js` / `.css` | YouTube: inkrementelles Filtern vor dem ersten Bild, Video-Tor, Sperrseite |
-| `popup.*`, `options.*`, `ui.css` | Oberfläche (einmal aufgebaut, danach gezielt aktualisiert) |
-| `tools/` | reproduzierbarer Build (Chromium + Firefox); `files.js` legt die Laufzeitdateien fest, `manifest.firefox.json` die Firefox-Ergänzungen |
-| `tests/` | alle Tests, Benchmark, Test-Infrastruktur |
+| `core.js` | Functional core: validation, filters, commands, lock policy, schedule, unlocks, blocking rules |
+| `background.js` | Imperative shell (ES module): single writer, sender checks, site blocking, tamper protection |
+| `client.js`, `i18n.js` | Command API and translations for the extension pages |
+| `unlock-ui.js` | Unlock widget (waiting time + typing) for popup and block page |
+| `options.*`, `popup.*`, `blocked.*`, `ui.css` | Interface in the style of macOS System Settings, light and dark |
+| `content.js`, `content.css` | YouTube: filtering before first paint, video gate, block screen |
+| `tools/messages.js` | All texts in English and German – `_locales/` is generated from it |
+| `tools/` | Reproducible build for Chromium and Firefox |
+| `tests/` | Unit, background, translation, mutation, browser and security tests; benchmark |
 
-## Tests
+## Development
+
 ```bash
-npm test                 # 66 Unit-/Hintergrundtests + statischer Sicherheits- & Architektur-Scan
-npm run test:mutation    # 57 absichtlich eingebaute Fehler – alle müssen erkannt werden
-npm run test:e2e         # 77 Browserprüfungen + Sperrseite + CSP-Probe in echtem Chromium
-npm run bench            # Leistungsmessung
-npm run verify           # alles, inkl. Build und Test des gebauten Pakets
+npm test                # unit + background + translation tests, static security scan
+npm run test:mutation   # deliberately broken copies – every one must be caught
+npm run test:e2e        # real Chromium: features, languages, block page, CSP probe, network capture
+npm run verify          # everything, against the built package
+node tools/i18n.js      # regenerate _locales/ after editing tools/messages.js
 ```
-Benötigt werden Node ≥ 20, die Pakete `typescript` und `playwright` (mit Chromium), `openssl`, `zip` sowie für den Browsertest die Ports 80 und 443.
+Requires Node 20+, the npm packages `typescript` and `playwright` (with Chromium), `openssl`, `zip`, and free ports 80/443 for the browser tests.
 
-## Lizenz
-MIT, siehe [LICENSE](LICENSE).
+## License
+
+[MIT](LICENSE)

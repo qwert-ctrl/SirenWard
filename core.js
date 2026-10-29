@@ -74,7 +74,7 @@
       blockedKeywords: [],
       allowedChannels: [],
     },
-    unlock: { perDay: 3, minutes: 15, waitSeconds: 30, phrase: 'Ich brauche das jetzt wirklich' },
+    unlock: { perDay: 3, minutes: 15, waitSeconds: 30, phrase: 'I really need this right now' }, // bei Neuinstallation: Satz in der Sprache des Browsers
     features: { schedule: false, focus: false, blockPage: false, ytLimit: false, stats: false },
     schedule: { days: [1, 2, 3, 4, 5], start: 9 * 60, end: 17 * 60 }, // Minuten seit Mitternacht, Ortszeit
     focus: { minutes: 25 },

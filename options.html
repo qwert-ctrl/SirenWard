@@ -1,215 +1,252 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sirenward – Einstellungen</title>
+  <title data-i18n="optionsTitle">Sirenward – Settings</title>
   <link rel="stylesheet" href="ui.css">
 </head>
-<body class="page">
-  <main class="wrap">
-    <header class="top">
-      <img src="icons/icon48.png" width="40" height="40" alt="">
-      <div>
-        <h1>Sirenward</h1>
-        <p class="muted">Alles bleibt auf diesem Gerät. Keine Konten, kein Tracking, keine Netzwerkzugriffe.</p>
+<body>
+  <svg width="0" height="0" class="sprite" aria-hidden="true">
+    <symbol id="i-globe" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.9 9h-3a15.6 15.6 0 0 0-1.4-6.2A8 8 0 0 1 18.9 11ZM12 4.1c.9 1.2 1.8 3.4 1.9 6.9h-3.8c.1-3.5 1-5.7 1.9-6.9ZM9.5 4.8A15.6 15.6 0 0 0 8.1 11h-3a8 8 0 0 1 4.4-6.2ZM5.1 13h3a15.6 15.6 0 0 0 1.4 6.2A8 8 0 0 1 5.1 13Zm6.9 6.9c-.9-1.2-1.8-3.4-1.9-6.9h3.8c-.1 3.5-1 5.7-1.9 6.9Zm2.5-.7a15.6 15.6 0 0 0 1.4-6.2h3a8 8 0 0 1-4.4 6.2Z"/></symbol>
+    <symbol id="i-hourglass" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6 2h12v2h-1v2.6a5 5 0 0 1-2.2 4.1L13.4 12l1.4 1.3a5 5 0 0 1 2.2 4.1V20h1v2H6v-2h1v-2.6a5 5 0 0 1 2.2-4.1l1.4-1.3-1.4-1.3A5 5 0 0 1 7 6.6V4H6V2Zm3 2v2.6c0 .9.4 1.7 1.1 2.3L12 10.6l1.9-1.7c.7-.6 1.1-1.4 1.1-2.3V4H9Z"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M5 4h14a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3Zm5 4.5v7l6-3.5-6-3.5Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5Zm3 8V7a3 3 0 1 0-6 0v3h6Z"/></symbol>
+    <symbol id="i-people" viewBox="0 0 24 24"><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7.5 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM1 20c0-3.3 3.6-6 8-6s8 2.7 8 6v1H1v-1Zm15.5-6c-.8 0-1.6.1-2.3.3 1.7 1.3 2.8 3 2.8 4.7v2H23v-2c0-2.8-2.9-5-6.5-5Z"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 6h9.2a3 3 0 0 1 5.6 0H20v2h-1.2a3 3 0 0 1-5.6 0H4V6Zm0 10h1.2a3 3 0 0 1 5.6 0H20v2h-9.2a3 3 0 0 1-5.6 0H4v-2Z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2 4 5v6c0 5 3.4 9.5 8 11 4.6-1.5 8-6 8-11V5l-8-3Zm-1.2 13.6-3.5-3.5 1.4-1.4 2.1 2.1 4.6-4.6 1.4 1.4-6 6Z"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M14.5 2.5A9.5 9.5 0 1 0 21.5 17 8 8 0 0 1 14.5 2.5Z"/></symbol>
+  </svg>
+  <div class="settings">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="icons/icon48.png" width="36" height="36" alt="">
+        <div><strong>Sirenward</strong><span id="version"></span></div>
       </div>
-    </header>
+      <nav>
+        <ul class="nav" id="nav">
+          <li><a href="#sites"><span class="tile red"><svg><use href="#i-globe"/></svg></span><span data-i18n="nav_sites"></span></a></li>
+          <li><a href="#unlock"><span class="tile orange"><svg><use href="#i-hourglass"/></svg></span><span data-i18n="unlockTitle"></span></a></li>
+          <li><a href="#youtube"><span class="tile red"><svg><use href="#i-play"/></svg></span><span data-i18n="nav_youtube"></span></a></li>
+          <li><a href="#lock"><span class="tile gray"><svg><use href="#i-lock"/></svg></span><span data-i18n="lockTitle"></span><span class="badge-dot" id="lockDot" hidden></span></a></li>
+          <li><a href="#partner"><span class="tile purple"><svg><use href="#i-people"/></svg></span><span data-i18n="partnerTitle"></span></a></li>
+          <li><a href="#extras"><span class="tile indigo"><svg><use href="#i-sliders"/></svg></span><span data-i18n="extrasTitle"></span></a></li>
+          <li><a href="#privacy"><span class="tile blue"><svg><use href="#i-shield"/></svg></span><span data-i18n="privacyTitle"></span></a></li>
+        </ul>
+      </nav>
+    </aside>
 
-    <div id="lockBanner" class="banner" hidden></div>
-    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <main class="content">
+      <div id="lockBanner" class="banner" hidden></div>
+      <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
-    <section class="card">
-      <h2>Gesperrte Websites</h2>
-      <p class="muted">Gilt für die Domain und alle Subdomains. Die Sperre sitzt im Browser und greift deshalb auch mit VPN.</p>
-      <form id="siteForm" class="row">
-        <input id="siteInput" type="text" placeholder="z. B. instagram.com, reddit.com" autocomplete="off" spellcheck="false" aria-label="Website hinzufügen">
-        <button type="submit">Hinzufügen</button>
-      </form>
-      <ul id="siteList" class="chips"></ul>
-    </section>
-
-    <section class="card">
-      <h2>Zeitfreigabe</h2>
-      <p class="muted">Gesperrte Seiten kurz freigeben – mit bewusster Hürde: erst Wartezeit, dann einen Satz abtippen (nur die Buchstaben zählen). Danach sperrt sich die Seite von selbst wieder. Freigeben kannst du im Popup oder auf der Sperrseite.</p>
-      <form id="unlockForm" class="grid2">
-        <label>Freigaben pro Seite und Tag
-          <select id="unlockPerDay">
-            <option value="0">keine</option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
-            <option value="5">5</option><option value="10">10</option>
-          </select>
-        </label>
-        <label>Dauer einer Freigabe
-          <select id="unlockMinutes">
-            <option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option>
-            <option value="30">30 min</option><option value="60">60 min</option>
-          </select>
-        </label>
-        <label>Wartezeit vorher
-          <select id="unlockWait">
-            <option value="10">10 s</option><option value="30">30 s</option><option value="60">1 min</option>
-            <option value="120">2 min</option><option value="300">5 min</option>
-          </select>
-        </label>
-        <label class="span2">Satz zum Abtippen
-          <input id="unlockPhrase" type="text" maxlength="120" autocomplete="off" spellcheck="false">
-        </label>
-        <div class="row span2"><button type="submit">Speichern</button></div>
-      </form>
-    </section>
-
-    <section class="card">
-      <h2>YouTube-Ansicht</h2>
-      <p class="muted">Ablenkungen ausblenden, ohne YouTube ganz zu sperren.</p>
-      <div id="ytToggles" class="toggles"></div>
-    </section>
-
-    <section class="card">
-      <h2>YouTube-Filter</h2>
-      <p class="muted">Gesperrte Videos verschwinden aus Feeds und Suche. Wer sie direkt öffnet, sieht eine Sperrseite.</p>
-
-      <fieldset class="mode">
-        <label>
-          <input type="radio" name="mode" value="blacklist">
-          <span><strong>Alles erlauben, außer …</strong><span class="muted">Gesperrte Kanäle und Stichwörter werden ausgeblendet.</span></span>
-        </label>
-        <label>
-          <input type="radio" name="mode" value="whitelist">
-          <span><strong>Nur erlaubte Kanäle (strikt)</strong><span class="muted">Alles andere ist gesperrt – ideal für Lern- und Arbeitskanäle.</span></span>
-        </label>
-      </fieldset>
-
-      <div id="allowedBox" hidden>
-        <h3>Erlaubte Kanäle</h3>
-        <form id="allowedForm" class="row">
-          <input id="allowedInput" type="text" placeholder="@handle, Kanalname oder Link" autocomplete="off" spellcheck="false" aria-label="Erlaubten Kanal hinzufügen">
-          <button id="allowedAdd" type="submit">Erlauben</button>
-        </form>
-        <ul id="allowedList" class="chips"></ul>
-      </div>
-
-      <h3>Gesperrte Kanäle</h3>
-      <form id="channelForm" class="row">
-        <input id="channelInput" type="text" placeholder="@handle, Kanalname oder Link" autocomplete="off" spellcheck="false" aria-label="Kanal sperren">
-        <button type="submit">Sperren</button>
-      </form>
-      <ul id="channelList" class="chips"></ul>
-
-      <h3>Gesperrte Stichwörter im Titel</h3>
-      <form id="keywordForm" class="row">
-        <input id="keywordInput" type="text" placeholder="z. B. reaction, prank, gaming" autocomplete="off" spellcheck="false" aria-label="Stichwort sperren">
-        <button type="submit">Sperren</button>
-      </form>
-      <ul id="keywordList" class="chips"></ul>
-      <p class="muted small tip">Tipp: Mehrere Einträge mit Komma trennen. Stichwörter treffen auch Wortteile („game“ trifft „gaming“).</p>
-    </section>
-
-    <section class="card">
-      <h2>Sperrmodus</h2>
-      <p class="muted">Während der Sperre kannst du Regeln nur verschärfen: Einträge hinzufügen ja, entfernen oder lockern nein. Die Sperre lässt sich verlängern, aber nicht verkürzen.</p>
-      <div class="row">
-        <select id="lockDuration" aria-label="Dauer der Sperre">
-          <option value="3600000">1 Stunde</option>
-          <option value="14400000">4 Stunden</option>
-          <option value="86400000" selected>1 Tag</option>
-          <option value="259200000">3 Tage</option>
-          <option value="604800000">1 Woche</option>
-          <option value="2592000000">30 Tage</option>
-        </select>
-        <button id="lockBtn" type="button">Sperre starten</button>
-      </div>
-      <p id="lockStatus" class="status-line"></p>
-    </section>
-
-    <section class="card">
-      <h2>Partner-Code</h2>
-      <p class="muted">Die härteste Variante: Eine andere Person legt einen Code fest. Danach lassen sich Regeln nur noch mit diesem Code lockern – verschärfen geht immer. Der Code wird nur als PBKDF2-Hash gespeichert, nie im Klartext.</p>
-      <div id="partnerOff">
-        <form id="partnerForm" class="grid2">
-          <label>Code (mind. 6 Zeichen, besser 10+)
-            <input id="partnerCode" type="password" minlength="6" maxlength="128" autocomplete="new-password" spellcheck="false" required>
-          </label>
-          <label>Code wiederholen
-            <input id="partnerCode2" type="password" minlength="6" maxlength="128" autocomplete="new-password" spellcheck="false" required>
-          </label>
-          <div class="row span2"><button type="submit">Partner-Code aktivieren</button></div>
-        </form>
-      </div>
-      <div id="partnerOn" hidden>
-        <p class="ok-line">✓ Partner-Code ist aktiv.</p>
-        <div class="row">
-          <button id="partnerChange" type="button" class="secondary">Code ändern</button>
-          <button id="partnerDisable" type="button" class="secondary">Deaktivieren</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>Zusatzfunktionen</h2>
-      <p class="muted">Alles optional – schalte nur ein, was du brauchst.</p>
-      <div class="toggles">
-        <div class="feature">
-          <label class="toggle"><input type="checkbox" data-feature="schedule"><span class="toggle-text"><span class="toggle-label">Zeitplan</span><span class="muted small">Websites nur zu festen Zeiten sperren, z. B. werktags 9–17 Uhr.</span></span></label>
-          <form id="scheduleForm" class="feature-body" hidden>
-            <div class="days" id="scheduleDays"></div>
-            <div class="row">
-              <label>von <input id="scheduleStart" type="time" required></label>
-              <label>bis <input id="scheduleEnd" type="time" required></label>
-              <button type="submit">Speichern</button>
-            </div>
-            <p class="muted small">Endet die Zeit vor dem Start (z. B. 22–6 Uhr), gilt sie über Mitternacht.</p>
+      <!-- Websites -->
+      <section class="pane" id="pane-sites" data-pane="sites">
+        <div class="pane-head"><span class="tile red"><svg><use href="#i-globe"/></svg></span><div><h1 data-i18n="sitesTitle"></h1><p data-i18n="sitesHint"></p></div></div>
+        <div class="group">
+          <ul id="siteList" class="plain-list"></ul>
+          <form id="siteForm" class="add-row">
+            <input id="siteInput" type="text" data-i18n-placeholder="sitesPlaceholder" data-i18n-aria-label="sitesAddAria" autocomplete="off" spellcheck="false">
+            <button type="submit" data-i18n="add"></button>
           </form>
         </div>
-        <div class="feature">
-          <label class="toggle"><input type="checkbox" data-feature="focus"><span class="toggle-text"><span class="toggle-label">Fokus-Sitzung</span><span class="muted small">Ein Klick im Popup sperrt alles auf deiner Liste – Freigaben und Zeitplan pausieren.</span></span></label>
-          <div class="feature-body row" id="focusBody" hidden>
-            <label>Standarddauer
-              <select id="focusMinutes">
-                <option value="15">15 min</option><option value="25">25 min</option><option value="50">50 min</option><option value="90">90 min</option>
+      </section>
+
+      <!-- Zeitfreigabe -->
+      <section class="pane" id="pane-unlock" data-pane="unlock" hidden>
+        <div class="pane-head"><span class="tile orange"><svg><use href="#i-hourglass"/></svg></span><div><h1 data-i18n="unlockTitle"></h1><p data-i18n="unlockHint"></p></div></div>
+        <form id="unlockForm">
+          <div class="group">
+            <label class="cell"><span class="text"><span class="title" data-i18n="unlockPerDay"></span></span>
+              <select id="unlockPerDay">
+                <option value="0" data-i18n="noneOption"></option><option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                <option value="5">5</option><option value="10">10</option>
               </select>
             </label>
-          </div>
-        </div>
-        <div class="feature">
-          <label class="toggle"><input type="checkbox" data-feature="blockPage"><span class="toggle-text"><span class="toggle-label">Eigene Sperrseite</span><span class="muted small">Statt der Browser-Fehlerseite: Restzeit und Freigabe direkt auf der Seite. Braucht Zugriff auf die gesperrten Domains – nur diese, einzeln erteilt.</span></span></label>
-          <p class="feature-body muted small" id="blockPageInfo" hidden></p>
-        </div>
-        <div class="feature">
-          <label class="toggle"><input type="checkbox" data-feature="ytLimit"><span class="toggle-text"><span class="toggle-label">YouTube-Tageslimit</span><span class="muted small">Begrenzt die tägliche Wiedergabezeit auf YouTube.</span></span></label>
-          <div class="feature-body row" id="ytLimitBody" hidden>
-            <label>Pro Tag
-              <select id="ytLimitMinutes">
-                <option value="10">10 min</option><option value="15">15 min</option><option value="30">30 min</option>
-                <option value="45">45 min</option><option value="60">1 Std</option><option value="120">2 Std</option>
+            <label class="cell"><span class="text"><span class="title" data-i18n="unlockDuration"></span></span>
+              <select id="unlockMinutes">
+                <option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option>
+                <option value="30">30 min</option><option value="60">60 min</option>
               </select>
             </label>
-            <span id="ytUsage" class="muted small"></span>
+            <label class="cell"><span class="text"><span class="title" data-i18n="unlockWait"></span></span>
+              <select id="unlockWait">
+                <option value="10">10 s</option><option value="30">30 s</option><option value="60">1 min</option>
+                <option value="120">2 min</option><option value="300">5 min</option>
+              </select>
+            </label>
+            <label class="cell stacked"><span class="title" data-i18n="unlockPhrase"></span>
+              <input id="unlockPhrase" type="text" maxlength="120" autocomplete="off" spellcheck="false">
+            </label>
+          </div>
+          <div class="row end form-actions"><button type="submit" data-i18n="save"></button></div>
+        </form>
+      </section>
+
+      <!-- YouTube -->
+      <section class="pane" id="pane-youtube" data-pane="youtube" hidden>
+        <div class="pane-head"><span class="tile red"><svg><use href="#i-play"/></svg></span><div><h1 data-i18n="nav_youtube"></h1><p data-i18n="ytPaneHint"></p></div></div>
+
+        <h2 class="group-title" data-i18n="ytViewTitle"></h2>
+        <div id="ytToggles" class="group"></div>
+
+        <h2 class="group-title" data-i18n="ytFilterTitle"></h2>
+        <div class="group">
+          <div class="cell">
+            <span class="text"><span class="title" data-i18n="filterMode"></span><span class="hint" id="modeHint"></span></span>
+            <fieldset class="segmented" id="modeSeg">
+              <label><input type="radio" name="mode" value="blacklist"><span data-i18n="modeBlacklistShort"></span></label>
+              <label><input type="radio" name="mode" value="whitelist"><span data-i18n="modeWhitelistShort"></span></label>
+            </fieldset>
           </div>
         </div>
-        <div class="feature">
-          <label class="toggle"><input type="checkbox" data-feature="stats"><span class="toggle-text"><span class="toggle-label">Lokale Statistik</span><span class="muted small">Nur Zähler pro Tag (Freigaben, Fokus, YouTube-Minuten, Sperrseiten-Aufrufe) – keine Adressen, kein Verlauf. 30 Tage.</span></span></label>
-          <div class="feature-body" id="statsBody" hidden>
-            <table class="stats" aria-label="Statistik der letzten 7 Tage">
-              <thead><tr><th>Tag</th><th>Freigaben</th><th>Fokus</th><th>YouTube</th><th>Sperrseite</th></tr></thead>
+        <p class="group-note" data-i18n="ytFilterHint"></p>
+
+        <div id="allowedBox" hidden>
+          <h2 class="group-title" data-i18n="allowedTitle"></h2>
+          <div class="group">
+            <ul id="allowedList" class="plain-list"></ul>
+            <form id="allowedForm" class="add-row">
+              <input id="allowedInput" type="text" data-i18n-placeholder="channelPlaceholder" data-i18n-aria-label="allowedAddAria" autocomplete="off" spellcheck="false">
+              <button id="allowedAdd" type="submit" data-i18n="allow"></button>
+            </form>
+          </div>
+        </div>
+
+        <h2 class="group-title" data-i18n="blockedChannelsTitle"></h2>
+        <div class="group">
+          <ul id="channelList" class="plain-list"></ul>
+          <form id="channelForm" class="add-row">
+            <input id="channelInput" type="text" data-i18n-placeholder="channelPlaceholder" data-i18n-aria-label="blockChannelAria" autocomplete="off" spellcheck="false">
+            <button type="submit" data-i18n="block"></button>
+          </form>
+        </div>
+
+        <h2 class="group-title" data-i18n="keywordsTitle"></h2>
+        <div class="group">
+          <ul id="keywordList" class="plain-list"></ul>
+          <form id="keywordForm" class="add-row">
+            <input id="keywordInput" type="text" data-i18n-placeholder="keywordsPlaceholder" data-i18n-aria-label="keywordAria" autocomplete="off" spellcheck="false">
+            <button type="submit" data-i18n="block"></button>
+          </form>
+        </div>
+        <p class="group-note" data-i18n="filterTip"></p>
+      </section>
+
+      <!-- Sperrmodus -->
+      <section class="pane" id="pane-lock" data-pane="lock" hidden>
+        <div class="pane-head"><span class="tile gray"><svg><use href="#i-lock"/></svg></span><div><h1 data-i18n="lockTitle"></h1><p data-i18n="lockHint"></p></div></div>
+        <div class="group">
+          <div class="cell">
+            <span class="text"><span class="title" id="lockStatus"></span></span>
+            <select id="lockDuration" data-i18n-aria-label="lockDurationAria">
+              <option value="3600000" data-i18n="lock1h"></option>
+              <option value="14400000" data-i18n="lock4h"></option>
+              <option value="86400000" selected data-i18n="lock1d"></option>
+              <option value="259200000" data-i18n="lock3d"></option>
+              <option value="604800000" data-i18n="lock1w"></option>
+              <option value="2592000000" data-i18n="lock30d"></option>
+            </select>
+            <button id="lockBtn" type="button" class="primary"></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Partner-Code -->
+      <section class="pane" id="pane-partner" data-pane="partner" hidden>
+        <div class="pane-head"><span class="tile purple"><svg><use href="#i-people"/></svg></span><div><h1 data-i18n="partnerTitle"></h1><p data-i18n="partnerHint"></p></div></div>
+        <div id="partnerOff">
+          <form id="partnerForm">
+            <div class="group">
+              <label class="cell stacked"><span class="title" data-i18n="partnerCodeLabel"></span>
+                <input id="partnerCode" type="password" minlength="6" maxlength="128" autocomplete="new-password" spellcheck="false" required>
+              </label>
+              <label class="cell stacked"><span class="title" data-i18n="partnerCodeRepeat"></span>
+                <input id="partnerCode2" type="password" minlength="6" maxlength="128" autocomplete="new-password" spellcheck="false" required>
+              </label>
+            </div>
+            <div class="row end form-actions"><button type="submit" data-i18n="partnerActivate"></button></div>
+          </form>
+        </div>
+        <div id="partnerOn" hidden>
+          <div class="group">
+            <div class="cell">
+              <span class="text"><span class="title ok-line" data-i18n="partnerActive"></span></span>
+              <button id="partnerChange" type="button" data-i18n="partnerChange"></button>
+              <button id="partnerDisable" type="button" data-i18n="partnerDisableBtn"></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Zusatzfunktionen -->
+      <section class="pane" id="pane-extras" data-pane="extras" hidden>
+        <div class="pane-head"><span class="tile indigo"><svg><use href="#i-sliders"/></svg></span><div><h1 data-i18n="extrasTitle"></h1><p data-i18n="extrasHint"></p></div></div>
+
+        <div class="group feature">
+          <label class="cell"><span class="text"><span class="title" data-i18n="feat_schedule"></span><span class="hint" data-i18n="feat_schedule_hint"></span></span><input type="checkbox" class="switch" data-feature="schedule"></label>
+          <form id="scheduleForm" class="cell stacked" hidden>
+            <div class="days" id="scheduleDays"></div>
+            <div class="row">
+              <label class="row"><span data-i18n="scheduleFrom"></span> <input id="scheduleStart" type="time" required></label>
+              <label class="row"><span data-i18n="scheduleTo"></span> <input id="scheduleEnd" type="time" required></label>
+              <button type="submit" data-i18n="save"></button>
+            </div>
+            <p class="hint muted small" data-i18n="scheduleOvernight"></p>
+          </form>
+        </div>
+
+        <div class="group feature">
+          <label class="cell"><span class="text"><span class="title" data-i18n="feat_focus"></span><span class="hint" data-i18n="feat_focus_hint"></span></span><input type="checkbox" class="switch" data-feature="focus"></label>
+          <label class="cell" id="focusBody" hidden><span class="text"><span class="title" data-i18n="focusDefault"></span></span>
+            <select id="focusMinutes">
+              <option value="15">15 min</option><option value="25">25 min</option><option value="50">50 min</option><option value="90">90 min</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="group feature">
+          <label class="cell"><span class="text"><span class="title" data-i18n="feat_blockPage"></span><span class="hint" data-i18n="feat_blockPage_hint"></span></span><input type="checkbox" class="switch" data-feature="blockPage"></label>
+          <p class="cell hint muted small" id="blockPageInfo" data-i18n="blockPageInfo" hidden></p>
+        </div>
+
+        <div class="group feature">
+          <label class="cell"><span class="text"><span class="title" data-i18n="feat_ytLimit"></span><span class="hint" data-i18n="feat_ytLimit_hint"></span></span><input type="checkbox" class="switch" data-feature="ytLimit"></label>
+          <label class="cell" id="ytLimitBody" hidden><span class="text"><span class="title" data-i18n="perDay"></span><span class="hint" id="ytUsage"></span></span>
+            <select id="ytLimitMinutes">
+              <option value="10">10 min</option><option value="15">15 min</option><option value="30">30 min</option>
+              <option value="45">45 min</option><option value="60" data-i18n="hour1Short"></option><option value="120" data-i18n="hour2Short"></option>
+            </select>
+          </label>
+        </div>
+
+        <div class="group feature">
+          <label class="cell"><span class="text"><span class="title" data-i18n="feat_stats"></span><span class="hint" data-i18n="feat_stats_hint"></span></span><input type="checkbox" class="switch" data-feature="stats"></label>
+          <div id="statsBody" hidden>
+            <table class="stats" data-i18n-aria-label="statsAria">
+              <thead><tr><th data-i18n="statsDay"></th><th data-i18n="statsUnlocks"></th><th data-i18n="statsFocus"></th><th data-i18n="statsYoutube"></th><th data-i18n="statsBlockPage"></th></tr></thead>
               <tbody id="statsRows"></tbody>
             </table>
-            <button id="statsClear" type="button" class="link">Statistik löschen</button>
+            <div class="cell"><button id="statsClear" type="button" class="destructive-link" data-i18n="statsClear"></button></div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="card">
-      <h2>Datenschutz &amp; Daten</h2>
-      <p class="muted">Sirenward speichert nur deine Einstellungen und das Nötigste für Freigaben (heutige Zähler) – lokal im Browser (<code>storage.local</code>, nicht synchronisiert). Kein Verlauf, keine Server; Statistik nur, wenn du sie einschaltest. Die Erweiterung hat technisch keine Möglichkeit, Daten zu versenden.</p>
-      <div class="row">
-        <button id="exportBtn" type="button" class="secondary">Einstellungen exportieren</button>
-        <label class="btn secondary">Importieren<input id="importInput" type="file" accept="application/json,.json"></label>
-      </div>
-      <p id="ioStatus" class="status-line"></p>
-    </section>
-  </main>
+      <!-- Datenschutz -->
+      <section class="pane" id="pane-privacy" data-pane="privacy" hidden>
+        <div class="pane-head"><span class="tile blue"><svg><use href="#i-shield"/></svg></span><div><h1 data-i18n="privacyTitle"></h1><p data-i18n="appTagline"></p></div></div>
+        <div class="group">
+          <p class="cell" data-i18n="privacyText"></p>
+          <div class="cell">
+            <button id="exportBtn" type="button" data-i18n="exportBtn"></button>
+            <label class="btn"><span data-i18n="importBtn"></span><input id="importInput" type="file" accept="application/json,.json"></label>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
 
+  <script src="i18n.js"></script>
   <script src="core.js"></script>
   <script src="client.js"></script>
   <script src="options.js"></script>

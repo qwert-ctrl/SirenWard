@@ -164,12 +164,19 @@ async function startServers() {
   return { tmp, log, close: () => { a.close(); b.close(); } };
 }
 
-function launch(tmp, profile, extDir) {
+/** @param opts { lang?: 'en'|'de', colorScheme?: 'light'|'dark' } */
+function launch(tmp, profile, extDir, opts = {}) {
+  const lang = opts.lang || 'en';
   return chromium.launchPersistentContext(path.join(tmp, profile), {
     channel: 'chromium',
     headless: true,
     ignoreHTTPSErrors: true,
+    locale: lang === 'de' ? 'de-DE' : 'en-US',
+    colorScheme: opts.colorScheme || 'light',
+    // Chromium unter Linux wählt die Oberflächensprache (und damit _locales) über LANGUAGE
+    env: Object.assign({}, process.env, { LANGUAGE: lang, LANG: lang === 'de' ? 'de_DE.UTF-8' : 'en_US.UTF-8' }),
     args: [
+      `--lang=${lang === 'de' ? 'de' : 'en-US'}`,
       ...(extDir ? [`--disable-extensions-except=${extDir}`, `--load-extension=${extDir}`] : []),
       '--host-resolver-rules=MAP * 127.0.0.1',
       '--no-proxy-server',

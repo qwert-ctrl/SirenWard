@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Mutationstest: baut absichtlich Sicherheits-/Logikfehler ein. Jeder muss von den Tests erkannt werden.
 # Ausführen: bash tests/mutation.sh
+# Alles in main(): Bash liest Skripte sonst zeilenweise nach – Änderungen während des Laufs
+# würden ihn verfälschen.
+main() {
 set -u
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 WORK="$(mktemp -d)"
@@ -8,7 +11,7 @@ trap 'rm -rf "$WORK"' EXIT
 missed=0; total=0
 mut() { # $1 Name, $2 Datei, $3 alt, $4 neu
   total=$((total+1))
-  rm -rf "$WORK/x" && mkdir -p "$WORK/x" && cp -r "$ROOT/core.js" "$ROOT/background.js" "$ROOT/tests" "$WORK/x/"
+  rm -rf "$WORK/x" && mkdir -p "$WORK/x" && cp -r "$ROOT/tests" "$ROOT/tools" "$ROOT/manifest.json" "$ROOT/_locales" "$ROOT"/*.html "$ROOT"/*.js "$ROOT"/*.css "$ROOT/icons" "$WORK/x/"
   if ! python3 - "$WORK/x/$2" "$3" "$4" <<'PY'
 import sys
 p,a,b=sys.argv[1:4]; s=open(p).read()
@@ -16,7 +19,7 @@ if a not in s: sys.exit(3)
 open(p,'w').write(s.replace(a,b,1))
 PY
   then echo "  ?? Muster nicht gefunden: $1"; missed=$((missed+1)); return; fi
-  out=$(cd "$WORK/x" && timeout 200 node --test tests/core.test.js tests/features.test.js tests/background.test.js tests/background-features.test.js 2>&1)
+  out=$(cd "$WORK/x" && timeout 200 node --test tests/core.test.js tests/features.test.js tests/background.test.js tests/background-features.test.js tests/i18n.test.js 2>&1)
   code=$?
   fails=$(echo "$out" | grep -E "^# fail" | awk '{print $3}')
   if [ "$code" -ne 0 ] || [ "${fails:-0}" -gt 0 ]; then echo "  ✔ erkannt: $1 (${fails:-Abbruch} rot)"; else echo "  ✘ NICHT erkannt: $1"; missed=$((missed+1)); fi
@@ -76,10 +79,14 @@ mut "YouTube-Tick ohne Zeitprüfung pro Tab" background.js "const ms = Math.min(
 mut "YouTube-Ticks von beliebigem Absender" background.js "if (!isYouTubeContent(sender)) {" "if (false) {"
 mut "Host-Rechte werden nicht aufgeräumt" background.js "if (drop.length) await chrome.permissions.remove({ origins: drop });" ""
 
+mut "Übersetzung fehlt (Schlüssel gelöscht)" tools/messages.js "  unlockBtn: ['Unlock', 'Freigeben']," ""
+mut "Platzhalter in einer Sprache vergessen" tools/messages.js "unlocksLeft: ['\$1 of \$2 unlocks left today.'," "unlocksLeft: ['\$1 unlocks left today.',"
+mut "Neuinstallation ohne Sprach-Satz" background.js "settings: raw.settings ? FG.withDefaults(raw.settings) : freshDefaults()," "settings: FG.withDefaults(raw.settings),"
+
 # Mutationen, die der statische Scanner finden muss
 smut() { # $1 Name, $2 Datei, $3 alt, $4 neu
   total=$((total+1))
-  rm -rf "$WORK/s" && mkdir -p "$WORK/s" && (cd "$ROOT" && cp -r manifest.json *.js *.html *.css icons tests tools "$WORK/s/")
+  rm -rf "$WORK/s" && mkdir -p "$WORK/s" && (cd "$ROOT" && cp -r manifest.json *.js *.html *.css icons tests tools _locales "$WORK/s/")
   python3 - "$WORK/s/$2" "$3" "$4" <<'PY' || { echo "  ?? Muster nicht gefunden: $1"; missed=$((missed+1)); return; }
 import sys
 p,a,b=sys.argv[1:4]; s=open(p).read()
@@ -106,3 +113,6 @@ smut "Optionale Host-Rechte erweitert" manifest.json '"optional_host_permissions
 
 echo; echo "Ergebnis: $((total-missed))/$total Mutationen erkannt"
 [ "$missed" -eq 0 ]
+}
+main "$@"
+exit $?

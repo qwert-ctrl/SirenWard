@@ -196,7 +196,7 @@ test('Freigabe: Wartezeit, Abtippen, Ablauf', () => {
   st = r1.state;
   assert.equal(FG.applyStateOp(s, st, { op: 'unlockConfirm', domain: 'reddit.com', phrase: s.unlock.phrase }, T + 10e3, T + 10e3).error, 'wait');
   assert.equal(FG.applyStateOp(s, st, { op: 'unlockConfirm', domain: 'reddit.com', phrase: 'falsch falsch' }, T + 31e3, T + 31e3).error, 'phrase');
-  const ok = FG.applyStateOp(s, st, { op: 'unlockConfirm', domain: 'reddit.com', phrase: 'ICH brauche das JETZT wirklich!' }, T + 31e3, T + 31e3);
+  const ok = FG.applyStateOp(s, st, { op: 'unlockConfirm', domain: 'reddit.com', phrase: 'I REALLY need this, right NOW!' }, T + 31e3, T + 31e3);
   assert.ok(ok.ok);
   st = ok.state;
   assert.equal(st.unlocks['reddit.com'], T + 31e3 + 15 * MIN);

@@ -49,13 +49,23 @@
   const CHANNEL_PATH = /^\/(@[^/]+|channel\/[^/]+|c\/[^/]+|user\/[^/]+)/;
   const UNKNOWN_GRACE_MS = 4000;
 
+  // Texte aus _locales (EN/DE) – chrome.i18n ist auch in Inhaltsskripten verfügbar
+  const t = (key) => {
+    try {
+      return chrome.i18n.getMessage(key) || key;
+    } catch {
+      return key;
+    }
+  };
   const REASONS = Object.freeze({
-    keyword: 'Der Titel enthält ein gesperrtes Stichwort.',
-    channel: 'Dieser Kanal ist gesperrt.',
-    notAllowed: 'Dieser Kanal steht nicht auf deiner Erlaubt-Liste.',
-    unknown: 'Der Kanal konnte nicht erkannt werden – im strikten Modus wird gesperrt.',
-    limit: 'Dein YouTube-Tageslimit ist für heute aufgebraucht. Morgen geht es weiter.',
+    keyword: t('yt_reason_keyword'),
+    channel: t('yt_reason_channel'),
+    notAllowed: t('yt_reason_notAllowed'),
+    unknown: t('yt_reason_unknown'),
+    limit: t('yt_reason_limit'),
   });
+  // Hinweis statt Startseiten-Feed: als CSS-Variable (übersetzbar; CSSOM ist von der Seiten-CSP nicht betroffen)
+  html.style.setProperty('--fg-home', '"' + t('ytHomeHidden').replace(/[\\"]/g, '\\$&') + '"');
 
   let settings = null;
   let filterOn = false;
@@ -277,7 +287,7 @@
     const title = document.createElement('p');
     title.className = 'fg-title';
     title.id = 'fg-overlay-title';
-    title.textContent = 'Gesperrt von Sirenward';
+    title.textContent = t('ytBlockedBy');
     const reason = document.createElement('p');
     reason.className = 'fg-reason';
     reason.id = 'fg-overlay-reason';
@@ -286,11 +296,11 @@
     const back = document.createElement('button');
     back.type = 'button';
     back.className = 'fg-primary';
-    back.textContent = 'Zurück';
+    back.textContent = t('back');
     back.addEventListener('click', () => (history.length > 1 ? history.back() : location.assign('/')));
     const subs = document.createElement('button');
     subs.type = 'button';
-    subs.textContent = 'Zu meinen Abos';
+    subs.textContent = t('ytToSubs');
     subs.addEventListener('click', () => location.assign('/feed/subscriptions'));
     actions.append(back, subs);
     box.append(mark, title, reason, actions);

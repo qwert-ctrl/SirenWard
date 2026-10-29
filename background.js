@@ -40,11 +40,24 @@ function serial(fn) {
 }
 
 /* ---------- Lesen ---------- */
+/** Standardwerte einer Neuinstallation: Abtipp-Satz in der Sprache der Oberfläche (EN/DE). */
+function freshDefaults() {
+  const fresh = FG.withDefaults(null);
+  let phrase = '';
+  try {
+    phrase = chrome.i18n.getMessage('defaultUnlockPhrase');
+  } catch {
+    phrase = '';
+  }
+  if (FG.phraseLetters(phrase).length >= FG.LIMITS.PHRASE_MIN_LETTERS && phrase.length <= FG.LIMITS.PHRASE_MAX) fresh.unlock.phrase = phrase;
+  return fresh;
+}
+
 async function readStored() {
   const raw = await chrome.storage.local.get(['settings', '_lockSnapshot', '_clock', '_state', '_pf']);
   return {
     rawSettings: raw.settings,
-    settings: FG.withDefaults(raw.settings),
+    settings: raw.settings ? FG.withDefaults(raw.settings) : freshDefaults(),
     rawSnap: raw._lockSnapshot,
     snap: raw._lockSnapshot ? FG.withDefaults(raw._lockSnapshot) : null,
     maxSeen: Number.isFinite(raw._clock) ? raw._clock : 0,
@@ -371,7 +384,7 @@ if (chrome.permissions && chrome.permissions.onAdded) {
 
 async function init() {
   const { settings } = await chrome.storage.local.get('settings');
-  if (!settings) await chrome.storage.local.set({ settings: FG.withDefaults(null) });
+  if (!settings) await chrome.storage.local.set({ settings: freshDefaults() });
   await chrome.alarms.clear('fg-lock-watch'); // Wecker aus Version 1.1
   return reconcile(null);
 }

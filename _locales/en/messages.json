@@ -1,0 +1,848 @@
+{
+  "add": {
+    "message": "Add"
+  },
+  "allSettings": {
+    "message": "All settings →"
+  },
+  "allow": {
+    "message": "Allow"
+  },
+  "allowChannel": {
+    "message": "Allow channel"
+  },
+  "allowedAddAria": {
+    "message": "Add allowed channel"
+  },
+  "allowedEmpty": {
+    "message": "No channels allowed yet – in strict mode that blocks everything."
+  },
+  "allowedState": {
+    "message": "Allowed"
+  },
+  "allowedTitle": {
+    "message": "Allowed channels"
+  },
+  "appTagline": {
+    "message": "Everything stays on this device. No accounts, no tracking, no network access."
+  },
+  "back": {
+    "message": "Back"
+  },
+  "badgeBlocked": {
+    "message": "blocked"
+  },
+  "badgeFree": {
+    "message": "free right now"
+  },
+  "badgeUnlocked": {
+    "message": "unlocked"
+  },
+  "block": {
+    "message": "Block"
+  },
+  "blockChannel": {
+    "message": "Block channel"
+  },
+  "blockChannelAria": {
+    "message": "Block channel"
+  },
+  "blockPageInfo": {
+    "message": "Access is requested only for your blocked domains and revoked automatically when a domain is removed."
+  },
+  "blockPageNoAccess": {
+    "message": "Without access, the browser keeps showing its error page for these sites."
+  },
+  "blockThisSite": {
+    "message": "Block this website"
+  },
+  "blockedChannelsTitle": {
+    "message": "Blocked channels"
+  },
+  "blockedHeading": {
+    "message": "Blocked"
+  },
+  "blockedPageTitle": {
+    "message": "Blocked – Sirenward"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "cancelled": {
+    "message": "Cancelled."
+  },
+  "channelAllowedToast": {
+    "message": "Channel allowed."
+  },
+  "channelBlocked": {
+    "message": "Channel blocked"
+  },
+  "channelBlockedToast": {
+    "message": "Channel blocked."
+  },
+  "channelPlaceholder": {
+    "message": "@handle, channel name or link"
+  },
+  "channelsEmpty": {
+    "message": "No channels blocked."
+  },
+  "confirm": {
+    "message": "Confirm"
+  },
+  "confirmStrict": {
+    "message": "In strict mode every video is blocked until you allow channels. Switch anyway?"
+  },
+  "defaultUnlockPhrase": {
+    "message": "I really need this right now"
+  },
+  "dialogRetry": {
+    "message": "The code is wrong. Please enter it again."
+  },
+  "dialogText": {
+    "message": "This change loosens your rules. Please let the person with the code enter it."
+  },
+  "dialogTitle": {
+    "message": "Partner code"
+  },
+  "docTitleBlocked": {
+    "message": "$P1$ blocked – Sirenward",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "err_badcode": {
+    "message": "The partner code is wrong."
+  },
+  "err_clock": {
+    "message": "The system clock was set back – unlocking is not possible."
+  },
+  "err_cooldown": {
+    "message": "Too many failed attempts – please try again later."
+  },
+  "err_cooldownUntil": {
+    "message": "Too many failed attempts – try again after $P1$.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "err_disabled": {
+    "message": "This feature is turned off in the settings."
+  },
+  "err_focus": {
+    "message": "No unlocks during a focus session."
+  },
+  "err_forbidden": {
+    "message": "Not allowed."
+  },
+  "err_internal": {
+    "message": "Internal error – please try again."
+  },
+  "err_invalid": {
+    "message": "Invalid input."
+  },
+  "err_locked": {
+    "message": "Not possible while locked – rules can only be tightened."
+  },
+  "err_noRequest": {
+    "message": "The unlock request has expired – please start again."
+  },
+  "err_notBlocked": {
+    "message": "This site isn't blocked right now."
+  },
+  "err_partner": {
+    "message": "This requires the partner code."
+  },
+  "err_phrase": {
+    "message": "The sentence doesn't match – only the letters count."
+  },
+  "err_quota": {
+    "message": "No unlocks left for today."
+  },
+  "err_unreachable": {
+    "message": "Background service unreachable – please try again."
+  },
+  "err_wait": {
+    "message": "Please wait until the waiting time is over."
+  },
+  "exportBtn": {
+    "message": "Export settings"
+  },
+  "exported": {
+    "message": "Exported."
+  },
+  "extDescription": {
+    "message": "Resist the pull: blocks distracting sites, tames YouTube, unlocks only with deliberate friction – 100% local, no tracking."
+  },
+  "extrasHint": {
+    "message": "All optional – turn on only what you need."
+  },
+  "extrasTitle": {
+    "message": "Extras"
+  },
+  "feat_blockPage": {
+    "message": "Custom block page"
+  },
+  "feat_blockPage_hint": {
+    "message": "Instead of the browser's error page: time left and unlock right on the page. Needs access to the blocked domains – only those, granted one by one."
+  },
+  "feat_focus": {
+    "message": "Focus session"
+  },
+  "feat_focus_hint": {
+    "message": "One click in the popup blocks everything on your list – unlocks and schedule pause."
+  },
+  "feat_schedule": {
+    "message": "Schedule"
+  },
+  "feat_schedule_hint": {
+    "message": "Block websites only at set times, e.g. weekdays 9 to 5."
+  },
+  "feat_stats": {
+    "message": "Local statistics"
+  },
+  "feat_stats_hint": {
+    "message": "Daily counters only (unlocks, focus, YouTube minutes, block page visits) – no addresses, no history. 30 days."
+  },
+  "feat_ytLimit": {
+    "message": "YouTube daily limit"
+  },
+  "feat_ytLimit_hint": {
+    "message": "Limits your daily watch time on YouTube."
+  },
+  "fileTooBig": {
+    "message": "The file is too large."
+  },
+  "fileUnreadable": {
+    "message": "The file couldn't be read."
+  },
+  "filterMode": {
+    "message": "Filter mode"
+  },
+  "filterTip": {
+    "message": "Tip: separate multiple entries with commas. Keywords also match parts of words (“game” matches “gaming”)."
+  },
+  "focusAllBlocked": {
+    "message": "All sites on your list are blocked, unlocks paused."
+  },
+  "focusDefault": {
+    "message": "Default length"
+  },
+  "focusMinutes": {
+    "message": "$P1$ min",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "focusNoUnlocks": {
+    "message": "Focus session – $P1$ left. No unlocks.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "focusRunning": {
+    "message": "$P1$ left",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "focusStarted": {
+    "message": "Focus until $P1$.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "focusTipAddSites": {
+    "message": "Tip: add websites to your block list first."
+  },
+  "hour1Short": {
+    "message": "1 h"
+  },
+  "hour2Short": {
+    "message": "2 h"
+  },
+  "importBtn": {
+    "message": "Import"
+  },
+  "imported": {
+    "message": "Imported."
+  },
+  "invalidChannel": {
+    "message": "Invalid channel"
+  },
+  "invalidDomain": {
+    "message": "Not a valid domain"
+  },
+  "invalidKeyword": {
+    "message": "Invalid keyword"
+  },
+  "keywordAria": {
+    "message": "Block keyword"
+  },
+  "keywordsEmpty": {
+    "message": "No keywords blocked."
+  },
+  "keywordsPlaceholder": {
+    "message": "e.g. reaction, prank, gaming"
+  },
+  "keywordsTitle": {
+    "message": "Blocked keywords in titles"
+  },
+  "localeCode": {
+    "message": "en"
+  },
+  "lock1d": {
+    "message": "1 day"
+  },
+  "lock1h": {
+    "message": "1 hour"
+  },
+  "lock1w": {
+    "message": "1 week"
+  },
+  "lock30d": {
+    "message": "30 days"
+  },
+  "lock3d": {
+    "message": "3 days"
+  },
+  "lock4h": {
+    "message": "4 hours"
+  },
+  "lockActiveToast": {
+    "message": "Lock mode active."
+  },
+  "lockBanner": {
+    "message": "🔒 Lock mode active until $P1$ – rules can only be tightened.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "lockConfirm": {
+    "message": "Activate lock mode until $P1$?\n\nUntil then you can only tighten rules, not loosen them.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "lockDurationAria": {
+    "message": "Lock duration"
+  },
+  "lockExtend": {
+    "message": "Extend lock"
+  },
+  "lockHint": {
+    "message": "While locked you can only tighten rules: adding entries yes, removing or loosening no. The lock can be extended but never shortened."
+  },
+  "lockStart": {
+    "message": "Start lock"
+  },
+  "lockStatusOff": {
+    "message": "Not active."
+  },
+  "lockStatusOn": {
+    "message": "Active until $P1$.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "lockTitle": {
+    "message": "Lock mode"
+  },
+  "lockedNoRemove": {
+    "message": "Not possible while locked"
+  },
+  "lockedNoToggle": {
+    "message": "Can't be turned off while locked"
+  },
+  "modeBlacklistHint": {
+    "message": "Blocked channels and keywords are hidden."
+  },
+  "modeBlacklistShort": {
+    "message": "Block list"
+  },
+  "modeWhitelistHint": {
+    "message": "Everything else is blocked – ideal for learning and work channels."
+  },
+  "modeWhitelistShort": {
+    "message": "Allowed only"
+  },
+  "nav_sites": {
+    "message": "Websites"
+  },
+  "nav_youtube": {
+    "message": "YouTube"
+  },
+  "noUnlocksLeft": {
+    "message": "No unlocks left today ($P1$ of $P2$ used).",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "noneOption": {
+    "message": "none"
+  },
+  "notApplied": {
+    "message": "Not applied (invalid): $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "notBlockedSchedule": {
+    "message": "Not blocked right now (outside your schedule)."
+  },
+  "notBlockedText": {
+    "message": "This address is not (or no longer) on your block list."
+  },
+  "notBlockedTitle": {
+    "message": "Site not blocked"
+  },
+  "optionsTitle": {
+    "message": "Sirenward – Settings"
+  },
+  "partialApplied": {
+    "message": "Because of an active lock or partner code, only tightening changes were applied."
+  },
+  "partnerActivate": {
+    "message": "Activate partner code"
+  },
+  "partnerActivated": {
+    "message": "Partner code active."
+  },
+  "partnerActive": {
+    "message": "✓ Partner code is active."
+  },
+  "partnerChange": {
+    "message": "Change code"
+  },
+  "partnerChanged": {
+    "message": "Partner code changed."
+  },
+  "partnerCodeLabel": {
+    "message": "Code (at least 6 characters, 10+ is better)"
+  },
+  "partnerCodeRepeat": {
+    "message": "Repeat code"
+  },
+  "partnerDisableBtn": {
+    "message": "Turn off"
+  },
+  "partnerDisabled": {
+    "message": "Partner code turned off."
+  },
+  "partnerHint": {
+    "message": "The strictest option: someone else sets a code. From then on, rules can only be loosened with that code – tightening always works. The code is stored only as a PBKDF2 hash, never in plain text."
+  },
+  "partnerMismatch": {
+    "message": "The codes don't match."
+  },
+  "partnerNewPrompt": {
+    "message": "Enter the new code (at least 6 characters). The current code will be asked for next."
+  },
+  "partnerTitle": {
+    "message": "Partner code"
+  },
+  "perDay": {
+    "message": "Per day"
+  },
+  "pillFocus": {
+    "message": "Focus"
+  },
+  "pillLockedTitle": {
+    "message": "Lock mode until $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "pillLockedUntil": {
+    "message": "🔒 until $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "pillPartner": {
+    "message": "Partner"
+  },
+  "pillPartnerTitle": {
+    "message": "Loosening only with the partner code"
+  },
+  "pillScheduleFree": {
+    "message": "Schedule: free"
+  },
+  "popupFocus": {
+    "message": "Focus session"
+  },
+  "popupThisSite": {
+    "message": "This website"
+  },
+  "popupYoutube": {
+    "message": "YouTube"
+  },
+  "privacyText": {
+    "message": "Sirenward stores only your settings and what timed unlocks need (today’s counters) – locally in the browser (storage.local, not synced). No history, no servers; statistics only if you turn them on. The extension has no technical way to send data."
+  },
+  "privacyTitle": {
+    "message": "Privacy & data"
+  },
+  "reasonFocus": {
+    "message": "Focus session running for another $P1$.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "reasonList": {
+    "message": "You put this site on your block list."
+  },
+  "reasonLock": {
+    "message": "Lock mode active until $P1$. You committed to this yourself.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "relockNow": {
+    "message": "Lock again now"
+  },
+  "remove": {
+    "message": "Remove"
+  },
+  "removeItemAria": {
+    "message": "Remove $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "removeNeedsCode": {
+    "message": "Remove (partner code required)"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "scheduleFrom": {
+    "message": "from"
+  },
+  "scheduleNoDay": {
+    "message": "Please choose at least one day."
+  },
+  "scheduleOvernight": {
+    "message": "If the end is before the start (e.g. 10 pm to 6 am), the schedule runs overnight."
+  },
+  "scheduleSame": {
+    "message": "Start and end can't be the same."
+  },
+  "scheduleSaved": {
+    "message": "Schedule saved."
+  },
+  "scheduleTo": {
+    "message": "to"
+  },
+  "settingsLink": {
+    "message": "Settings"
+  },
+  "siteIsBlocked": {
+    "message": "$P1$ is blocked",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "siteNowBlocked": {
+    "message": "$P1$ is blocked from now on.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "sitesAddAria": {
+    "message": "Add website"
+  },
+  "sitesEmpty": {
+    "message": "No websites blocked yet."
+  },
+  "sitesHint": {
+    "message": "Applies to the domain and all subdomains. The block lives inside the browser, so it also works with a VPN."
+  },
+  "sitesPlaceholder": {
+    "message": "e.g. instagram.com, reddit.com"
+  },
+  "sitesTitle": {
+    "message": "Blocked websites"
+  },
+  "statsAria": {
+    "message": "Statistics for the last 7 days"
+  },
+  "statsBlockPage": {
+    "message": "Block page"
+  },
+  "statsClear": {
+    "message": "Clear statistics"
+  },
+  "statsClearConfirm": {
+    "message": "Really clear the statistics?"
+  },
+  "statsCleared": {
+    "message": "Statistics cleared."
+  },
+  "statsDay": {
+    "message": "Day"
+  },
+  "statsEmpty": {
+    "message": "No data yet."
+  },
+  "statsFocus": {
+    "message": "Focus"
+  },
+  "statsUnlocks": {
+    "message": "Unlocks"
+  },
+  "statsYoutube": {
+    "message": "YouTube"
+  },
+  "staysLocal": {
+    "message": "Everything stays local."
+  },
+  "typeAria": {
+    "message": "Type the sentence: $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "typeThis": {
+    "message": "Type:"
+  },
+  "unlockBtn": {
+    "message": "Unlock"
+  },
+  "unlockDuration": {
+    "message": "Length of an unlock"
+  },
+  "unlockExpired": {
+    "message": "Unlock expired."
+  },
+  "unlockFor": {
+    "message": "Unlock for $P1$ min",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "unlockHint": {
+    "message": "Briefly unlock a blocked site – with deliberate friction: first a waiting time, then type a sentence (only the letters count). Afterwards the site locks itself again. Unlock from the popup or the block page."
+  },
+  "unlockPerDay": {
+    "message": "Unlocks per site and day"
+  },
+  "unlockPhrase": {
+    "message": "Sentence to type"
+  },
+  "unlockSaved": {
+    "message": "Timed unlock saved."
+  },
+  "unlockTitle": {
+    "message": "Timed unlock"
+  },
+  "unlockWait": {
+    "message": "Waiting time first"
+  },
+  "unlockedToast": {
+    "message": "Unlocked – browse mindfully."
+  },
+  "unlockedUntil": {
+    "message": "Free until $P1$ – $P2$ left",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "unlocksLeft": {
+    "message": "$P1$ of $P2$ unlocks left today.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "unlocksOff": {
+    "message": "Unlocks are turned off."
+  },
+  "versionLabel": {
+    "message": "Version $P1$",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "waitLeft": {
+    "message": "Waiting time: $P1$ left",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "waitOver": {
+    "message": "Waiting time over."
+  },
+  "ytBlockedBy": {
+    "message": "Blocked by Sirenward"
+  },
+  "ytFilterHint": {
+    "message": "Blocked videos disappear from feeds and search. Opening one directly shows a block screen."
+  },
+  "ytFilterTitle": {
+    "message": "YouTube filter"
+  },
+  "ytHomeHidden": {
+    "message": "Home feed hidden – use search or your subscriptions."
+  },
+  "ytLeftMin": {
+    "message": "$P1$ min left today.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "ytLimitLeft": {
+    "message": "$P1$ of $P2$ min left today.",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      },
+      "p2": {
+        "content": "$2"
+      }
+    }
+  },
+  "ytLimitReached": {
+    "message": "Daily limit reached ($P1$ min).",
+    "placeholders": {
+      "p1": {
+        "content": "$1"
+      }
+    }
+  },
+  "ytPaneHint": {
+    "message": "Calm YouTube down: hide distractions and filter what you see."
+  },
+  "ytToSubs": {
+    "message": "To my subscriptions"
+  },
+  "ytUsedUp": {
+    "message": "Used up for today."
+  },
+  "ytViewTitle": {
+    "message": "YouTube view"
+  },
+  "yt_disableAutoplay": {
+    "message": "Turn off autoplay"
+  },
+  "yt_disableAutoplay_hint": {
+    "message": "The next video won't start on its own."
+  },
+  "yt_grayThumbnails": {
+    "message": "Grayscale thumbnails"
+  },
+  "yt_grayThumbnails_hint": {
+    "message": "Less visual pull – read titles instead of clicking pictures."
+  },
+  "yt_hideComments": {
+    "message": "Hide comments"
+  },
+  "yt_hideEndscreen": {
+    "message": "Hide end cards & suggestions in the player"
+  },
+  "yt_hideExplore": {
+    "message": "Hide “Explore” & trending"
+  },
+  "yt_hideExplore_hint": {
+    "message": "Trending, Explore and topic channels disappear from the menu."
+  },
+  "yt_hideHome": {
+    "message": "Hide home feed"
+  },
+  "yt_hideHome_hint": {
+    "message": "No suggestions the moment you open YouTube."
+  },
+  "yt_hideRecommendations": {
+    "message": "Hide recommendations next to/below videos"
+  },
+  "yt_hideSearchSuggestions": {
+    "message": "Hide search suggestions"
+  },
+  "yt_hideSearchSuggestions_hint": {
+    "message": "No suggestion rabbit hole while typing a search."
+  },
+  "yt_hideShorts": {
+    "message": "Hide Shorts"
+  },
+  "yt_hideShorts_hint": {
+    "message": "Shorts links open as a regular video with a seek bar."
+  },
+  "yt_reason_channel": {
+    "message": "This channel is blocked."
+  },
+  "yt_reason_keyword": {
+    "message": "The title contains a blocked keyword."
+  },
+  "yt_reason_limit": {
+    "message": "Your YouTube daily limit is used up for today. More tomorrow."
+  },
+  "yt_reason_notAllowed": {
+    "message": "This channel isn't on your allowed list."
+  },
+  "yt_reason_unknown": {
+    "message": "The channel couldn't be identified – strict mode blocks it."
+  },
+  "yt_redirectHomeToSubs": {
+    "message": "Home → go to subscriptions"
+  },
+  "yt_redirectHomeToSubs_hint": {
+    "message": "Your subscriptions instead of the home page."
+  }
+}

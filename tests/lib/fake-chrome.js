@@ -21,7 +21,25 @@ function disposeAll() {
   live.clear();
 }
 
-function createFakeChrome({ extId = 'abcdefghijklmnop', store = {} } = {}) {
+/** chrome.i18n.getMessage wie im Browser: aus _locales/<lang>/messages.json, mit Platzhaltern */
+function i18nFor(lang) {
+  const file = path.join(__dirname, '..', '..', '_locales', lang, 'messages.json');
+  const msgs = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : {};
+  return {
+    getMessage(key, subs = []) {
+      const m = msgs[key];
+      if (!m) return '';
+      const list = Array.isArray(subs) ? subs : [subs];
+      return m.message.replace(/\$([A-Za-z0-9_]+)\$/g, (_, name) => {
+        const ph = m.placeholders && m.placeholders[name.toLowerCase()];
+        return ph ? ph.content.replace(/\$(\d)/g, (__, n) => list[n - 1] ?? '') : '';
+      });
+    },
+    getUILanguage: () => lang,
+  };
+}
+
+function createFakeChrome({ extId = 'abcdefghijklmnop', store = {}, lang = 'en' } = {}) {
   const L = { changed: [], message: [], alarm: [], installed: [], startup: [], permAdded: [], permRemoved: [] };
   const origins = new Set(['https://www.youtube.com/*']); // Pflichtrecht des Inhaltsskripts
   const openTabs = [{ id: 1, url: 'https://www.youtube.com/watch?v=x' }, { id: 2, url: 'https://example.org/' }];
@@ -36,6 +54,7 @@ function createFakeChrome({ extId = 'abcdefghijklmnop', store = {} } = {}) {
   }
 
   const chrome = {
+    i18n: i18nFor(lang),
     runtime: {
       id: extId,
       getURL: (p) => `chrome-extension://${extId}/${p}`,
