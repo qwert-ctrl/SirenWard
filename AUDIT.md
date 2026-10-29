@@ -9,10 +9,10 @@ To report a vulnerability, see [SECURITY.md](SECURITY.md).
 |---|---|
 | Network requests made by the extension (real browser, every host captured) | **0** |
 | Static security and architecture scan (repo and both packages) | **0 critical** |
-| Unit, background and translation tests (fuzzing, randomized tests, clock attacks, concurrency, partner code) | **__UNIT__/__UNIT__** |
-| Mutation tests (deliberately broken copies) | **__MUT__ caught** |
-| Browser checks in Chromium against the **built package** | **__E2E__/__E2E__** |
-| Language checks (English and German, incl. YouTube) | **__LOC__/__LOC__** |
+| Unit, background and translation tests (fuzzing, randomized tests, clock attacks, concurrency, partner code) | **72/72** |
+| Mutation tests (deliberately broken copies) | **60/60 caught** |
+| Browser checks in Chromium against the **built package** | **78/78** |
+| Language checks (English and German, incl. YouTube) | **20/20** |
 | Custom block page (redirect, unlock, automatic re-lock) | **8/8** |
 | `chrome://extensions`: manifest errors, warnings, runtime errors | **none** |
 | CSP probe with real extension code (eval, Function, innerHTML, foreign scripts, fetch) | **all blocked** |
@@ -73,7 +73,7 @@ No connections, no outside resources, no `eval`. Trusted Types additionally lock
 
 **Unit and background tests** – `core.js` is pure and tested directly. `background.js` runs against a faithful browser stand-in (`tests/lib/fake-chrome.js`: sorted storage keys like Chrome, async `onChanged`, alarms, permissions, `i18n`). Covered among others: sender checks, 50 concurrent commands without a lost update, every way of loosening during a lock, clock attacks, storage tampering, partner code incl. rate limit, 3,000 randomized lock-policy runs (always a fixed point, never looser than an active lock), prototype pollution, ReDoS with 200,000-character inputs.
 
-**Mutation tests (`tests/mutation.sh`)** – each run deliberately breaks one thing (sender check, clock protection, quota, partner hash exposure, a missing translation, a lost placeholder, CSP relaxed, `fetch` added, `<all_urls>` …). Every mutation must turn a test red. Result: **__MUT__**.
+**Mutation tests (`tests/mutation.sh`)** – each run deliberately breaks one thing (sender check, clock protection, quota, partner hash exposure, a missing translation, a lost placeholder, CSP relaxed, `fetch` added, `<all_urls>` …). Every mutation must turn a test red. Result: **60/60 caught**.
 
 **Browser test with network capture (`tests/e2e.test.js`)** – the built package in real Chromium; every hostname is redirected to logging local servers; a control run without the extension measures Chromium's own traffic; YouTube is replicated incl. crafted XSS titles. Covers site blocking (the blocked domain never reaches a server), concurrency, focus retention, 0 of 202 blocked videos visible on first paint, block screen with paused video and inert page, strict mode, timed unlock end-to-end, schedule, partner code dialog, focus, daily limit, statistics, four tampering attempts during lock mode, XSS, isolation, **0 requests by the extension**, no JS/CSP errors and a clean `chrome://extensions`.
 

@@ -105,7 +105,7 @@ smut "fetch im Hintergrund" background.js "const TICK = 'fg-tick';" "const TICK 
 smut "storage.sync verwendet" background.js "const raw = await chrome.storage.local.get(" "const raw = await chrome.storage.sync.get("
 smut "Host-Rechte für alle Seiten" manifest.json '"permissions": [' '"host_permissions": ["<all_urls>"], "permissions": ['
 smut "Inline-Skript im Popup" popup.html '<script src="popup.js"></script>' '<script>alert(1)</script>'
-smut "Rechtschreibprüfung wieder an" options.html 'id="siteInput" type="text" placeholder="z. B. instagram.com, reddit.com" autocomplete="off" spellcheck="false"' 'id="siteInput" type="text" placeholder="x" autocomplete="off"'
+smut "Rechtschreibprüfung wieder an" options.html 'id="siteInput" type="text" data-i18n-placeholder="sitesPlaceholder" data-i18n-aria-label="sitesAddAria" autocomplete="off" spellcheck="false"' 'id="siteInput" type="text" data-i18n-placeholder="sitesPlaceholder" data-i18n-aria-label="sitesAddAria" autocomplete="off"'
 
 smut "background.scripts im Chromium-Manifest (1.1-Bug)" manifest.json '"service_worker": "background.js",' '"service_worker": "background.js", "scripts": ["background.js"],'
 smut "web_accessible_resources eingeführt" manifest.json '"permissions": [' '"web_accessible_resources": [{"resources": ["blocked.html"], "matches": ["<all_urls>"]}], "permissions": ['
