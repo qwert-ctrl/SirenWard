@@ -12,7 +12,7 @@ You'll get a reply within 7 days. Once a fix is released, the advisory is publis
 
 ## In scope
 
-- Anything that lets a web page, another extension or a compromised YouTube tab read, change or bypass Sirenward's settings
+- Anything that lets a web page, another extension or a compromised YouTube tab read, change or bypass SirenWard's settings
 - Data leaving the device in any form
 - Ways around lock mode, the partner code or timed unlocks that don't require disabling the extension itself
 - Injection (XSS) in the extension's own pages

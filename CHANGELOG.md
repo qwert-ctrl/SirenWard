@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.1 – 29 Oct 2026
+- Name spelled **SirenWard** everywhere (manifest, interface, texts, docs). Package and file names stay lowercase (`sirenward`).
+
 ## 1.3.0 – 29 Oct 2026
 
 ### New
@@ -18,7 +21,7 @@
 - Fixed before release, found by the review: the YouTube script failed to start (translation helper used before definition); a start-up race created English defaults on German browsers.
 
 ## 1.2.1 – 29 Oct 2026
-- **Renamed to Sirenward** (formerly FocusGuard – the name was taken on addons.mozilla.org).
+- **Renamed to SirenWard** (formerly FocusGuard – the name was taken on addons.mozilla.org).
 - Unique Firefox add-on ID for addons.mozilla.org.
 - Settings, behaviour and storage format unchanged; FocusGuard exports can still be imported.
 

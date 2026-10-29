@@ -1,5 +1,5 @@
 /*
- * Sirenward – Einstellungsseite (Aufbau wie die macOS-Systemeinstellungen).
+ * SirenWard – Einstellungsseite (Aufbau wie die macOS-Systemeinstellungen).
  * Baut die Oberfläche EINMAL auf und aktualisiert danach nur, was sich geändert hat (kein Fokusverlust).
  * Ausschließlich textContent (zusätzlich per Trusted Types erzwungen). Texte über FGi18n (EN/DE).
  * Änderungen gehen als Befehle an den Hintergrund; verlangt eine Änderung den Partner-Code,
@@ -229,7 +229,7 @@
     const exp = FG.clone(s);
     exp.lockUntil = 0;
     delete exp.partner; // der Partner-Code verlässt das Gerät nie
-    const blob = new Blob([JSON.stringify({ app: 'Sirenward', format: 2, settings: exp }, null, 2)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify({ app: 'SirenWard', format: 2, settings: exp }, null, 2)], { type: 'application/json' });
     const a = h('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'sirenward-settings.json';

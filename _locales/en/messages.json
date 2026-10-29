@@ -63,7 +63,7 @@
     "message": "Blocked"
   },
   "blockedPageTitle": {
-    "message": "Blocked – Sirenward"
+    "message": "Blocked – SirenWard"
   },
   "cancel": {
     "message": "Cancel"
@@ -105,7 +105,7 @@
     "message": "Partner code"
   },
   "docTitleBlocked": {
-    "message": "$P1$ blocked – Sirenward",
+    "message": "$P1$ blocked – SirenWard",
     "placeholders": {
       "p1": {
         "content": "$1"
@@ -421,7 +421,7 @@
     "message": "Site not blocked"
   },
   "optionsTitle": {
-    "message": "Sirenward – Settings"
+    "message": "SirenWard – Settings"
   },
   "partialApplied": {
     "message": "Because of an active lock or partner code, only tightening changes were applied."
@@ -506,7 +506,7 @@
     "message": "YouTube"
   },
   "privacyText": {
-    "message": "Sirenward stores only your settings and what timed unlocks need (today’s counters) – locally in the browser (storage.local, not synced). No history, no servers; statistics only if you turn them on. The extension has no technical way to send data."
+    "message": "SirenWard stores only your settings and what timed unlocks need (today’s counters) – locally in the browser (storage.local, not synced). No history, no servers; statistics only if you turn them on. The extension has no technical way to send data."
   },
   "privacyTitle": {
     "message": "Privacy & data"
@@ -729,7 +729,7 @@
     "message": "Waiting time over."
   },
   "ytBlockedBy": {
-    "message": "Blocked by Sirenward"
+    "message": "Blocked by SirenWard"
   },
   "ytFilterHint": {
     "message": "Blocked videos disappear from feeds and search. Opening one directly shows a block screen."

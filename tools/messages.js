@@ -61,7 +61,7 @@ module.exports = {
   dialogRetry: ['The code is wrong. Please enter it again.', 'Der Code stimmt nicht. Bitte erneut eingeben.'],
 
   /* ---------- Options: header ---------- */
-  optionsTitle: ['Sirenward – Settings', 'Sirenward – Einstellungen'],
+  optionsTitle: ['SirenWard – Settings', 'SirenWard – Einstellungen'],
   appTagline: [
     'Everything stays on this device. No accounts, no tracking, no network access.',
     'Alles bleibt auf diesem Gerät. Keine Konten, kein Tracking, keine Netzwerkzugriffe.',
@@ -260,8 +260,8 @@ module.exports = {
   /* ---------- Options: privacy & data ---------- */
   privacyTitle: ['Privacy & data', 'Datenschutz & Daten'],
   privacyText: [
-    'Sirenward stores only your settings and what timed unlocks need (today’s counters) – locally in the browser (storage.local, not synced). No history, no servers; statistics only if you turn them on. The extension has no technical way to send data.',
-    'Sirenward speichert nur deine Einstellungen und das Nötigste für Freigaben (heutige Zähler) – lokal im Browser (storage.local, nicht synchronisiert). Kein Verlauf, keine Server; Statistik nur, wenn du sie einschaltest. Die Erweiterung hat technisch keine Möglichkeit, Daten zu versenden.',
+    'SirenWard stores only your settings and what timed unlocks need (today’s counters) – locally in the browser (storage.local, not synced). No history, no servers; statistics only if you turn them on. The extension has no technical way to send data.',
+    'SirenWard speichert nur deine Einstellungen und das Nötigste für Freigaben (heutige Zähler) – lokal im Browser (storage.local, nicht synchronisiert). Kein Verlauf, keine Server; Statistik nur, wenn du sie einschaltest. Die Erweiterung hat technisch keine Möglichkeit, Daten zu versenden.',
   ],
   exportBtn: ['Export settings', 'Einstellungen exportieren'],
   importBtn: ['Import', 'Importieren'],
@@ -316,18 +316,18 @@ module.exports = {
   waitOver: ['Waiting time over.', 'Wartezeit vorbei.'],
 
   /* ---------- Block page ---------- */
-  blockedPageTitle: ['Blocked – Sirenward', 'Gesperrt – Sirenward'],
+  blockedPageTitle: ['Blocked – SirenWard', 'Gesperrt – SirenWard'],
   blockedHeading: ['Blocked', 'Gesperrt'],
   notBlockedTitle: ['Site not blocked', 'Seite nicht gesperrt'],
   notBlockedText: ['This address is not (or no longer) on your block list.', 'Diese Adresse steht nicht (mehr) auf deiner Sperrliste.'],
-  docTitleBlocked: ['$1 blocked – Sirenward', '$1 gesperrt – Sirenward'],
+  docTitleBlocked: ['$1 blocked – SirenWard', '$1 gesperrt – SirenWard'],
   siteIsBlocked: ['$1 is blocked', '$1 ist gesperrt'],
   reasonFocus: ['Focus session running for another $1.', 'Fokus-Sitzung läuft noch $1.'],
   reasonLock: ['Lock mode active until $1. You committed to this yourself.', 'Sperrmodus aktiv bis $1. Du hast dir das selbst vorgenommen.'],
   reasonList: ['You put this site on your block list.', 'Du hast diese Seite auf deine Sperrliste gesetzt.'],
 
   /* ---------- YouTube (content script) ---------- */
-  ytBlockedBy: ['Blocked by Sirenward', 'Gesperrt von Sirenward'],
+  ytBlockedBy: ['Blocked by SirenWard', 'Gesperrt von SirenWard'],
   ytToSubs: ['To my subscriptions', 'Zu meinen Abos'],
   ytHomeHidden: ['Home feed hidden – use search or your subscriptions.', 'Startseite ausgeblendet – nutze die Suche oder deine Abos.'],
   yt_reason_keyword: ['The title contains a blocked keyword.', 'Der Titel enthält ein gesperrtes Stichwort.'],

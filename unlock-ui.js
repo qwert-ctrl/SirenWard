@@ -1,5 +1,5 @@
 /*
- * Sirenward – Freigabe-Baustein (Popup und Sperrseite).
+ * SirenWard – Freigabe-Baustein (Popup und Sperrseite).
  * Ablauf: "15 min freigeben" → Wartezeit läuft UND Satz abtippen (nur Buchstaben zählen) → Bestätigen.
  * Die Prüfung von Wartezeit, Satz und Tageslimit passiert im Hintergrund – die Oberfläche hilft nur.
  */

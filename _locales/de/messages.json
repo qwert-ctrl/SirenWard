@@ -63,7 +63,7 @@
     "message": "Gesperrt"
   },
   "blockedPageTitle": {
-    "message": "Gesperrt – Sirenward"
+    "message": "Gesperrt – SirenWard"
   },
   "cancel": {
     "message": "Abbrechen"
@@ -105,7 +105,7 @@
     "message": "Partner-Code"
   },
   "docTitleBlocked": {
-    "message": "$P1$ gesperrt – Sirenward",
+    "message": "$P1$ gesperrt – SirenWard",
     "placeholders": {
       "p1": {
         "content": "$1"
@@ -421,7 +421,7 @@
     "message": "Seite nicht gesperrt"
   },
   "optionsTitle": {
-    "message": "Sirenward – Einstellungen"
+    "message": "SirenWard – Einstellungen"
   },
   "partialApplied": {
     "message": "Wegen aktiver Sperre bzw. Partner-Code wurden nur verschärfende Änderungen übernommen."
@@ -506,7 +506,7 @@
     "message": "YouTube"
   },
   "privacyText": {
-    "message": "Sirenward speichert nur deine Einstellungen und das Nötigste für Freigaben (heutige Zähler) – lokal im Browser (storage.local, nicht synchronisiert). Kein Verlauf, keine Server; Statistik nur, wenn du sie einschaltest. Die Erweiterung hat technisch keine Möglichkeit, Daten zu versenden."
+    "message": "SirenWard speichert nur deine Einstellungen und das Nötigste für Freigaben (heutige Zähler) – lokal im Browser (storage.local, nicht synchronisiert). Kein Verlauf, keine Server; Statistik nur, wenn du sie einschaltest. Die Erweiterung hat technisch keine Möglichkeit, Daten zu versenden."
   },
   "privacyTitle": {
     "message": "Datenschutz & Daten"
@@ -729,7 +729,7 @@
     "message": "Wartezeit vorbei."
   },
   "ytBlockedBy": {
-    "message": "Gesperrt von Sirenward"
+    "message": "Gesperrt von SirenWard"
   },
   "ytFilterHint": {
     "message": "Gesperrte Videos verschwinden aus Feeds und Suche. Wer sie direkt öffnet, sieht eine Sperrseite."

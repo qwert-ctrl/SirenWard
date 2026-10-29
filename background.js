@@ -1,5 +1,5 @@
 /*
- * Sirenward – Hintergrund ("imperative shell").
+ * SirenWard – Hintergrund ("imperative shell").
  *
  * Einziger Schreiber von Einstellungen und Laufzeitzustand. Alle Entscheidungen trifft core.js;
  * hier passiert nur Ein-/Ausgabe:
@@ -35,7 +35,7 @@ try {
 let chain = Promise.resolve();
 function serial(fn) {
   const run = chain.then(fn);
-  chain = run.catch((e) => console.error('[Sirenward]', e));
+  chain = run.catch((e) => console.error('[SirenWard]', e));
   return run;
 }
 

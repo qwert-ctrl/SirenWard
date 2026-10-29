@@ -1,5 +1,5 @@
 /*
- * Sirenward – Popup. Kennt nur den aktiven Tab (activeTab) und nur, solange das Popup offen ist.
+ * SirenWard – Popup. Kennt nur den aktiven Tab (activeTab) und nur, solange das Popup offen ist.
  * Zeigt Status auf einen Blick und für die aktuelle Seite genau die passende Aktion.
  */
 (async () => {

@@ -1,4 +1,4 @@
-# Security, architecture and privacy audit – Sirenward 1.3.0
+# Security, architecture and privacy audit – SirenWard 1.3.0
 
 Date: 29 Oct 2026 · Scope: complete source (no third-party code at runtime) and the built Chromium and Firefox packages.
 To report a vulnerability, see [SECURITY.md](SECURITY.md).

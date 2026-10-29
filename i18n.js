@@ -1,5 +1,5 @@
 /*
- * Sirenward – translations for extension pages (popup, settings, block page).
+ * SirenWard – translations for extension pages (popup, settings, block page).
  * Texts come from _locales/<lang>/messages.json via chrome.i18n (English is the fallback).
  * Only textContent/attributes are set – compatible with the Trusted Types policy.
  *   <span data-i18n="…">                  → textContent

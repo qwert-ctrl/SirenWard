@@ -1,5 +1,5 @@
 /*
- * Sirenward – YouTube-Inhaltsskript (nur www.youtube.com, isolierte Welt).
+ * SirenWard – YouTube-Inhaltsskript (nur www.youtube.com, isolierte Welt).
  *
  * Architektur:
  *  - Kein Speicherzugriff. Einstellungen kommen als Leseansicht vom Hintergrund (Nachricht).

@@ -1,12 +1,12 @@
-<p align="center"><img src="assets/icon-512.png" width="112" alt="Sirenward icon: a sailing boat on a night sea, the sirens' song breaking off before the sail"></p>
+<p align="center"><img src="assets/icon-512.png" width="112" alt="SirenWard icon: a sailing boat on a night sea, the sirens' song breaking off before the sail"></p>
 
-<h1 align="center">Sirenward</h1>
+<h1 align="center">SirenWard</h1>
 
 <p align="center"><em>Like Odysseus at the mast: commit in advance and sail past the sirens.</em></p>
 
 <p align="center"><a href="README.de.md">Deutsch</a> · <a href="PRIVACY.md">Privacy</a> · <a href="AUDIT.md">Security audit</a> · <a href="SECURITY.md">Report a vulnerability</a></p>
 
-Sirenward is an open-source browser extension against digital distraction. It combines **site blocking**, a calmer **YouTube** (like Unhook), **channel and keyword filters** (like BlockTube) and a **lock mode** you can't simply switch off on a whim.
+SirenWard is an open-source browser extension against digital distraction. It combines **site blocking**, a calmer **YouTube** (like Unhook), **channel and keyword filters** (like BlockTube) and a **lock mode** you can't simply switch off on a whim.
 
 **Privacy first:** no servers, no accounts, no tracking, no history. The extension has no technical way to send data – its content security policy forbids every network connection.
 
@@ -49,7 +49,7 @@ Each release contains two packages with identical code – they differ only in t
 
 **Chrome, Brave, Edge:** unzip, open `chrome://extensions`, turn on **Developer mode**, choose **Load unpacked** and select the folder. Recommended: allow the extension in incognito windows (extension details).
 
-**Firefox:** install from [addons.mozilla.org](https://addons.mozilla.org/) once it's listed. For testing: `about:debugging#/runtime/this-firefox` → **Load Temporary Add-on** → `manifest.json`. Afterwards allow access to `www.youtube.com` under *Add-ons → Sirenward → Permissions* and enable *Run in private windows*.
+**Firefox:** install from [addons.mozilla.org](https://addons.mozilla.org/) once it's listed. For testing: `about:debugging#/runtime/this-firefox` → **Load Temporary Add-on** → `manifest.json`. Afterwards allow access to `www.youtube.com` under *Add-ons → SirenWard → Permissions* and enable *Run in private windows*.
 
 **Verify a download:** the build is reproducible. Rebuilding from the tagged source gives bit-identical ZIPs:
 ```bash
@@ -59,7 +59,7 @@ sha256sum -c dist/SHA256SUMS
 
 ## Honest limits
 
-A browser extension can always be disabled or removed, and other browsers aren't covered. Lock mode makes switching it off on impulse much harder, not impossible. For more strength, combine Sirenward with a router block, or let someone else install it through a browser policy. YouTube changes its markup from time to time; the selectors live in `content.js` and `content.css`, and strict mode blocks when in doubt.
+A browser extension can always be disabled or removed, and other browsers aren't covered. Lock mode makes switching it off on impulse much harder, not impossible. For more strength, combine SirenWard with a router block, or let someone else install it through a browser policy. YouTube changes its markup from time to time; the selectors live in `content.js` and `content.css`, and strict mode blocks when in doubt.
 
 ## Architecture
 

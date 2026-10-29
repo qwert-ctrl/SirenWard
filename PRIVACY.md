@@ -1,12 +1,12 @@
-# Privacy policy – Sirenward
+# Privacy policy – SirenWard
 
 [Deutsch](PRIVACY.de.md)
 
-**In short: Sirenward doesn't collect, transmit or sell any data. Period.**
+**In short: SirenWard doesn't collect, transmit or sell any data. Period.**
 
 ## What is stored
 
-Only the settings you enter yourself: blocked websites, YouTube options, blocked or allowed channels, keywords and the end of an active lock. For lock mode, a copy of the rules at the start of the lock and the latest time seen are added – that's how Sirenward notices a changed system clock.
+Only the settings you enter yourself: blocked websites, YouTube options, blocked or allowed channels, keywords and the end of an active lock. For lock mode, a copy of the rules at the start of the lock and the latest time seen are added – that's how SirenWard notices a changed system clock.
 
 For timed unlocks, **today's** counters per blocked domain are stored, plus running unlocks and focus sessions. The counters reset automatically the next day. With the YouTube daily limit on, today's watch time is stored as **a single number** – no videos, no channels. **Statistics** are only collected if you turn them on: daily counters, no addresses, deleted after 30 days.
 
@@ -22,7 +22,7 @@ Everything lives in `storage.local` – only in your browser profile on this dev
 
 ## Network
 
-Sirenward contains no code that makes network requests. On top of that, its content security policy forbids every connection (`connect-src 'none'`) and loading any outside scripts, images, fonts or stylesheets. Sites are blocked with `declarativeNetRequest`: the browser itself compares addresses with your list – the extension never sees individual requests.
+SirenWard contains no code that makes network requests. On top of that, its content security policy forbids every connection (`connect-src 'none'`) and loading any outside scripts, images, fonts or stylesheets. Sites are blocked with `declarativeNetRequest`: the browser itself compares addresses with your list – the extension never sees individual requests.
 
 ## Permissions
 

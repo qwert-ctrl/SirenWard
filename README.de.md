@@ -1,6 +1,6 @@
-<p align="center"><img src="assets/icon-512.png" width="112" alt="Sirenward-Icon: Segelboot auf nächtlichem Meer, der Gesang der Sirenen bricht vor dem Segel ab"></p>
+<p align="center"><img src="assets/icon-512.png" width="112" alt="SirenWard-Icon: Segelboot auf nächtlichem Meer, der Gesang der Sirenen bricht vor dem Segel ab"></p>
 
-<h1 align="center">Sirenward</h1>
+<h1 align="center">SirenWard</h1>
 
 <p align="center"><em>Wie Odysseus am Mast: Du legst dich im Voraus fest und segelst an den Lockrufen vorbei.</em></p>
 
@@ -64,9 +64,9 @@ Entpacke das passende ZIP in einen Ordner deiner Wahl.
 4. Empfohlen: In den Details der Erweiterung **„Im Inkognito-Modus zulassen“** einschalten.
 
 ### Firefox
-- Über [addons.mozilla.org](https://addons.mozilla.org/), sobald Sirenward dort gelistet ist.
+- Über [addons.mozilla.org](https://addons.mozilla.org/), sobald SirenWard dort gelistet ist.
 - Zum Testen: `about:debugging#/runtime/this-firefox` → **Temporäres Add-on laden** → `manifest.json` auswählen. Das bleibt bis zum Neustart aktiv.
-- Danach unter *Add-ons → Sirenward → Berechtigungen* den Zugriff auf `www.youtube.com` erlauben und *„In privaten Fenstern ausführen“* aktivieren.
+- Danach unter *Add-ons → SirenWard → Berechtigungen* den Zugriff auf `www.youtube.com` erlauben und *„In privaten Fenstern ausführen“* aktivieren.
 
 ### Echtheit prüfen
 ```bash
@@ -75,7 +75,7 @@ sha256sum -c dist/SHA256SUMS
 ```
 
 ## Ehrliche Grenzen
-Eine Browsererweiterung lässt sich immer deaktivieren oder deinstallieren, und andere Browser sind nicht geschützt. Der Sperrmodus macht spontanes Abschalten deutlich unbequemer, verhindert es aber nicht vollständig. Für mehr Härte kombinierst du Sirenward mit der Router-Sperre. Gegen das Deinstallieren hilft eine Browser-Richtlinie, die jemand anderes für dich einrichtet. YouTube ändert gelegentlich seinen Seitenaufbau; die Selektoren stehen gesammelt in `content.js` und `content.css`.
+Eine Browsererweiterung lässt sich immer deaktivieren oder deinstallieren, und andere Browser sind nicht geschützt. Der Sperrmodus macht spontanes Abschalten deutlich unbequemer, verhindert es aber nicht vollständig. Für mehr Härte kombinierst du SirenWard mit der Router-Sperre. Gegen das Deinstallieren hilft eine Browser-Richtlinie, die jemand anderes für dich einrichtet. YouTube ändert gelegentlich seinen Seitenaufbau; die Selektoren stehen gesammelt in `content.js` und `content.css`.
 
 ## Architektur
 

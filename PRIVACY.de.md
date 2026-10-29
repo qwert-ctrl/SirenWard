@@ -1,11 +1,11 @@
-# Datenschutzerklärung – Sirenward
+# Datenschutzerklärung – SirenWard
 
 [English](PRIVACY.md)
 
-**Kurz: Sirenward erhebt, überträgt und verkauft keine Daten. Punkt.**
+**Kurz: SirenWard erhebt, überträgt und verkauft keine Daten. Punkt.**
 
 ## Was gespeichert wird
-Gespeichert werden nur die Einstellungen, die du selbst eingibst: gesperrte Websites, YouTube-Optionen, gesperrte oder erlaubte Kanäle, Stichwörter und das Ende einer aktiven Sperre. Für den Sperrmodus kommen eine Kopie der Regeln bei Sperrbeginn und der späteste bisher gesehene Zeitpunkt hinzu; daran erkennt Sirenward, ob jemand die Uhr verstellt hat. Für Zeitfreigaben kommen die **heutigen** Zähler pro gesperrter Domain dazu, außerdem laufende Freigaben und Fokus-Sitzungen. Die Zähler werden am nächsten Tag automatisch zurückgesetzt. Ist das YouTube-Tageslimit an, wird die heutige Wiedergabezeit als **eine Zahl** gespeichert, ohne Videos und ohne Kanäle. Die **Statistik** zählt nur, wenn du sie einschaltest. Sie enthält dann Zähler pro Tag, keine Adressen, und wird nach 30 Tagen gelöscht. Ein **Partner-Code** wird nie im Klartext gespeichert, sondern nur als PBKDF2-Hash (600.000 Runden, zufälliges Salz), und verlässt beim Export nie das Gerät. Alles liegt in `chrome.storage.local`, also ausschließlich in deinem Browserprofil auf diesem Gerät. Bewusst **nicht** `storage.sync`, damit nichts über das Google- oder Mozilla-Konto synchronisiert wird.
+Gespeichert werden nur die Einstellungen, die du selbst eingibst: gesperrte Websites, YouTube-Optionen, gesperrte oder erlaubte Kanäle, Stichwörter und das Ende einer aktiven Sperre. Für den Sperrmodus kommen eine Kopie der Regeln bei Sperrbeginn und der späteste bisher gesehene Zeitpunkt hinzu; daran erkennt SirenWard, ob jemand die Uhr verstellt hat. Für Zeitfreigaben kommen die **heutigen** Zähler pro gesperrter Domain dazu, außerdem laufende Freigaben und Fokus-Sitzungen. Die Zähler werden am nächsten Tag automatisch zurückgesetzt. Ist das YouTube-Tageslimit an, wird die heutige Wiedergabezeit als **eine Zahl** gespeichert, ohne Videos und ohne Kanäle. Die **Statistik** zählt nur, wenn du sie einschaltest. Sie enthält dann Zähler pro Tag, keine Adressen, und wird nach 30 Tagen gelöscht. Ein **Partner-Code** wird nie im Klartext gespeichert, sondern nur als PBKDF2-Hash (600.000 Runden, zufälliges Salz), und verlässt beim Export nie das Gerät. Alles liegt in `chrome.storage.local`, also ausschließlich in deinem Browserprofil auf diesem Gerät. Bewusst **nicht** `storage.sync`, damit nichts über das Google- oder Mozilla-Konto synchronisiert wird.
 
 ## Was nicht gespeichert wird
 - kein Browserverlauf, keine besuchten Seiten, keine angesehenen Videos
@@ -13,7 +13,7 @@ Gespeichert werden nur die Einstellungen, die du selbst eingibst: gesperrte Webs
 - keine Kennungen, keine Cookies, kein Fingerprinting
 
 ## Netzwerk
-Sirenward enthält keinen Code, der Netzwerkanfragen stellt. Zusätzlich verbietet die Content-Security-Policy der Erweiterung jede Verbindung (`connect-src 'none'`) sowie das Nachladen fremder Skripte, Bilder, Schriften und Stylesheets. Die Website-Sperre läuft über `declarativeNetRequest`: Der Browser vergleicht Adressen selbst mit deiner Liste, die Erweiterung bekommt die einzelnen Aufrufe gar nicht zu sehen.
+SirenWard enthält keinen Code, der Netzwerkanfragen stellt. Zusätzlich verbietet die Content-Security-Policy der Erweiterung jede Verbindung (`connect-src 'none'`) sowie das Nachladen fremder Skripte, Bilder, Schriften und Stylesheets. Die Website-Sperre läuft über `declarativeNetRequest`: Der Browser vergleicht Adressen selbst mit deiner Liste, die Erweiterung bekommt die einzelnen Aufrufe gar nicht zu sehen.
 
 ## Berechtigungen
 | Berechtigung | Wofür |

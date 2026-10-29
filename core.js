@@ -1,5 +1,5 @@
 /*
- * Sirenward – Kernlogik ("functional core").
+ * SirenWard – Kernlogik ("functional core").
  *
  * Reine Funktionen ohne Ein-/Ausgabe: Normalisierung, Bereinigung, Filter, Sperrmodus, Partner-Code,
  * Zeitfreigaben, Zeitplan, Fokus, YouTube-Limit, Statistik und die daraus folgenden Sperrregeln.

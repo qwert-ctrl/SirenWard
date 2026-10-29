@@ -1,5 +1,5 @@
 /*
- * Sirenward – eigene Sperrseite (optional). Wird per declarativeNetRequest-Weiterleitung geöffnet.
+ * SirenWard – eigene Sperrseite (optional). Wird per declarativeNetRequest-Weiterleitung geöffnet.
  * Sicherheit: verweigert die Darstellung in Frames (Clickjacking) und nimmt nur Domains an,
  * die tatsächlich auf der Sperrliste stehen.
  */
