@@ -1,5 +1,5 @@
 /*
- * FocusGuard – Client für Erweiterungsseiten (Popup, Einstellungen, Sperrseite).
+ * Sirenward – Client für Erweiterungsseiten (Popup, Einstellungen, Sperrseite).
  * Seiten schreiben nie selbst in den Speicher, sondern schicken Befehle an den Hintergrund.
  * Enthält außerdem kleine, Trusted-Types-sichere UI-Helfer (nur createElement/textContent).
  */

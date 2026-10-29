@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "FocusGuard",
-  "short_name": "FocusGuard",
-  "version": "1.2.0",
-  "description": "Sperrt ablenkende Websites und zähmt YouTube – komplett lokal, ohne Tracking, ohne Netzwerkzugriffe.",
+  "name": "Sirenward",
+  "short_name": "Sirenward",
+  "version": "1.2.1",
+  "description": "Widersteh den Lockrufen: sperrt ablenkende Websites, zähmt YouTube, Freigaben nur mit bewusster Hürde – 100 % lokal, ohne Tracking.",
   "minimum_chrome_version": "120",
   "permissions": [
     "storage",
@@ -34,7 +34,7 @@
     }
   ],
   "action": {
-    "default_title": "FocusGuard",
+    "default_title": "Sirenward",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon16.png",

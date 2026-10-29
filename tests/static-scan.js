@@ -1,6 +1,6 @@
 /*
  * Statischer Sicherheits- und Architektur-Scan (AST-basiert, TypeScript-Parser).
- *   node tests/static-scan.js [ordner]     (Standard: Repo; z. B. dist/focusguard für das Paket)
+ *   node tests/static-scan.js [ordner]     (Standard: Repo; z. B. dist/sirenward für das Paket)
  *
  * Ermittelt die Laufzeitdateien aus dem Manifest (inkl. HTML-Verweisen und ES-Imports) und prüft:
  *  Sicherheit:   Netzwerk-APIs · Codeausführung · HTML-Senken · riskante Erweiterungs-APIs ·

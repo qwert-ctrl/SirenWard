@@ -308,6 +308,8 @@ function check(name, cond, detail = '') {
   await op({ op: 'setYt', key: 'hideExplore', value: true });
   await yt.goto('https://www.youtube.com/feed/trending');
   await yt.waitForURL(/feed\/subscriptions/, { timeout: 5000 }).catch(() => {});
+  // auf die neue Seite warten (sonst Wettlauf mit dem Inhaltsskript nach der Weiterleitung)
+  await yt.waitForFunction(() => document.documentElement.classList.contains('fg-ready'), null, { timeout: 5000 }).catch(() => {});
   check('„Erkunden/Trends“ wird zu den Abos umgeleitet', /\/feed\/subscriptions$/.test(yt.url()), yt.url());
   check('Vorschaubilder in Graustufen (Klasse gesetzt)', await yt.evaluate(() => document.documentElement.classList.contains('fg-gray')));
 

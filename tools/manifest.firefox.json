@@ -8,7 +8,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "focusguard@local.invalid",
+      "id": "{470c4137-4b1a-486c-ad6c-9c9985e37b13}",
       "strict_min_version": "128.0",
       "data_collection_permissions": {
         "required": [

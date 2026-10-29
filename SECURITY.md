@@ -1,4 +1,4 @@
-# Sicherheits-, Architektur- und Datenschutz-Audit – FocusGuard 1.2.0
+# Sicherheits-, Architektur- und Datenschutz-Audit – Sirenward 1.2.1 (vormals FocusGuard)
 
 Stand: 27.10.2026 · Umfang: gesamter Quellcode (keine Fremdbibliotheken zur Laufzeit) und das gebaute Paket
 
@@ -171,7 +171,7 @@ Den Extremfall erkauft sich 1.1 bewusst mit etwas mehr CPU: Es filtert vor dem e
 | Firefox kennt `setAccessLevel` nicht | Das YouTube-Skript nutzt den Speicher trotzdem nie (vom Scanner erzwungen) |
 
 ## 6. Nicht durchgeführt
-- **ESLint-Plugins und `web-ext lint`:** Die npm-Registry war in der Prüfumgebung gesperrt. Ersatz waren der eigene AST-Scanner mit Mutations-Gegenprobe und die Manifestprüfung. Empfehlung: lokal `npx web-ext lint -s dist/focusguard` ausführen.
+- **ESLint-Plugins und `web-ext lint`:** Die npm-Registry war in der Prüfumgebung gesperrt. Ersatz waren der eigene AST-Scanner mit Mutations-Gegenprobe und die Manifestprüfung. Empfehlung: lokal `npx web-ext lint -s dist/sirenward` ausführen.
 - **Firefox-Laufzeittest:** Es war nur Chromium verfügbar.
 - **Test gegen echtes YouTube:** Ohne Internetzugang wurde ein Nachbau verwendet.
 

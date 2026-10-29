@@ -143,7 +143,7 @@ function silenceWav() {
 }
 
 async function startServers() {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'fg-test-'));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'sw-test-'));
   execSync(`openssl req -x509 -newkey rsa:2048 -nodes -days 1 -subj "/CN=www.youtube.com" -addext "subjectAltName=DNS:www.youtube.com,DNS:*.test" -keyout ${tmp}/key.pem -out ${tmp}/cert.pem 2>/dev/null`);
   const log = [];
   const WAV = silenceWav();

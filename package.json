@@ -1,6 +1,6 @@
 {
-  "name": "focusguard",
-  "version": "1.2.0",
+  "name": "sirenward",
+  "version": "1.2.1",
   "private": true,
   "description": "Open-Source-Browsererweiterung gegen Ablenkung: Website-Sperre, YouTube-Filter, Sperrmodus – komplett lokal.",
   "license": "MIT",

@@ -2,8 +2,8 @@
  * Reproduzierbarer Build: node tools/build.js
  *
  * Erzeugt in dist/:
- *   chromium/ + focusguard-<version>-chromium.zip  – Chrome, Brave, Edge, Vivaldi, Opera
- *   firefox/  + focusguard-<version>-firefox.zip   – Firefox (manifest.json + tools/manifest.firefox.json)
+ *   chromium/ + sirenward-<version>-chromium.zip  – Chrome, Brave, Edge, Vivaldi, Opera
+ *   firefox/  + sirenward-<version>-firefox.zip   – Firefox (manifest.json + tools/manifest.firefox.json)
  *   SHA256SUMS                                     – Prüfsummen aller Dateien
  * Nur Laufzeitdateien (tools/files.js). Gleicher Quellstand ⇒ bitgleiche ZIPs.
  */
@@ -52,7 +52,7 @@ for (const [name, mf] of Object.entries(targets)) {
     fs.utimesSync(dest, FIXED, FIXED);
   }
   for (const d of new Set(files.map((f) => path.dirname(path.join(out, f))))) fs.utimesSync(d, FIXED, FIXED);
-  const zip = `focusguard-${manifest.version}-${name}.zip`;
+  const zip = `sirenward-${manifest.version}-${name}.zip`;
   // -X: keine Zusatzattribute; -D: keine Verzeichniseinträge; Dateien sortiert
   execFileSync('zip', ['-q', '-X', '-D', path.join(DIST, zip), ...files], { cwd: out, env: { ...process.env, TZ: 'UTC' } });
   sums.push(`${sha(path.join(DIST, zip))}  ${zip}`);

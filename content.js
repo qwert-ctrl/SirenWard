@@ -1,5 +1,5 @@
 /*
- * FocusGuard – YouTube-Inhaltsskript (nur www.youtube.com, isolierte Welt).
+ * Sirenward – YouTube-Inhaltsskript (nur www.youtube.com, isolierte Welt).
  *
  * Architektur:
  *  - Kein Speicherzugriff. Einstellungen kommen als Leseansicht vom Hintergrund (Nachricht).
@@ -277,7 +277,7 @@
     const title = document.createElement('p');
     title.className = 'fg-title';
     title.id = 'fg-overlay-title';
-    title.textContent = 'Gesperrt von FocusGuard';
+    title.textContent = 'Gesperrt von Sirenward';
     const reason = document.createElement('p');
     reason.className = 'fg-reason';
     reason.id = 'fg-overlay-reason';

@@ -1,5 +1,5 @@
 /*
- * FocusGuard – eigene Sperrseite (optional). Wird per declarativeNetRequest-Weiterleitung geöffnet.
+ * Sirenward – eigene Sperrseite (optional). Wird per declarativeNetRequest-Weiterleitung geöffnet.
  * Sicherheit: verweigert die Darstellung in Frames (Clickjacking) und nimmt nur Domains an,
  * die tatsächlich auf der Sperrliste stehen.
  */
@@ -26,7 +26,7 @@
     $('main').hidden = false;
     return;
   }
-  document.title = domain + ' gesperrt – FocusGuard';
+  document.title = domain + ' gesperrt – Sirenward';
   $('title').textContent = domain + ' ist gesperrt';
   $('main').hidden = false;
   if (view.settings.features.stats) FGClient.op({ op: 'blockHit', domain }, { interactive: false });

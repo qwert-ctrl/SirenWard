@@ -1,5 +1,5 @@
 /*
- * FocusGuard – Einstellungsseite.
+ * Sirenward – Einstellungsseite.
  * Baut die Oberfläche EINMAL auf und aktualisiert danach nur, was sich geändert hat (kein Fokusverlust).
  * Ausschließlich textContent (zusätzlich per Trusted Types erzwungen). Änderungen gehen als Befehle
  * an den Hintergrund; verlangt eine Änderung den Partner-Code, fragt FGClient ihn ab.
@@ -219,10 +219,10 @@
     const exp = FG.clone(s);
     exp.lockUntil = 0;
     delete exp.partner; // der Partner-Code verlässt das Gerät nie
-    const blob = new Blob([JSON.stringify({ app: 'FocusGuard', format: 2, settings: exp }, null, 2)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify({ app: 'Sirenward', format: 2, settings: exp }, null, 2)], { type: 'application/json' });
     const a = h('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'focusguard-einstellungen.json';
+    a.download = 'sirenward-einstellungen.json';
     document.body.append(a);
     a.click();
     a.remove();

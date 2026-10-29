@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.1 – 29.10.2026
+- **Neuer Name: Sirenward** (vormals FocusGuard – der Name war auf addons.mozilla.org bereits vergeben). Wie Odysseus an den Mast: Du legst dich im Voraus fest und widerstehst den Lockrufen.
+- Eindeutige Firefox-ID (UUID) für die Veröffentlichung auf addons.mozilla.org.
+- Funktion, Einstellungen und Speicherformat unverändert; Exporte aus FocusGuard lassen sich weiter importieren.
+
 ## 1.2.0 – 27.10.2026
 
 ### Neu

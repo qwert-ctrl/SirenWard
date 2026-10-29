@@ -1,4 +1,6 @@
-# FocusGuard
+# Sirenward
+
+*Wie Odysseus am Mast: Du legst dich im Voraus fest – und segelst an den Lockrufen vorbei.* (Vormals FocusGuard.)
 
 Open-Source-Browsererweiterung gegen digitale Ablenkung. Sie kombiniert **Website-Sperre**, die Ansichtsfunktionen von **Unhook** und die Filter von **BlockTube** und hat einen **Sperrmodus**, den du dir selbst nicht einfach wieder abschalten kannst.
 
@@ -45,8 +47,8 @@ Läuft in Chrome, Brave, Edge, Vivaldi, Opera (ab Version 120) und Firefox (ab 1
 ## Installation
 
 Es gibt zwei Pakete mit identischem Code, die sich nur im Manifest unterscheiden:
-- `focusguard-1.2.0-chromium.zip` für Chrome, Brave, Edge, Vivaldi und Opera
-- `focusguard-1.2.0-firefox.zip` für Firefox
+- `sirenward-1.2.1-chromium.zip` für Chrome, Brave, Edge, Vivaldi und Opera
+- `sirenward-1.2.1-firefox.zip` für Firefox
 
 Entpacke das passende ZIP in einen Ordner deiner Wahl.
 
@@ -60,16 +62,16 @@ Entpacke das passende ZIP in einen Ordner deiner Wahl.
 ### Firefox
 - Zum Testen: `about:debugging#/runtime/this-firefox` → **Temporäres Add-on laden** → `manifest.json` auswählen. Das bleibt bis zum Neustart aktiv.
 - Dauerhaft: Das ZIP kostenlos und privat („unlisted“) über [addons.mozilla.org](https://addons.mozilla.org/developers/) signieren lassen und die `.xpi` installieren.
-- Danach unter *Add-ons → FocusGuard → Berechtigungen* den Zugriff auf `www.youtube.com` erlauben und *„In privaten Fenstern ausführen“* aktivieren.
+- Danach unter *Add-ons → Sirenward → Berechtigungen* den Zugriff auf `www.youtube.com` erlauben und *„In privaten Fenstern ausführen“* aktivieren.
 
 ### Echtheit prüfen
 ```bash
-sha256sum focusguard-1.2.0-*.zip          # muss mit SHA256SUMS übereinstimmen
+sha256sum sirenward-1.2.1-*.zip          # muss mit SHA256SUMS übereinstimmen
 node tools/build.js                        # aus dem Quellcode neu bauen → bitgleiches ZIP
 ```
 
 ## Ehrliche Grenzen
-Eine Browsererweiterung lässt sich immer deaktivieren oder deinstallieren, und andere Browser sind nicht geschützt. Der Sperrmodus macht spontanes Abschalten deutlich unbequemer, verhindert es aber nicht vollständig. Für mehr Härte kombinierst du FocusGuard mit der Router-Sperre. Gegen das Deinstallieren hilft eine Browser-Richtlinie, die jemand anderes für dich einrichtet. YouTube ändert gelegentlich seinen Seitenaufbau; die Selektoren stehen gesammelt in `content.js` und `content.css`.
+Eine Browsererweiterung lässt sich immer deaktivieren oder deinstallieren, und andere Browser sind nicht geschützt. Der Sperrmodus macht spontanes Abschalten deutlich unbequemer, verhindert es aber nicht vollständig. Für mehr Härte kombinierst du Sirenward mit der Router-Sperre. Gegen das Deinstallieren hilft eine Browser-Richtlinie, die jemand anderes für dich einrichtet. YouTube ändert gelegentlich seinen Seitenaufbau; die Selektoren stehen gesammelt in `content.js` und `content.css`.
 
 ## Architektur
 
